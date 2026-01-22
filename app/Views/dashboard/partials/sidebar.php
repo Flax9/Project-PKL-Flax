@@ -1,0 +1,67 @@
+<aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col hidden md:flex z-20 transition-all duration-300">
+    <div class="p-6 flex items-center gap-4">
+        <div class="w-18 h-18 bg-white/5 border border-white/10 rounded-full flex items-center justify-center shadow-md backdrop-blur-sm">
+            <img src="<?= base_url('assets/img/logo_bpom_1.png') ?>" 
+                alt="Logo BPOM" 
+                class="w-14 h-14 object-contain"> 
+        </div>
+        
+        <div>
+            <h1 class="font-bold text-white text-base tracking-widest leading-tight">E-KINERJA</h1>
+            <p class="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em] mt-1">BBPOM Surabaya</p>
+        </div>
+    </div>
+
+    <nav class="flex-1 px-4 py-4 space-y-2">
+        
+        <a href="<?= base_url('dashboard') ?>" 
+            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group <?= ($activeMenu ?? '') == 'dashboard' ? 'bg-slate-800 text-teal-400 border border-slate-700 shadow-md' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white' ?>">
+            <i class="fa-solid fa-gauge-high <?= ($activeMenu ?? '') == 'dashboard' ? 'text-teal-400' : 'group-hover:text-white' ?>"></i>
+            <span class="font-medium text-sm">Indikator Kinerja Utama</span>
+        </a>
+
+        <a href="#" 
+           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group <?= ($activeMenu == 'perjanjian_kinerja') ? 'bg-slate-800 text-teal-400 border border-slate-700 shadow-md' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white' ?>">
+            <i class="fa-solid fa-file-signature <?= ($activeMenu == 'perjanjian_kinerja') ? 'text-teal-400' : 'group-hover:text-white' ?>"></i>
+            <span class="font-medium text-sm">Perjanjian Kinerja</span>
+        </a>
+
+        <a href="<?= base_url('capaianoutput') ?>" 
+           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group <?= ($activeMenu == 'capaian_output') ? 'bg-slate-800 text-teal-400 border border-slate-700 shadow-md' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white' ?>">
+            <i class="fa-solid fa-list-check <?= ($activeMenu == 'capaian_output') ? 'text-teal-400' : 'group-hover:text-white' ?>"></i>
+            <span class="font-medium text-sm">Capaian Output</span>
+        </a>
+
+        <a href="#" 
+           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group <?= ($activeMenu == 'database_capaian') ? 'bg-slate-800 text-teal-400 border border-slate-700 shadow-md' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white' ?>">
+            <i class="fa-solid fa-database <?= ($activeMenu == 'database_capaian') ? 'text-teal-400' : 'group-hover:text-white' ?>"></i>
+            <span class="font-medium text-sm">Database Capaian</span>
+        </a>
+
+        <a href="<?= base_url('anggaran') ?>" 
+            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group <?= ($activeMenu == 'anggaran') ? 'bg-slate-800 text-teal-400 border border-slate-700 shadow-md' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white' ?>">
+                <i class="fa-solid fa-money-bill-wave <?= ($activeMenu == 'anggaran') ? 'text-teal-400' : 'group-hover:text-white' ?>"></i>
+                <span class="font-medium text-sm">Anggaran</span>
+        </a>
+
+        <a href="<?= base_url('admin/entry/verify') ?>"
+        class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group <?= (url_is('admin/entry*')) ? 'bg-slate-800 text-teal-400' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' ?>">
+            <div class="flex items-center justify-center w-5">
+                <i class="fa-solid fa-pen-to-square text-sm"></i>
+            </div>
+            <span class="text-sm font-medium">Data Entry</span>
+        </a>
+    </nav>
+
+    <div class="p-4 border-t border-slate-800">
+        <div class="flex items-center gap-3 px-2">
+            <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-teal-400 border border-slate-600 shadow-sm">
+                <i class="fa-solid fa-user-tie text-xs"></i>
+            </div>
+            <div class="overflow-hidden text-left">
+                <p class="text-xs text-white font-medium truncate">Admin BBPOM</p>
+                <p class="text-[9px] text-slate-500 uppercase tracking-widest">Dashboard View</p>
+            </div>
+        </div>
+    </div>
+</aside>

@@ -1,0 +1,30 @@
+/* public/assets/css/dashboard/charts.css */
+
+/* Styling untuk Legend Donut Chart (Grid 2 kolom) */
+#legendBulan, #legendTahun {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    color: #94a3b8;
+}
+
+/* Efek Glow pada Canvas (Opsional) */
+canvas {
+    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.05));
+}
+
+/* Container Chart agar responsif */
+.chart-container {
+    position: relative;
+    margin: auto;
+    width: 100%;
+}
+
+/* Mengatur spacing tabel di dalam glass-card */
+.glass-card table thead th {
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.glass-card table tbody tr:last-child {
+    border-bottom: none;
+}
