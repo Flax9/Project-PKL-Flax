@@ -34,16 +34,26 @@
                     <form action="<?= base_url('admin/entry/check-auth') ?>" method="POST" autocomplete="off">
                         <?= csrf_field() ?>
                         
+                        <div class="mb-4 relative group">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-teal-400 transition-colors">
+                                <i class="fa-solid fa-user text-sm"></i>
+                            </span>
+                            <input type="text" 
+                                name="username" 
+                                class="w-full bg-slate-900 border border-slate-700 rounded-2xl pl-12 pr-4 py-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 focus:outline-none transition-all"
+                                placeholder="Username" 
+                                required autofocus>
+                        </div>
+
                         <div class="mb-6 relative group">
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-teal-400 transition-colors">
-                                <i class="fa-solid fa-key text-sm"></i>
+                                <i class="fa-solid fa-lock text-sm"></i>
                             </span>
                             <input type="password" 
-                                   name="auth_code" 
-                                   class="w-full bg-slate-900 border border-slate-700 rounded-2xl pl-12 pr-4 py-4 text-white text-center text-lg tracking-[0.5em] placeholder:tracking-normal placeholder:text-slate-600 focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 focus:outline-none transition-all"
-                                   placeholder="KODE ADMIN" 
-                                   required 
-                                   autofocus>
+                                name="password" 
+                                class="w-full bg-slate-900 border border-slate-700 rounded-2xl pl-12 pr-4 py-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 focus:outline-none transition-all"
+                                placeholder="Password" 
+                                required>
                         </div>
 
                         <button type="submit" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-4 rounded-2xl shadow-lg shadow-teal-900/20 transition-all active:scale-[0.98]">

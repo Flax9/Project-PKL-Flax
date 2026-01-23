@@ -43,6 +43,9 @@
 
     </div>
 
+    <!-- jQuery: required by some pages' inline scripts (no SRI to avoid blocking during local dev) -->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <?= $this->renderSection('scripts') ?>

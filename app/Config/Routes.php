@@ -21,6 +21,10 @@ $routes->get('/dashboard/database', 'Dashboard::database');
 $routes->get('capaianoutput', 'CapaianOutput::index');
 $routes->get('anggaran', 'Anggaran::index');
 
+//routes untuk fungsi no. iku di data entry
+$routes->get('admin/entry/get_all_no_iku', 'Admin\Entry::get_all_no_iku');
+
+
 //untu data entry
 // app/Config/Routes.php
 
@@ -33,6 +37,19 @@ $routes->group('admin', function($routes) {
     $routes->post('entry/check-auth', 'Admin\Entry::checkAuth'); // Proses validasi password
 
     /**
+     * PENAMBAHAN BARU: GATEWAY PEMILIHAN JALUR
+     * Halaman transisi (Card) setelah login berhasil
+     */
+    $routes->get('entry/selection', 'Admin\Entry::selection');
+
+    /**
+     * PENAMBAHAN BARU: PEMISAHAN JALUR OPERASIONAL
+     * Mengarahkan ke form sesuai kebutuhan (Rutin atau Modifikasi)
+     */
+    $routes->get('entry/rutin', 'Admin\Entry::rutin');      // Form untuk data baru
+    $routes->get('entry/modifikasi', 'Admin\Entry::modifikasi'); // Form untuk revisi data
+
+    /**
      * HALAMAN UTAMA & OPERASIONAL (DIPROTEKSI)
      * Sebaiknya nanti menggunakan Filters CI4, namun secara route tetap seperti ini:
      */
@@ -43,12 +60,19 @@ $routes->group('admin', function($routes) {
     // Endpoint AJAX untuk mengambil data Master berdasarkan tahun
     // Kita buat lebih general: get_master/(:segment)/(:num) 
     // agar bisa dipakai untuk master IKU, Anggaran, dll di masa depan.
-    $routes->get('entry/get_master/(:num)', 'Admin\Entry::getMasterData/$1');
+    $routes->match(['get','post'], 'entry/get_master/(:any)', 'Admin\Entry::getMasterData/$1');
     
+    //routes untuk auto-fill nama indikator berdasarkan no. IKU
+    $routes->get('/entry/get_master_iku/(:any)', 'Admin\Entry::get_master_iku/$1');
+
     // Endpoint AJAX untuk mendapatkan detail IKU (Nama Indikator)
     // Param 1: Tahun, Param 2: No_IKU
     $routes->get('entry/get_detail_iku/(:num)/(:num)', 'Admin\Entry::getDetailIku/$1/$2');
     
+    // Auto-Fill Nama Indikator (AJAX - GET/POST)
+    // Define under the 'admin' group so URL becomes '/admin/entry/get_detail_iku'
+    $routes->match(['get','post'], 'entry/get_detail_iku', 'Admin\Entry::get_detail_iku');
+
     // Proses Simpan Massal (Batch Insert) dari Staging Area ke DB
-    $routes->post('entry/save_iku', 'Admin\Entry::saveIku');
+    $routes->post('entry/simpan_iku_batch', 'Admin\Entry::simpan_iku_batch');
 });
