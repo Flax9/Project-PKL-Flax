@@ -75,4 +75,13 @@ $routes->group('admin', function($routes) {
 
     // Proses Simpan Massal (Batch Insert) dari Staging Area ke DB
     $routes->post('entry/simpan_iku_batch', 'Admin\Entry::simpan_iku_batch');
+
+    //routes deteksi iku by select tahun
+   $routes->get(
+    'entry/get_iku_by_tahun/(:segment)',
+    'Admin\Entry::get_iku_by_tahun/$1'
+    );
+
+    // fallback route untuk method lain di Entry
+    $routes->get('entry/(:any)', 'Admin\Entry::$1');
 });

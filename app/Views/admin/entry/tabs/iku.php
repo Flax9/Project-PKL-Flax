@@ -14,16 +14,19 @@
 
 <form id="formIku" class="space-y-6">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div>
-            <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Tahun Periode</label>
-            <select name="tahun" id="tahun" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
-                <option value="2025">2025</option>
-                <option value="2026">2026</option>
-            </select>
-        </div>
+            <div>
+        <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Tahun Periode</label>
+        <select name="tahun" id="tahun" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <option value="" disabled selected>-- Pilih Tahun --</option>
+            
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+        </select>
+    </div>
         <div>
             <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Bulan Pelaporan</label>
             <select name="bulan" id="bulan" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <option value="">-- Pilih Bulan --</option>
                 <?php 
                 $bulanArr = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
                 foreach($bulanArr as $b): ?>
@@ -65,7 +68,7 @@
 
                 <?php foreach ($list_nama_indikator as $indi): ?>
                     <option value="<?= $indi['no_indikator']; ?>">
-                        <?= $indi['no_indikator']; ?> - <?= $indi['nama_indikator']; ?>
+                        <?= $indi['nama_indikator']; ?>
                     </option>
                 <?php endforeach; ?>
 
@@ -77,15 +80,33 @@
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Target</label>
-            <input type="number" step="0.01" name="target" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+            <input 
+            step="0.01"
+            type="number"  
+            name="target" 
+            max="999"
+            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
+            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
         </div>
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Realisasi</label>
-            <input type="number" step="0.01" name="realisasi" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+            <input  
+            step="0.01" 
+            type="number"  
+            name="realisasi" 
+            max="999"
+            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
+            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
         </div>
         <div>
-            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Bln</label>
-            <input type="number" step="0.01" name="perf_bulan" id="perf_bulan" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Capaian Bulan</label>
+            <input 
+            step="0.01"
+            type="number" 
+            name="perf_bulan"
+            max="999" 
+            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
+            id="perf_bulan" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
         </div>
         <div class="col-span-2">
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Kategori Capaian Bulan</label>
@@ -99,8 +120,13 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Thn</label>
-            <input type="number" step="0.01" name="perf_tahun" id="perf_tahun" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Capaian Tahun</label>
+            <input
+            step="0.01" type="number" 
+            name="perf_tahun" 
+            max="999" 
+            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
+            id="perf_tahun" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
         </div>
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Kategori Capaian Thn</label>
@@ -114,12 +140,25 @@
     
     <div class="flex flex-col md:flex-row items-end gap-6 pt-4 border-t border-slate-700/50 mt-4">
         <div class="w-full md:w-1/4">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Norm %</label>
-            <input type="number" step="0.01" name="capaian_normalisasi_persen" id="capaian_normalisasi_persen" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-teal-400 font-bold focus:outline-none focus:border-teal-500">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Normalisasi %</label>
+            <input  
+            step="0.01"
+            type="number"  
+            max="999" 
+            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
+            name="capaian_normalisasi_persen" 
+            id="capaian_normalisasi_persen" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-teal-400 font-bold focus:outline-none focus:border-teal-500">
         </div>
         <div class="w-full md:w-1/4">
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Norm Angka</label>
-            <input type="number" step="0.01" name="capaian_normalisasi_angka" id="capaian_normalisasi_angka" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-teal-400 font-bold focus:outline-none focus:border-teal-500">
+            <input 
+            type="number" 
+            step="0.01"
+            max="999" 
+            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
+            name="capaian_normalisasi_angka" 
+            id="capaian_normalisasi_angka" 
+            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-teal-400 font-bold focus:outline-none focus:border-teal-500">
         </div>
         <div class="w-full md:w-2/3 text-right">
             <button type="button" id="btnAddQueue" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 px-8 rounded-xl transition-all flex items-center gap-2 ml-auto">
@@ -172,6 +211,78 @@
 let queueData = [];
 
 $(document).ready(function() {
+    
+    // FILTER IKU SELECT BERDASAR TAHUN
+    // Fungsi untuk memuat IKU berdasarkan tahun yang dipilih
+    $('#tahun').on('change', function () {
+
+        const tahun = $(this).val();
+        const $noIku = $('#no_iku');
+        const $noIndikator = $('#no_indikator');
+
+        // Reset dropdown
+        $noIku.html('<option value="" disabled selected>Pilih NO. IKU</option>');
+        $noIndikator.html('<option value="" disabled selected>Pilih Indikator</option>');
+
+        // Disable dulu (UX)
+        $noIku.prop('disabled', true);
+        $noIndikator.prop('disabled', true);
+
+        if (!tahun) return;
+
+        $.ajax({
+            url: '<?= base_url("admin/entry/get_iku_by_tahun") ?>/' + tahun,
+            type: 'GET',
+            dataType: 'json',
+
+            /* ==================================================
+            ❌ SEBELUMNYA:
+            - CI4 tidak mendeteksi AJAX
+            - isAJAX() = false
+            ================================================== */
+
+            // ✅ WAJIB agar isAJAX() TRUE
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+
+            success: function (response) {
+
+                if (Array.isArray(response) && response.length > 0) {
+
+                    response.forEach(function (item) {
+                        $noIku.append(
+                            `<option value="${item.no_iku}">${item.no_iku}</option>`
+                        );
+
+                        $noIndikator.append(
+                            `<option value="${item.no_iku}">
+                                ${item.no_iku} - ${item.nama_indikator}
+                            </option>`
+                        );
+                    });
+
+                    // Enable jika data ada
+                    $noIku.prop('disabled', false);
+                    $noIndikator.prop('disabled', false);
+
+                } else {
+                    alert('Master data tahun ' + tahun + ' tidak ditemukan.');
+                }
+            },
+
+            error: function (xhr) {
+
+                /* ==================================================
+                ERROR INI YANG KAMU ALAMI SEBELUMNYA
+                ================================================== */
+                console.error('AJAX ERROR:', xhr.responseText);
+                alert('Terjadi kesalahan saat mengambil data master.');
+            }
+        });
+    });
+
+
 
     // ===============================
     // 1. RESET SAAT GANTI FUNGSI
@@ -187,16 +298,28 @@ $(document).ready(function() {
     $('#btnAddQueue').on('click', function() {
 
         const selectedIndikator = $('#no_indikator option:selected');
+        const namaBulan = $('#bulan').val(); // Ambil nama bulan (Misal: "Februari")
+
+        // 1. KAMUS BULAN (AUTO-CONVERT)
+        // Membuat objek untuk memetakan nama ke angka
+        const mapBulan = {
+            'Januari': 1, 'Februari': 2, 'Maret': 3, 'April': 4,
+            'Mei': 5, 'Juni': 6, 'Juli': 7, 'Agustus': 8,
+            'September': 9, 'Oktober': 10, 'November': 11, 'Desember': 12
+        };
 
         const data = {
             fungsi: $('#fungsi').val(),
             no_iku: $('#no_iku').val(),
 
-            // 🔥 INI YANG SEBELUMNYA HILANG
+            // INI YANG SEBELUMNYA HILANG
             no_indikator: selectedIndikator.val(),          // WAJIB ADA
             nama_indikator: selectedIndikator.text(),      // ambil TEXT
 
-            bulan: $('#bulan').val(),
+            bulan: namaBulan,       
+            no_bulan: mapBulan[namaBulan], // Konversi nama bulan ke angka
+
+
             tahun: $('#tahun').val(),
             target: $('input[name="target"]').val(),
             realisasi: $('input[name="realisasi"]').val(),

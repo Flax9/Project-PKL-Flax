@@ -98,12 +98,67 @@ class Entry extends BaseController
             'activeMenu'  => 'data_entry',
             'title'       => 'Input Realisasi Rutin',
             'list_fungsi' => $list_fungsi,
-            'list_iku'    => $list_iku,
-            'list_nama_indikator' => $list_nama_indikator
+            'list_iku'    => [],
+            'list_nama_indikator' => []
         ];
 
         return view('admin/entry/index', $data);
     }
+
+    // --- Deteksi IKU tersedia berdasarkan tahun terpilih ---
+    public function get_iku_by_tahun($tahun = null)
+    {
+        /* ==================================================
+        VALIDASI REQUEST
+        ================================================== */
+
+        // ❌ SEBELUMNYA:
+        // - isAJAX() gagal karena header tidak dikirim
+        // - request di-return 404
+        //
+        // ✅ SEKARANG:
+        // - JS mengirim header AJAX → isAJAX() TRUE
+        if (!$this->request->isAJAX() || empty($tahun)) {
+            return $this->response->setStatusCode(404);
+        }
+
+        $db = \Config\Database::connect();
+
+        // Dynamic table berdasarkan tahun
+        $table = 'database_iku_' . $tahun;
+
+        try {
+            /* ==================================================
+            ❌ SEBELUMNYA:
+            - Query Builder + kolom "No.IKU"
+            - DISTINCT + ORDER BY sering error diam-diam
+            ================================================== */
+
+            // ✅ SOLUSI PALING AMAN: RAW QUERY
+            $sql = "
+                SELECT DISTINCT
+                    `No.IKU` AS no_iku,
+                    `Nama Indikator` AS nama_indikator
+                FROM `$table`
+                ORDER BY `No.IKU` ASC
+            ";
+
+            $query = $db->query($sql);
+
+            return $this->response->setJSON(
+                $query->getResultArray()
+            );
+
+        } catch (\Throwable $e) {
+
+            // Logging untuk debugging
+            log_message('error', '[IKU AJAX] ' . $e->getMessage());
+
+            // ❌ Jangan kirim HTML error ke JS
+            return $this->response->setStatusCode(500);
+        }
+    }
+
 
     // --- 3. PROSES PENYIMPANAN DATA (RAW SQL – OPSI 2) ---
 
@@ -131,6 +186,7 @@ class Entry extends BaseController
                 `No. Indikator`,
                 `No. IKU`,
                 `Nama Indikator`,
+                `No. Bulan`,
                 `Bulan`,
                 `Target`,
                 `Realisasi`,
@@ -141,7 +197,7 @@ class Entry extends BaseController
                 `Capaian Normalisasi`,
                 `Capaian normalisasi Angka`,
                 `Tahun`
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ";
 
         $db->transBegin();
@@ -153,6 +209,7 @@ class Entry extends BaseController
                     $row['no_indikator'],
                     $row['no_iku'],
                     $row['nama_indikator'],
+                    $row['no_bulan'],
                     $row['bulan'],
                     $row['target'],
                     $row['realisasi'],
