@@ -100,6 +100,7 @@ class Entry extends BaseController
             'list_fungsi' => $list_fungsi,
             'list_iku'    => [],
             'list_nama_indikator' => []
+
         ];
 
         return view('admin/entry/index', $data);
@@ -125,7 +126,7 @@ class Entry extends BaseController
         $db = \Config\Database::connect();
 
         // Dynamic table berdasarkan tahun
-        $table = 'database_iku_' . $tahun;
+        $table = 'database_iku_'.$tahun;
 
         try {
             /* ==================================================
@@ -134,32 +135,35 @@ class Entry extends BaseController
             - DISTINCT + ORDER BY sering error diam-diam
             ================================================== */
 
-            // ✅ SOLUSI PALING AMAN: RAW QUERY
-            $sql = "
-                SELECT DISTINCT
-<<<<<<< HEAD
-                    CONCAT('IKU ', `No.IKU`) AS no_iku,
-=======
-                    `No.IKU` AS no_iku,
->>>>>>> 2344c93657ab9e03adbc8c04dc0e3c421181b17c
-                    `Nama Indikator` AS nama_indikator
-                FROM `$table`
-                ORDER BY `No.IKU` ASC
-            ";
+            // ✅ SOLUSI RESILIENT (TAHAN BANTING)
+            // Coba pakai "No.IKU" (tanpa spasi) dulu
+            try {
+                $sql = "SELECT DISTINCT `No.IKU` AS no_iku, CONCAT('IKU ', `No.IKU`) AS iku_label, `Nama Indikator` AS nama_indikator FROM `$table` ORDER BY `No.IKU` ASC";
+                $query = $db->query($sql);
+            } catch (\Throwable $e_first) {
+                // Jika error, coba pakai "No. IKU" (pakai spasi)
+                log_message('warning', 'Query No.IKU gagal, mencoba No. IKU. Error: ' . $e_first->getMessage());
+                
+                $sql = "SELECT DISTINCT `No. IKU` AS no_iku, CONCAT('IKU ', `No. IKU`) AS iku_label, `Nama Indikator` AS nama_indikator FROM `$table` ORDER BY `No. IKU` ASC";
+                $query = $db->query($sql);
+            }
 
-            $query = $db->query($sql);
+            // Log hasil untuk debugging
+            $result = $query->getResultArray();
+            log_message('error', 'DEBUG RESULT ' . $tahun . ': Ditemukan ' . count($result) . ' baris.');
 
-            return $this->response->setJSON(
-                $query->getResultArray()
-            );
+            return $this->response->setJSON($result);
 
         } catch (\Throwable $e) {
 
-            // Logging untuk debugging
-            log_message('error', '[IKU AJAX] ' . $e->getMessage());
-
-            // ❌ Jangan kirim HTML error ke JS
-            return $this->response->setStatusCode(500);
+            // Logging untuk debugging fatal
+            log_message('error', '[IKU AJAX FATAL] ' . $e->getMessage());
+            
+            // Return error JSON agar JS bisa alert
+            return $this->response->setJSON([
+                'error' => true,
+                'message' => $e->getMessage()
+            ])->setStatusCode(200); // Set 200 biar JS memproses response-nya
         }
     }
 
@@ -191,6 +195,7 @@ class Entry extends BaseController
                 `No. IKU`,
                 `Nama Indikator`,
                 `No. Bulan`,
+
                 `Bulan`,
                 `Target`,
                 `Realisasi`,
@@ -202,6 +207,7 @@ class Entry extends BaseController
                 `Capaian normalisasi Angka`,
                 `Tahun`
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+
         ";
 
         $db->transBegin();
@@ -214,6 +220,7 @@ class Entry extends BaseController
                     $row['no_iku'],
                     $row['nama_indikator'],
                     $row['no_bulan'],
+
                     $row['bulan'],
                     $row['target'],
                     $row['realisasi'],

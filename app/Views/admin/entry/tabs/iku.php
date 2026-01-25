@@ -23,19 +23,10 @@
             <option value="2026">2026</option>
         </select>
     </div>
-            <div>
-        <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Tahun Periode</label>
-        <select name="tahun" id="tahun" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
-            <option value="" disabled selected>-- Pilih Tahun --</option>
-            
-            <option value="2025">2025</option>
-            <option value="2026">2026</option>
-        </select>
-    </div>
+
         <div>
             <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Bulan Pelaporan</label>
             <select name="bulan" id="bulan" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
-                <option value="">-- Pilih Bulan --</option>
                 <option value="">-- Pilih Bulan --</option>
                 <?php 
                 $bulanArr = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -79,7 +70,6 @@
                 <?php foreach ($list_nama_indikator as $indi): ?>
                     <option value="<?= $indi['no_indikator']; ?>">
                         <?= $indi['nama_indikator']; ?>
-                        <?= $indi['nama_indikator']; ?>
                     </option>
                 <?php endforeach; ?>
 
@@ -98,13 +88,7 @@
             max="999"
             oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
-            <input 
-            step="0.01"
-            type="number"  
-            name="target" 
-            max="999"
-            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
-            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+
         </div>
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Realisasi</label>
@@ -115,13 +99,7 @@
             max="999"
             oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
-            <input  
-            step="0.01" 
-            type="number"  
-            name="realisasi" 
-            max="999"
-            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
-            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+
         </div>
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Capaian Bulan</label>
@@ -132,14 +110,7 @@
             max="999" 
             oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             id="perf_bulan" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Capaian Bulan</label>
-            <input 
-            step="0.01"
-            type="number" 
-            name="perf_bulan"
-            max="999" 
-            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
-            id="perf_bulan" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+
         </div>
         <div class="col-span-2">
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Kategori Capaian Bulan</label>
@@ -160,13 +131,7 @@
             max="999" 
             oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             id="perf_tahun" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Capaian Tahun</label>
-            <input
-            step="0.01" type="number" 
-            name="perf_tahun" 
-            max="999" 
-            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
-            id="perf_tahun" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+
         </div>
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Kategori Capaian Thn</label>
@@ -400,11 +365,18 @@ $(document).ready(function() {
 
             success: function (response) {
 
+                // Check for error response from controller
+                if (response.error) {
+                    console.error('Controller Error:', response.message);
+                    alert('Error: ' + response.message);
+                    return;
+                }
+
                 if (Array.isArray(response) && response.length > 0) {
 
                     response.forEach(function (item) {
                         $noIku.append(
-                            `<option value="${item.no_iku}">${item.no_iku}</option>`
+                            `<option value="${item.no_iku}">${item.iku_label}</option>`
                         );
 
                         $noIndikator.append(
@@ -459,32 +431,18 @@ $(document).ready(function() {
             'Mei': 5, 'Juni': 6, 'Juli': 7, 'Agustus': 8,
             'September': 9, 'Oktober': 10, 'November': 11, 'Desember': 12
         };
-        const namaBulan = $('#bulan').val(); // Ambil nama bulan (Misal: "Februari")
 
-        // 1. KAMUS BULAN (AUTO-CONVERT)
-        // Membuat objek untuk memetakan nama ke angka
-        const mapBulan = {
-            'Januari': 1, 'Februari': 2, 'Maret': 3, 'April': 4,
-            'Mei': 5, 'Juni': 6, 'Juli': 7, 'Agustus': 8,
-            'September': 9, 'Oktober': 10, 'November': 11, 'Desember': 12
-        };
 
         const data = {
             fungsi: $('#fungsi').val(),
-            no_iku: $('#no_iku').val(),
+            no_iku: $('#no_iku option:selected').text(), // Ambil TEXT "IKU 1", bukan value "1"
 
-            // INI YANG SEBELUMNYA HILANG
             // INI YANG SEBELUMNYA HILANG
             no_indikator: selectedIndikator.val(),          // WAJIB ADA
             nama_indikator: selectedIndikator.text(),      // ambil TEXT
 
             bulan: namaBulan,       
             no_bulan: mapBulan[namaBulan], // Konversi nama bulan ke angka
-
-
-            bulan: namaBulan,       
-            no_bulan: mapBulan[namaBulan], // Konversi nama bulan ke angka
-
 
             tahun: $('#tahun').val(),
             target: $('input[name="target"]').val(),
@@ -640,7 +598,8 @@ $(document).ready(function() {
         // 2. LOAD OPSI IKU & INDIKATOR VIA AJAX (Sesuai Tahun Item)
         // Kita panggil fungsi helper agar opsi tahun tsb di-load ulang khusus untuk modal
         // Lalu set value sesuai item yang diedit
-        updateModalIkuOptions(item.tahun, item.no_iku, item.no_iku); // param ke-3 pakai no_iku krn value indikator = no_iku
+        // item.no_iku sekarang berformat "IKU 1", item.no_indikator berupa angka
+        updateModalIkuOptions(item.tahun, item.no_iku, item.no_indikator);
 
         // 3. ISI FORM NILAI
         $('#edit_target').val(item.target);
@@ -683,7 +642,7 @@ $(document).ready(function() {
             tahun: $('#edit_tahun').val(),
             bulan: namaBulan,
             no_bulan: mapBulan[namaBulan] || 0,
-            no_iku: $('#edit_no_iku').val(),
+            no_iku: $('#edit_no_iku option:selected').text(), // Ambil TEXT "IKU 1"
             no_indikator: $('#edit_no_indikator').val(),
             nama_indikator: selectedIndikator.text().trim(), // Ambil teks indikator baru
 
@@ -733,8 +692,8 @@ $(document).ready(function() {
 
                 if (Array.isArray(response) && response.length > 0) {
                     response.forEach(function (itm) {
-                        // Tambah opsi
-                        $edtIku.append(`<option value="${itm.no_iku}">${itm.no_iku}</option>`);
+                        // Tambah opsi dengan format "IKU 1", "IKU 2"
+                        $edtIku.append(`<option value="${itm.iku_label}">${itm.iku_label}</option>`);
                         $edtInd.append(`<option value="${itm.no_iku}">${itm.nama_indikator}</option>`);
                     });
 
@@ -761,13 +720,10 @@ $(document).ready(function() {
         updateModalIkuOptions($(this).val());
     });
 
-    // Sinkronisasi IKU <-> Indikator di MODAL
-    $('#edit_no_iku').on('change', function(){
-        $('#edit_no_indikator').val($(this).val());
-    });
-    $('#edit_no_indikator').on('change', function(){
-        $('#edit_no_iku').val($(this).val());
-    });
+    // CATATAN: Sinkronisasi IKU <-> Indikator dihapus karena format value berbeda
+    // IKU menggunakan "IKU 1" (string), Indikator menggunakan angka
+    // User harus memilih keduanya secara manual di modal Edit
+
 
 
     // Load data awal jika ada di storage
