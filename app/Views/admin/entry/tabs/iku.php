@@ -23,9 +23,19 @@
             <option value="2026">2026</option>
         </select>
     </div>
+            <div>
+        <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Tahun Periode</label>
+        <select name="tahun" id="tahun" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <option value="" disabled selected>-- Pilih Tahun --</option>
+            
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+        </select>
+    </div>
         <div>
             <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">Bulan Pelaporan</label>
             <select name="bulan" id="bulan" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <option value="">-- Pilih Bulan --</option>
                 <option value="">-- Pilih Bulan --</option>
                 <?php 
                 $bulanArr = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -69,6 +79,7 @@
                 <?php foreach ($list_nama_indikator as $indi): ?>
                     <option value="<?= $indi['no_indikator']; ?>">
                         <?= $indi['nama_indikator']; ?>
+                        <?= $indi['nama_indikator']; ?>
                     </option>
                 <?php endforeach; ?>
 
@@ -87,6 +98,13 @@
             max="999"
             oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+            <input 
+            step="0.01"
+            type="number"  
+            name="target" 
+            max="999"
+            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
+            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
         </div>
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Realisasi</label>
@@ -97,8 +115,23 @@
             max="999"
             oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+            <input  
+            step="0.01" 
+            type="number"  
+            name="realisasi" 
+            max="999"
+            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
+            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
         </div>
         <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Capaian Bulan</label>
+            <input 
+            step="0.01"
+            type="number" 
+            name="perf_bulan"
+            max="999" 
+            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
+            id="perf_bulan" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Capaian Bulan</label>
             <input 
             step="0.01"
@@ -120,6 +153,13 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Capaian Tahun</label>
+            <input
+            step="0.01" type="number" 
+            name="perf_tahun" 
+            max="999" 
+            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
+            id="perf_tahun" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Performa % Capaian Tahun</label>
             <input
             step="0.01" type="number" 
@@ -419,14 +459,28 @@ $(document).ready(function() {
             'Mei': 5, 'Juni': 6, 'Juli': 7, 'Agustus': 8,
             'September': 9, 'Oktober': 10, 'November': 11, 'Desember': 12
         };
+        const namaBulan = $('#bulan').val(); // Ambil nama bulan (Misal: "Februari")
+
+        // 1. KAMUS BULAN (AUTO-CONVERT)
+        // Membuat objek untuk memetakan nama ke angka
+        const mapBulan = {
+            'Januari': 1, 'Februari': 2, 'Maret': 3, 'April': 4,
+            'Mei': 5, 'Juni': 6, 'Juli': 7, 'Agustus': 8,
+            'September': 9, 'Oktober': 10, 'November': 11, 'Desember': 12
+        };
 
         const data = {
             fungsi: $('#fungsi').val(),
             no_iku: $('#no_iku').val(),
 
             // INI YANG SEBELUMNYA HILANG
+            // INI YANG SEBELUMNYA HILANG
             no_indikator: selectedIndikator.val(),          // WAJIB ADA
             nama_indikator: selectedIndikator.text(),      // ambil TEXT
+
+            bulan: namaBulan,       
+            no_bulan: mapBulan[namaBulan], // Konversi nama bulan ke angka
+
 
             bulan: namaBulan,       
             no_bulan: mapBulan[namaBulan], // Konversi nama bulan ke angka

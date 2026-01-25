@@ -137,7 +137,11 @@ class Entry extends BaseController
             // ✅ SOLUSI PALING AMAN: RAW QUERY
             $sql = "
                 SELECT DISTINCT
+<<<<<<< HEAD
                     CONCAT('IKU ', `No.IKU`) AS no_iku,
+=======
+                    `No.IKU` AS no_iku,
+>>>>>>> 2344c93657ab9e03adbc8c04dc0e3c421181b17c
                     `Nama Indikator` AS nama_indikator
                 FROM `$table`
                 ORDER BY `No.IKU` ASC
