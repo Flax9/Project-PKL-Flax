@@ -310,7 +310,7 @@
 
         <div class="p-6 border-t border-slate-700 flex justify-end gap-3 bg-slate-800/50 rounded-b-2xl">
             <button id="btnCancelEdit" class="px-6 py-2 rounded-xl text-slate-300 hover:bg-slate-700 font-bold transition-all">Batal</button>
-            <button id="btnUpdateItem" class="px-6 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold shadow-lg shadow-amber-500/20 transition-all">
+            <button id="btnUpdateItem" disabled class="px-6 py-2 rounded-xl bg-amber-500 text-slate-900 font-bold shadow-lg shadow-amber-500/20 transition-all opacity-50 cursor-not-allowed">
                 Simpan Perubahan
             </button>
         </div>
@@ -612,6 +612,10 @@ $(document).ready(function() {
         $('#edit_norm_angka').val(item.capaian_normalisasi_angka);
 
         $modal.removeClass('hidden').addClass('flex');
+        
+        // Jalankan validasi setelah modal dibuka dan data terisi
+        // Untuk mengecek apakah semua field wajib sudah lengkap
+        setTimeout(validateEditForm, 100); // Delay kecil untuk memastikan AJAX selesai
     });
 
     // Tutup Modal
@@ -625,6 +629,7 @@ $(document).ready(function() {
 
         // Auto-update nama indikator berdasarkan ID yang dipilih
         const selectedIndikator = $('#edit_no_indikator option:selected');
+        const selectedIku = $('#edit_no_iku option:selected');
         const namaBulan = $('#edit_bulan').val();
 
         // Map Bulan (sama seperti saat add)
@@ -703,14 +708,19 @@ $(document).ready(function() {
 
                     $edtIku.prop('disabled', false);
                     $edtInd.prop('disabled', false);
+                    
+                    // Jalankan validasi setelah dropdown terisi
+                    validateEditForm();
                 } else {
                     $edtIku.html('<option value="">Data Kosong</option>');
                     $edtInd.html('<option value="">Data Kosong</option>');
+                    validateEditForm(); // Validasi juga saat data kosong
                 }
             },
             error: function () {
                 $edtIku.html('<option value="">Error</option>');
                 $edtInd.html('<option value="">Error</option>');
+                validateEditForm(); // Validasi juga saat error
             }
         });
     }
@@ -718,7 +728,51 @@ $(document).ready(function() {
     // Trigger saat tahun di modal diganti
     $('#edit_tahun').on('change', function() {
         updateModalIkuOptions($(this).val());
+        validateEditForm(); // Cek validasi setelah ganti tahun
     });
+
+    // ===============================
+    // VALIDASI FORM EDIT MODAL
+    // ===============================
+    function validateEditForm() {
+        const $btnUpdate = $('#btnUpdateItem');
+        
+        // Field wajib yang harus diisi
+        const fungsi = $('#edit_fungsi').val();
+        const tahun = $('#edit_tahun').val();
+        const bulan = $('#edit_bulan').val();
+        const no_iku = $('#edit_no_iku').val();
+        const no_indikator = $('#edit_no_indikator').val();
+        const target = $('#edit_target').val();
+        const realisasi = $('#edit_realisasi').val();
+
+        // Cek apakah semua field wajib terisi (tidak kosong, null, atau undefined)
+        // Juga cek apakah bukan placeholder text
+        const allFilled = 
+            fungsi && fungsi.trim() !== '' &&
+            tahun && tahun.trim() !== '' &&
+            bulan && bulan.trim() !== '' &&
+            no_iku && no_iku.trim() !== '' && !no_iku.includes('Pilih') &&
+            no_indikator && no_indikator.trim() !== '' && !no_indikator.includes('Pilih') &&
+            target && target.trim() !== '' &&
+            realisasi && realisasi.trim() !== '';
+
+        if (allFilled) {
+            // Enable tombol
+            $btnUpdate.prop('disabled', false)
+                      .removeClass('opacity-50 cursor-not-allowed')
+                      .addClass('hover:bg-amber-400');
+        } else {
+            // Disable tombol
+            $btnUpdate.prop('disabled', true)
+                      .addClass('opacity-50 cursor-not-allowed')
+                      .removeClass('hover:bg-amber-400');
+        }
+    }
+
+    // Event listener untuk semua field wajib di modal Edit
+    $('#edit_fungsi, #edit_tahun, #edit_bulan, #edit_no_iku, #edit_no_indikator, #edit_target, #edit_realisasi')
+        .on('change input', validateEditForm);
 
     // CATATAN: Sinkronisasi IKU <-> Indikator dihapus karena format value berbeda
     // IKU menggunakan "IKU 1" (string), Indikator menggunakan angka
