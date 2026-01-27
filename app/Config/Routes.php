@@ -76,6 +76,23 @@ $routes->group('admin', function($routes) {
     // Proses Simpan Massal (Batch Insert) dari Staging Area ke DB
     $routes->post('entry/simpan_iku_batch', 'Admin\Entry::simpan_iku_batch');
 
+    // Import Excel/CSV untuk IKU
+    $routes->post('entry/import_iku', 'Admin\Entry::import_iku');
+
+    // NKO Routes
+    $routes->post('entry/import_nko', 'Admin\Entry::import_nko');
+    $routes->post('entry/simpan_nko_batch', 'Admin\Entry::simpan_nko_batch');
+
+    // Anggaran Routes
+    $routes->post('entry/import_anggaran', 'Admin\Entry::import_anggaran');
+    $routes->post('entry/simpan_anggaran_batch', 'Admin\Entry::simpan_anggaran_batch');
+    $routes->get('entry/get_master_anggaran', 'Admin\Entry::get_master_anggaran');
+
+    // Capaian Output Routes
+    $routes->post('entry/import_capaian_output', 'Admin\Entry::import_capaian_output');
+    $routes->post('entry/simpan_capaian_output_batch', 'Admin\Entry::simpan_capaian_output_batch');
+    $routes->get('entry/get_master_capaian_output', 'Admin\Entry::get_master_capaian_output');
+
     //routes deteksi iku by select tahun
    $routes->get(
     'entry/get_iku_by_tahun/(:segment)',

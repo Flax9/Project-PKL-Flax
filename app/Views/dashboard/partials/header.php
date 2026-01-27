@@ -111,17 +111,25 @@
                 </button>
             </li>
             <li class="me-2" role="presentation">
+                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 hover:text-teal-400 hover:border-teal-400 rounded-t-lg transition-all" 
+                        id="nko-tab" data-bs-toggle="tab" data-bs-target="#nko-content" type="button" role="tab">
+                    <i class="fa-solid fa-chart-pie me-2"></i>NKO
+                </button>
+            </li>
+            <li class="me-2" role="presentation">
                 <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 rounded-t-lg opacity-50 cursor-not-allowed" disabled>
                     <i class="fa-solid fa-file-contract me-2"></i>Perjanjian Kinerja
                 </button>
             </li>
             <li class="me-2" role="presentation">
-                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 rounded-t-lg opacity-50 cursor-not-allowed" disabled>
-                    <i class="fa-solid fa-list-check me-2"></i>Capaian Output
+                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 hover:text-teal-400 hover:border-teal-400 rounded-t-lg transition-all" 
+                        id="capaian-output-tab" data-bs-toggle="tab" data-bs-target="#capaian-output-content" type="button" role="tab">
+                    <i class="fa-solid fa-chart-line me-2"></i>Capaian Output
                 </button>
             </li>
             <li class="me-2" role="presentation">
-                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 rounded-t-lg opacity-50 cursor-not-allowed" disabled>
+                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 hover:text-teal-400 hover:border-teal-400 rounded-t-lg transition-all" 
+                        id="anggaran-tab" data-bs-toggle="tab" data-bs-target="#anggaran-content" type="button" role="tab">
                     <i class="fa-solid fa-coins me-2"></i>Anggaran
                 </button>
             </li>

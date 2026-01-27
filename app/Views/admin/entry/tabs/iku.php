@@ -1,5 +1,18 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<!-- TITLE HEADING -->
+<h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+    <span class="bg-teal-500/10 text-teal-400 p-2 rounded-lg">
+        <i class="fa-solid fa-bullseye"></i>
+    </span>
+    Input Capaian Indikator Kinerja Utama (IKU)
+</h2>
+<p class="text-slate-400 text-sm mb-6">
+    Masukkan data IKU secara manual atau import dari Excel.
+    <span class="text-teal-500/80 text-xs block mt-1"><i class="fa-solid fa-circle-info me-1"></i> Catatan: Pastikan format kolom Excel sesuai dengan template.</span>
+</p>
+
+
 <div class="mb-6 p-4 bg-amber-500/10 border border-amber-500/50 rounded-2xl flex items-start gap-4">
     <div class="text-amber-500 mt-1">
         <i class="fa-solid fa-triangle-exclamation"></i>
@@ -165,12 +178,22 @@
             id="capaian_normalisasi_angka" 
             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold focus:outline-none focus:border-teal-500">
         </div>
-        <div class="w-full md:w-2/3 text-right">
-            <button type="button" id="btnAddQueue" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 px-8 rounded-xl transition-all flex items-center gap-2 ml-auto">
+        <div class="w-full md:w-2/3 text-right flex gap-3 justify-end">
+            <!-- Tombol Reset Table -->
+            <button type="button" id="btnClearQueue" class="hidden bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-8 rounded-xl transition-all flex items-center gap-2">
+                <i class="fa-solid fa-trash-can"></i> Hapus Semua
+            </button>
+            <button type="button" id="btnImportExcel" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-xl transition-all flex items-center gap-2">
+                <i class="fa-solid fa-file-excel"></i> Import Excel
+            </button>
+            <button type="button" id="btnAddQueue" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 px-8 rounded-xl transition-all flex items-center gap-2">
                 <i class="fa-solid fa-plus"></i> Kumpulkan Data
             </button>
         </div>
     </div>
+    
+    <!-- Hidden File Input -->
+    <input type="file" id="fileImportInput" accept=".xlsx,.xls,.csv" class="hidden">
 </form>
 
 <div class="mt-12">
@@ -202,14 +225,17 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-700 text-white">
-                <tr id="emptyRow">
                     <td colspan="14" class="px-4 py-8 text-center text-slate-500 italic">Antrian masih kosong.</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="mt-8 flex justify-center">
+    <!-- ACTION BUTTONS: RESET & SAVE -->
+    <div class="mt-8 flex justify-center gap-4">
+
+        
+        <!-- Tombol Simpan Permanen -->
         <button type="button" id="btnSaveToDb" disabled class="hidden bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold py-4 px-12 rounded-2xl shadow-xl opacity-50 cursor-not-allowed">
             <i class="fa-solid fa-cloud-arrow-up me-2"></i> Simpan Permanen
         </button>
@@ -484,6 +510,7 @@ $(document).ready(function() {
         const tbody = $('#tableIkuStaging tbody');
         const counter = $('#counterQueue');
         const btnSave = $('#btnSaveToDb');
+        const btnClear = $('#btnClearQueue');
 
         tbody.empty();
 
@@ -497,6 +524,7 @@ $(document).ready(function() {
             `);
             counter.text('0 Baris');
             btnSave.addClass('hidden').prop('disabled', true);
+            btnClear.addClass('hidden'); // Sembunyikan tombol hapus
             return;
         }
 
@@ -517,23 +545,38 @@ $(document).ready(function() {
                     <td class="px-4 py-3 text-right">${item.capaian_normalisasi_persen ?? 0}</td>
                     <td class="px-4 py-3 text-right">${item.capaian_normalisasi_angka ?? 0}</td>
                     <td class="px-4 py-3 text-center">
-                        <div class="flex flex-col items-center gap-2">
-                            <button class="btn-edit text-amber-400 hover:text-amber-300 transition-transform hover:scale-110" data-index="${index}" title="Edit">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button class="btn-delete text-rose-500 hover:text-rose-400 transition-transform hover:scale-110" data-index="${index}" title="Hapus">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
+                        <button class="btn-edit text-amber-400 hover:text-amber-300 transition-transform hover:scale-110" data-index="${index}" title="Edit">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button class="btn-delete text-rose-500 hover:text-rose-400 transition-transform hover:scale-110" data-index="${index}" title="Hapus">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+
                     </td>
                 </tr>
             `);
         });
 
         counter.text(queueData.length + ' Baris');
+        
+        // Tampilkan tombol save
         btnSave.removeClass('hidden').prop('disabled', false)
                .removeClass('opacity-50 cursor-not-allowed');
+               
+        // Tampilkan tombol hapus semua
+        btnClear.removeClass('hidden');
     }
+
+    // ===============================
+    // RESET ALL DATA
+    // ===============================
+    $('#btnClearQueue').on('click', function() {
+        if (confirm('Yakin ingin menghapus SEMUA data di antrian sementara? Data tidak bisa dikembalikan.')) {
+            queueData = [];
+            saveToLocal();
+            renderTable();
+        }
+    });
 
     // ===============================
     // 5. SIMPAN KE DATABASE
@@ -778,6 +821,83 @@ $(document).ready(function() {
     // IKU menggunakan "IKU 1" (string), Indikator menggunakan angka
     // User harus memilih keduanya secara manual di modal Edit
 
+    // ===============================
+    // 9. IMPORT EXCEL FUNCTIONALITY
+    // ===============================
+    $('#btnImportExcel').on('click', function() {
+        $('#fileImportInput').click();
+    });
+
+    $('#fileImportInput').on('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Validasi ekstensi file
+        const validExtensions = ['xlsx', 'xls', 'csv'];
+        const fileExtension = file.name.split('.').pop().toLowerCase();
+        
+        if (!validExtensions.includes(fileExtension)) {
+            alert('Format file tidak valid! Hanya menerima .xlsx, .xls, atau .csv');
+            $(this).val(''); // Reset input
+            return;
+        }
+
+        // Tampilkan loading indicator
+        const $btnImport = $('#btnImportExcel');
+        const originalText = $btnImport.html();
+        $btnImport.prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin"></i> Memproses...');
+
+        // Upload file via AJAX
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
+
+        $.ajax({
+            url: '<?= base_url('admin/entry/import_iku') ?>',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Tambahkan data ke queueData
+                    response.data.forEach(item => {
+                        queueData.push(item);
+                    });
+                    
+                    saveToLocal();
+                    renderTable();
+                    
+                    alert(`Berhasil mengimpor ${response.data.length} baris data!`);
+                } else {
+                    console.error('Import Error:', response);
+                    alert('Gagal: ' + (response.message || 'Unknown error'));
+                }
+            },
+            error: function(xhr) {
+                console.error('AJAX Error:', xhr);
+                console.error('Response Text:', xhr.responseText);
+                
+                let errorMsg = 'Terjadi kesalahan saat mengimpor file.';
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.message) {
+                        errorMsg = response.message;
+                    }
+                } catch(e) {
+                    errorMsg += ' Periksa console untuk detail.';
+                }
+                
+                alert(errorMsg);
+            },
+            complete: function() {
+                // Reset button dan file input
+                $btnImport.prop('disabled', false).html(originalText);
+                $('#fileImportInput').val('');
+            }
+        });
+    });
 
 
     // Load data awal jika ada di storage
