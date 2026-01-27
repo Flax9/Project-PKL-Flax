@@ -741,6 +741,8 @@ class Entry extends BaseController
                 $key = trim(strtolower($val));
                 $map[$key] = $idx;
             }
+            // Debug Header Map
+            log_message('error', 'Import Excel Headers: ' . json_encode(array_keys($map)));
 
             // Required columns (Flexible mapping)
             $data = [];
@@ -764,15 +766,16 @@ class Entry extends BaseController
                     'tahun'                        => $tahunVal,
                     'bulan'                        => $getVal('bulan') ?? '',
                     'no_bulan'                     => $getVal('no. bulan') ?? $getVal('no bulan') ?? 0,
-                    'rincian_output'               => $getVal('rincian output') ?? '',
+                    'rincian_output'               => $getVal('keterangan ro') ?? '', // Updated: Prioritize 'Keterangan RO'
                     'no_ro'                        => $getVal('no. ro') ?? $getVal('no.ro') ?? 0,
+                    'kode_ro'                      => $getVal('rincian output') ?? $getVal('ro') ?? $getVal('kode ro') ?? '', 
                     'keterangan_ro'                => $getVal('keterangan ro') ?? '',
                     'fungsi'                       => $getVal('fungsi') ?? '',
                     'target_persen_bulan'          => $getVal('target % bulan') ?? $getVal('target persen bulan') ?? 0,
                     'realisasi'                    => $getVal('realisasi') ?? 0,
-                    'persen_realisasi'             => $getVal('% realisasi') ?? $getVal('persen realisasi') ?? 0,
+                    'persen_realisasi'             => $getVal('% realisasi') ?? $getVal('%realisasi') ?? $getVal('persen realisasi') ?? 0,
                     'realisasi_kumulatif'          => $getVal('realisasi kumulatif') ?? 0,
-                    'persen_realisasi_kumulatif'   => $getVal('% realisasi kumulatif') ?? $getVal('persen realisasi kumulatif') ?? 0,
+                    'salah_persen_realisasi_kumulatif'   => $getVal('salah % realisasi kumulatif') ?? $getVal('salah %realisasi kumulatif') ?? $getVal('% realisasi kumulatif') ?? $getVal('%realisasi kumulatif') ?? 0, // RESTORE SALAH VAR
                     'capaian'                      => $getVal('capaian') ?? 0,
                     'kategori'                     => $getVal('kategori') ?? '',
                     'target_tahun'                 => $getVal('target tahun') ?? 0,
