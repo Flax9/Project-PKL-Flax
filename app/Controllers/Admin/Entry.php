@@ -50,7 +50,7 @@ class Entry extends BaseController
             session()->setFlashdata('access_granted', true);
 
             if ($user->role === 'perencana') {
-                return redirect()->to('admin/entry/monitoring'); 
+                return redirect()->to('admin/entry/selection'); 
             } else {
                 return redirect()->to('admin/entry/selection');
             }

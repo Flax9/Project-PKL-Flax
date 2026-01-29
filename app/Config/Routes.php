@@ -99,6 +99,22 @@ $routes->group('admin', function($routes) {
     'Admin\Entry::get_iku_by_tahun/$1'
     );
 
+    // ROUTES PENGAJUAN PERUBAHAN DATA
+    $routes->get('pengajuan', 'Admin\Pengajuan::index');
+    $routes->get('pengajuan/submission', 'Admin\Pengajuan::submission');
+    $routes->get('pengajuan/check_data', 'Admin\Pengajuan::check_data'); // <-- ADDED THIS
+    $routes->get('pengajuan/check_validity', 'Admin\Pengajuan::check_validity');
+    $routes->post('pengajuan/store', 'Admin\Pengajuan::store');
+    
+    // Validation (Planner) Routes
+    $routes->get('pengajuan/validation', 'Admin\Pengajuan::validation');
+    $routes->get('pengajuan/detail/(:num)', 'Admin\Pengajuan::detail/$1');
+    
+    // Upload Actions (Planner)
+    $routes->post('pengajuan/upload_disposisi/(:num)', 'Admin\Pengajuan::upload_disposisi/$1');
+    $routes->post('pengajuan/upload_roren/(:num)', 'Admin\Pengajuan::upload_roren/$1');
+    $routes->post('pengajuan/upload_eperformance/(:num)', 'Admin\Pengajuan::upload_eperformance/$1');
+
     // fallback route untuk method lain di Entry
     $routes->get('entry/(:any)', 'Admin\Entry::$1');
 });

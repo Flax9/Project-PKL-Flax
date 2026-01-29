@@ -17,12 +17,12 @@
             <p class="text-sm text-slate-400 leading-relaxed">Gunakan untuk menginput capaian IKU bulanan yang belum terisi sama sekali. Data akan langsung diperbarui ke dashboard utama.</p>
         </a>
 
-        <a href="<?= base_url('admin/entry/modifikasi') ?>" class="group bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-amber-500/50 hover:bg-slate-800/50 transition-all shadow-2xl">
-            <div class="w-16 h-16 bg-amber-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-file-shield text-amber-400 text-2xl"></i>
+        <a href="<?= base_url('admin/pengajuan') ?>" class="group bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-teal-500/50 hover:bg-slate-800/50 transition-all shadow-2xl">
+            <div class="w-16 h-16 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-right-left text-teal-400 text-2xl"></i>
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Pengajuan Perubahan Data</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Gunakan untuk memperbaiki data yang sudah ada. Wajib mengunggah Nota Dinas (Srikandi) dan menunggu verifikasi Perencana.</p>
+            <h3 class="text-xl font-bold text-white mb-3">Perubahan Data</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">Menu pengelolaan perubahan data. Termasuk pengajuan perubahan (User) dan validasi perubahan (Perencana).</p>
         </a>
     </div>
 </div>
