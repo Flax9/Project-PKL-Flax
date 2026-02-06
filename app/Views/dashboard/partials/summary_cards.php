@@ -36,7 +36,7 @@
         <div class="flex justify-between items-start relative z-10">
             <div>
                 <p class="text-slate-400 text-[10px] font-medium uppercase tracking-wider">Indeks Capaian Tahun</p>
-                <h3 class="text-xl font-bold text-white mt-2"><?= number_format($summary->avg_tahun, 2, ',', '.') ?>%</h3>
+                <h3 class="text-xl font-bold text-white mt-2"><?= number_format($summary->avg_tahun, 2, ',', '.') ?><span class="text-sm text-purple-400 ml-1">%</span></h3>
                 <p class="text-[10px] text-slate-500 mt-1 italic">Akumulasi Tahunan</p>
             </div>
             <div class="p-3 bg-purple-500/10 rounded-xl text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">

@@ -115,6 +115,9 @@ $routes->group('admin', function($routes) {
     $routes->post('pengajuan/upload_roren/(:num)', 'Admin\Pengajuan::upload_roren/$1');
     $routes->post('pengajuan/upload_eperformance/(:num)', 'Admin\Pengajuan::upload_eperformance/$1');
 
+    // Profile Route
+    $routes->get('profile', 'Admin\Entry::profile');
+
     // fallback route untuk method lain di Entry
     $routes->get('entry/(:any)', 'Admin\Entry::$1');
 });

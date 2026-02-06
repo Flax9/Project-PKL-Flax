@@ -117,6 +117,24 @@ class Entry extends BaseController
         return view('admin/entry/index', $data);
     }
 
+    public function profile()
+    {
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to('admin/entry/verify');
+        }
+
+        $data = [
+            'activeMenu' => 'profile',
+            'title'      => 'Profil Pengguna',
+            'user'       => [
+                'username' => session()->get('username'),
+                'role'     => session()->get('role')
+            ]
+        ];
+
+        return view('admin/profile', $data);
+    }
+
     // --- DETEKSI IKU ---
     public function get_iku_by_tahun($tahun = null)
     {

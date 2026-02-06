@@ -54,19 +54,20 @@
     </nav>
 
     <div class="p-4 border-t border-slate-800">
-        <div class="flex items-center gap-3 px-2">
-            <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-teal-400 border border-slate-600 shadow-sm">
+        <a href="<?= base_url('admin/profile') ?>" class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-300 group">
+            <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-teal-400 border border-slate-600 shadow-sm group-hover:border-teal-500/50 group-hover:shadow-teal-500/20 transition-all">
                 <i class="fa-solid fa-user-tie text-xs"></i>
             </div>
-            <div class="overflow-hidden text-left">
+            <div class="overflow-hidden text-left flex-1">
                 <?php if (session()->get('isLoggedIn')): ?>
-                    <p class="text-xs text-white font-medium truncate"><?= esc(session()->get('username')) ?></p>
+                    <p class="text-xs text-white font-medium truncate group-hover:text-teal-400 transition-colors"><?= esc(session()->get('username')) ?></p>
                     <p class="text-[9px] text-slate-500 uppercase tracking-widest"><?= esc(session()->get('role')) ?></p>
                 <?php else: ?>
-                    <p class="text-xs text-white font-medium truncate">Admin BBPOM</p>
+                    <p class="text-xs text-white font-medium truncate group-hover:text-teal-400 transition-colors">Admin BBPOM</p>
                     <p class="text-[9px] text-slate-500 uppercase tracking-widest">Dashboard View</p>
                 <?php endif; ?>
             </div>
-        </div>
+            <i class="fa-solid fa-chevron-right text-[10px] text-slate-600 group-hover:text-teal-400 transition-all translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"></i>
+        </a>
     </div>
 </aside>
