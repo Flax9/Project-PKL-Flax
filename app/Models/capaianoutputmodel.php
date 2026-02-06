@@ -186,6 +186,7 @@ class capaianoutputmodel extends Model
             $sql = "SELECT DISTINCT `No. Bulan`, `Bulan` 
                     FROM capaian_output 
                     $where 
+                    AND `Bulan` IS NOT NULL AND `Bulan` != ''
                     ORDER BY `No. Bulan` ASC";
             return $db->query($sql)->getResultArray();
         } 
@@ -207,7 +208,7 @@ class capaianoutputmodel extends Model
             $sql = "SELECT DISTINCT `Keterangan RO` as keterangan, `No. RO` as RO
                     FROM capaian_output 
                     $where 
-                    AND `Keterangan RO` NOT IN ('N/A', '', '-')
+                    AND `Keterangan RO` IS NOT NULL AND `Keterangan RO` NOT IN ('N/A', '', '-')
                     GROUP BY `Keterangan RO`, `No. RO`
                     ORDER BY CAST(`No. RO` AS UNSIGNED) ASC";
             return $db->query($sql)->getResultArray();
@@ -216,14 +217,12 @@ class capaianoutputmodel extends Model
         // Case 4: Default (Fungsi, dll)
         else {
             $where = $this->buildWhereClause($filter);
-            // Asumsi $column aman/sudah dibacktick jika perlu. 
-            // Controller kirim 'Fungsi'. Kita tambah backtick manual untuk aman.
-            // Hapus backtick jika ada dulu, lalu tambah.
             $cleanCol = str_replace('`', '', $column);
             
             $sql = "SELECT DISTINCT `$cleanCol` 
                     FROM capaian_output 
                     $where 
+                    AND `$cleanCol` IS NOT NULL AND `$cleanCol` != ''
                     ORDER BY `$cleanCol` ASC";
             return $db->query($sql)->getResultArray();
         }

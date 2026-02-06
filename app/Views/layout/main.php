@@ -21,7 +21,20 @@
 
     <?= $this->include('dashboard/partials/sidebar') ?>
 
+    <!-- Mobile Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300"></div>
+
     <div class="flex-1 flex flex-col min-w-0 relative">
+        <!-- Mobile Header Bar -->
+        <div class="md:hidden flex items-center justify-between p-4 bg-slate-900 border-b border-slate-800 z-30">
+            <div class="flex items-center gap-3">
+                <img src="<?= base_url('assets/img/logo_bpom_1.png') ?>" alt="Logo" class="w-8 h-8">
+                <span class="font-bold text-white text-sm tracking-widest">E-KINERJA</span>
+            </div>
+            <button id="sidebarToggle" class="p-2 text-slate-400 hover:text-white transition-colors focus:outline-none">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
         
         <?= $this->renderSection('content') ?>
 
@@ -31,6 +44,43 @@
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            const $sidebar = $('#sidebar');
+            const $overlay = $('#sidebarOverlay');
+            const $toggle = $('#sidebarToggle');
+
+            function toggleSidebar() {
+                $sidebar.toggleClass('-translate-x-full');
+                $overlay.toggleClass('hidden');
+            }
+
+            $toggle.on('click', function(e) {
+                e.stopPropagation();
+                toggleSidebar();
+            });
+
+            $overlay.on('click', toggleSidebar);
+
+            // Close sidebar when clicking links on mobile
+            $sidebar.find('a').on('click', function() {
+                if ($(window).width() < 768) {
+                    toggleSidebar();
+                }
+            });
+
+            // Handle Resize
+            $(window).on('resize', function() {
+                if ($(window).width() >= 768) {
+                    $sidebar.removeClass('-translate-x-full');
+                    $overlay.addClass('hidden');
+                } else {
+                    $sidebar.addClass('-translate-x-full');
+                }
+            });
+        });
+    </script>
 
     <?= $this->renderSection('scripts') ?>
 

@@ -22,10 +22,12 @@
                     <option value="" class="bg-slate-900">Nama Indikator</option>
                     <?php if(isset($filterIndikator)): ?>
                         <?php foreach($filterIndikator as $i): ?>
-                            <option value="<?= $i['nama'] ?>" class="bg-slate-900" 
-                                <?= (request()->getGet('nama_indikator') == $i['nama']) ? 'selected' : '' ?>>
-                                <?= $i['nama'] ?>
-                            </option>
+                            <?php if(!empty($i['nama'])): ?>
+                                <option value="<?= $i['nama'] ?>" class="bg-slate-900" 
+                                    <?= (request()->getGet('nama_indikator') == $i['nama']) ? 'selected' : '' ?>>
+                                    <?= $i['nama'] ?>
+                                </option>
+                            <?php endif; ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </select>
@@ -34,10 +36,12 @@
                     <option value="" class="bg-slate-900">Semua Fungsi</option>
                     <?php if(isset($filter_fungsi)): ?>
                         <?php foreach($filter_fungsi as $f): ?>
-                            <option value="<?= $f['Fungsi'] ?>" class="bg-slate-900" 
-                                <?= (request()->getGet('fungsi') == $f['Fungsi']) ? 'selected' : '' ?>>
-                                <?= $f['Fungsi'] ?>
-                            </option>
+                            <?php if(!empty($f['Fungsi'])): ?>
+                                <option value="<?= $f['Fungsi'] ?>" class="bg-slate-900" 
+                                    <?= (request()->getGet('fungsi') == $f['Fungsi']) ? 'selected' : '' ?>>
+                                    <?= $f['Fungsi'] ?>
+                                </option>
+                            <?php endif; ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </select>
@@ -48,10 +52,12 @@
                         <option value="" class="bg-slate-900">Semua Program</option>
                         <?php if(isset($filter_program)): ?>
                             <?php foreach($filter_program as $p): ?>
-                                <option value="<?= $p['PROGRAM/KEGIATAN'] ?>" class="bg-slate-900" 
-                                    <?= (request()->getGet('program') == $p['PROGRAM/KEGIATAN']) ? 'selected' : '' ?>>
-                                    <?= $p['PROGRAM/KEGIATAN'] ?>
-                                </option>
+                                <?php if(!empty($p['PROGRAM/KEGIATAN'])): ?>
+                                    <option value="<?= $p['PROGRAM/KEGIATAN'] ?>" class="bg-slate-900" 
+                                        <?= (request()->getGet('program') == $p['PROGRAM/KEGIATAN']) ? 'selected' : '' ?>>
+                                        <?= $p['PROGRAM/KEGIATAN'] ?>
+                                    </option>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </select>
@@ -65,31 +71,37 @@
                     ?>
                     <?php foreach($ro_data as $ro): ?>
                         <?php $val = ($activeMenu == 'anggaran') ? $ro['RO'] : $ro['keterangan']; ?>
-                        <option value="<?= $val ?>" class="bg-slate-900" <?= (request()->getGet($ro_param) == $val) ? 'selected' : '' ?>>
-                            <?= $val ?>
-                        </option>
+                        <?php if(!empty($val)): ?>
+                            <option value="<?= $val ?>" class="bg-slate-900" <?= (request()->getGet($ro_param) == $val) ? 'selected' : '' ?>>
+                                <?= $val ?>
+                            </option>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
             <?php endif; ?>
 
             <select id="filterBulan" onchange="applyFilter()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 cursor-pointer outline-none">
-                <option value="" class="bg-slate-900">Semua Bulan</option>
+                <option value="" class="bg-slate-900" <?= (request()->getGet('bulan') == '') ? 'selected' : '' ?>>Semua Bulan</option>
                 <?php if(isset($filter_bulan)): ?>
                     <?php foreach($filter_bulan as $b): ?>
-                        <option value="<?= $b['Bulan'] ?>" class="bg-slate-900" <?= (request()->getGet('bulan') == $b['Bulan']) ? 'selected' : '' ?>>
-                            <?= $b['Bulan'] ?>
-                        </option>
+                        <?php if(!empty($b['Bulan'])): ?>
+                            <option value="<?= $b['Bulan'] ?>" class="bg-slate-900" <?= (request()->getGet('bulan') == $b['Bulan']) ? 'selected' : '' ?>>
+                                <?= $b['Bulan'] ?>
+                            </option>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>
 
             <select id="filterTahun" onchange="applyFilter()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 min-w-[100px] cursor-pointer outline-none">
-                <option value="" class="bg-slate-900">Tahun</option>
+                <option value="" class="bg-slate-900" <?= (request()->getGet('tahun') == '') ? 'selected' : '' ?>>Tahun</option>
                 <?php if(isset($filter_tahun)): ?>
                     <?php foreach($filter_tahun as $t): ?>
-                        <option value="<?= $t['Tahun'] ?>" class="bg-slate-900" <?= (request()->getGet('tahun') == $t['Tahun']) ? 'selected' : '' ?>>
-                            <?= $t['Tahun'] ?>
-                        </option>
+                        <?php if(!empty($t['Tahun'])): ?>
+                            <option value="<?= $t['Tahun'] ?>" class="bg-slate-900" <?= (request()->getGet('tahun') == $t['Tahun']) ? 'selected' : '' ?>>
+                                <?= $t['Tahun'] ?>
+                            </option>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>

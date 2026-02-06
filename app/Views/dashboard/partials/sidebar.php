@@ -1,4 +1,4 @@
-<aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col hidden md:flex z-20 transition-all duration-300">
+<aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 border-r border-slate-800 transition-transform duration-300 transform -translate-x-full md:translate-x-0 md:static md:inset-auto flex flex-col shrink-0">
     <div class="p-6 flex items-center gap-4">
         <div class="w-18 h-18 bg-white/5 border border-white/10 rounded-full flex items-center justify-center shadow-md backdrop-blur-sm">
             <img src="<?= base_url('assets/img/logo_bpom_1.png') ?>" 

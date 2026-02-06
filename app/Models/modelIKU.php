@@ -195,6 +195,8 @@ class modelIKU extends Model {
         // Special ordering and selection for specific columns
         if ($column === '`No. Bulan`, `Bulan`') {
             return $builder->select($column, false)
+                           ->where('Bulan IS NOT NULL')
+                           ->where("Bulan != ''")
                            ->orderBy('`No. Bulan`', 'ASC', false)
                            ->findAll();
         } elseif ($column === 'Tahun') {
@@ -211,6 +213,8 @@ class modelIKU extends Model {
                            ->findAll();
         } else {
             return $builder->select($column, false)
+                           ->where($column . ' IS NOT NULL')
+                           ->where($column . " != ''")
                            ->orderBy($column, 'ASC', false)
                            ->findAll();
         }

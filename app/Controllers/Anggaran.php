@@ -46,10 +46,7 @@ class Anggaran extends BaseController
             // Mengambil list unik untuk isi dropdown di View
             'filter_tahun'   => $this->anggaranModel->getFilterOptions('Tahun'),
             // PERBAIKAN: Mengurutkan bulan secara kronologis untuk dropdown
-            'filter_bulan'   => $this->anggaranModel->distinct()
-                                    ->select('Bulan')
-                                    ->orderBy("FIELD(TRIM(Bulan), 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember')")
-                                    ->findAll(),
+            'filter_bulan'   => $this->anggaranModel->getFilterBulan(),
             'filter_program' => $this->anggaranModel->getFilterOptions('`PROGRAM/KEGIATAN`'),
             'filter_ro'      => $this->anggaranModel->getFilterOptions('`RO`'),
             

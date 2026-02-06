@@ -349,12 +349,5 @@
     </div>
 </div>
 
-<script>
-    window.appConfig = {
-        baseUrl: '<?= base_url() ?>',
-        csrfToken: '<?= csrf_token() ?>',
-        csrfHash: '<?= csrf_hash() ?>'
-    };
-</script>
 <script src="<?= base_url('assets/js/admin/entry_iku.js') ?>"></script>
 

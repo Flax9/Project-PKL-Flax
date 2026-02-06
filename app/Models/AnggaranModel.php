@@ -88,6 +88,21 @@ class AnggaranModel extends Model
      */
     public function getFilterOptions($column)
     {
-        return $this->distinct()->select($column)->orderBy($column, 'ASC')->findAll();
+        return $this->distinct()
+                    ->select($column)
+                    ->where($column . ' IS NOT NULL')
+                    ->where($column . " != ''")
+                    ->orderBy($column, 'ASC')
+                    ->findAll();
+    }
+
+    public function getFilterBulan()
+    {
+        return $this->distinct()
+                    ->select('Bulan')
+                    ->where('Bulan IS NOT NULL')
+                    ->where("Bulan != ''")
+                    ->orderBy("FIELD(TRIM(Bulan), 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember')")
+                    ->findAll();
     }
 }

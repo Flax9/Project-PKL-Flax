@@ -4,6 +4,14 @@
 
 <?= $this->include('admin/pengajuan/partials/header') ?>
 
+<script>
+    window.appConfig = {
+        baseUrl: '<?= base_url() ?>',
+        csrfToken: '<?= csrf_token() ?>',
+        csrfHash: '<?= csrf_hash() ?>'
+    };
+</script>
+
 <div class="flex-1 overflow-y-auto p-8 z-10 flex flex-col gap-6">
 
     <div id="entryTabContent" class="mt-2">
