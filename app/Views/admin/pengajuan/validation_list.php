@@ -18,12 +18,12 @@
             
             <!-- FILTER (Optional) -->
             <div class="flex gap-3">
-                <select id="statusFilter" class="bg-slate-900 border border-slate-700 text-slate-300 text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block p-2.5">
-                    <option value="all">Semua Status</option>
-                    <option value="diajukan" selected>Menunggu Disposisi</option>
-                    <option value="disposisi">Proses Roren</option>
-                    <option value="proses_roren">Finalisasi (ePerf)</option>
-                    <option value="selesai">Selesai</option>
+                <select id="statusFilter" onchange="window.location.href='?status='+this.value" class="bg-slate-900 border border-slate-700 text-slate-300 text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block p-2.5">
+                    <option value="all" <?= ($activeStatus == 'all') ? 'selected' : '' ?>>Semua Status</option>
+                    <option value="diajukan" <?= ($activeStatus == 'diajukan') ? 'selected' : '' ?>>Menunggu Disposisi</option>
+                    <option value="disposisi" <?= ($activeStatus == 'disposisi') ? 'selected' : '' ?>>Proses Roren</option>
+                    <option value="proses_roren" <?= ($activeStatus == 'proses_roren') ? 'selected' : '' ?>>Finalisasi (ePerf)</option>
+                    <option value="selesai" <?= ($activeStatus == 'selesai') ? 'selected' : '' ?>>Selesai</option>
                 </select>
             </div>
         </div>

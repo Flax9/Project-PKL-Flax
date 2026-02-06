@@ -1,12 +1,12 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
-<div class="p-8 min-h-screen bg-slate-950 flex flex-col items-center justify-center">
-    <div class="text-center mb-12">
-        <h1 class="text-3xl font-bold text-white mb-2">Pilih Jalur Pengelolaan Data</h1>
-        <p class="text-slate-400">Pilih tindakan yang ingin Anda lakukan pada database kinerja.</p>
-    </div>
 
-    <div class="grid md:grid-cols-2 gap-8 max-w-5xl w-full">
+<!-- SHARED HEADER -->
+<?= $this->include('admin/pengajuan/partials/header') ?>
+
+<div class="flex-1 overflow-y-auto p-8 bg-slate-950 flex flex-col items-center justify-center">
+    
+    <div class="grid md:grid-cols-2 gap-8 max-w-5xl w-full mt-8">
         
 
         <a href="<?= base_url('admin/entry/rutin') ?>" class="group bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-teal-500/50 hover:bg-slate-800/50 transition-all shadow-2xl">

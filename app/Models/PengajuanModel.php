@@ -49,12 +49,16 @@ class PengajuanModel extends Model
     protected $updatedField  = 'updated_at';
 
     // Helper to get all requests for a user or all if admin/planner
-    public function getRequests($userId = null)
+    public function getRequests($userId = null, $status = null)
     {
         $builder = $this->builder();
         
         if ($userId) {
             $builder->where('user_id', $userId);
+        }
+
+        if ($status && $status !== 'all') {
+            $builder->where('status', $status);
         }
 
         return $builder->orderBy('created_at', 'DESC')->get()->getResultArray();

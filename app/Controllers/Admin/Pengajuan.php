@@ -44,11 +44,14 @@ class Pengajuan extends BaseController
             return redirect()->to('admin/pengajuan'); // Or show 403
         }
 
+        $status = $this->request->getGet('status') ?? 'all';
+
         $model = new \App\Models\PengajuanModel();
         $data = [
             'activeMenu' => 'perubahan_data',
             'title'    => 'Validasi Perubahan Data',
-            'requests' => $model->getRequests() // Get all
+            'requests' => $model->getRequests(null, $status), // Pass status
+            'activeStatus' => $status
         ];
 
         return view('admin/pengajuan/validation_list', $data);

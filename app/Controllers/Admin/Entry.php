@@ -58,6 +58,12 @@ class Entry extends BaseController
         return redirect()->back()->with('error', 'Username atau Password salah!');
     }
 
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to('admin/entry/verify');
+    }
+
     public function index()
     {
         if (!session()->getFlashdata('access_granted')) {
