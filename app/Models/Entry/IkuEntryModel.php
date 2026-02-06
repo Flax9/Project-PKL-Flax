@@ -174,6 +174,41 @@ class IkuEntryModel extends Model
     }
 
     /**
+     * Get distinct list of functions
+     */
+    public function getListFungsi()
+    {
+        return $this->select('Fungsi')
+                    ->distinct()
+                    ->get()
+                    ->getResult();
+    }
+
+    /**
+     * Get distinct list of IKU labels
+     */
+    public function getListIku()
+    {
+        return $this->select('CONCAT("IKU ", `No. IKU`) as no_iku, `No. Indikator` as no_indikator', false)
+                    ->distinct()
+                    ->orderBy('no_indikator', 'ASC')
+                    ->get()
+                    ->getResultArray();
+    }
+
+    /**
+     * Get distinct list of Indicators
+     */
+    public function getListNamaIndikator()
+    {
+        return $this->select('`Nama Indikator` as nama_indikator, `No. Indikator` as no_indikator', false)
+                    ->distinct()
+                    ->orderBy('no_indikator', 'ASC')
+                    ->get()
+                    ->getResultArray();
+    }
+
+    /**
      * Get IKU list by/year, handling dynamic table names
      */
     public function getIkuByTahun($tahun)

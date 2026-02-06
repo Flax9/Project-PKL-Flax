@@ -41,7 +41,19 @@ class Entry extends BaseController
 
         $user = $db->table('users')->where('username', $username)->get()->getRow();
 
-        if ($user && $password === $user->password) {
+        // Security Update: Support password hashing with plain-text fallback for transition
+        $isValid = false;
+        if ($user) {
+            if (password_verify($password, $user->password)) {
+                $isValid = true;
+            } elseif ($password === $user->password) {
+                // Fallback for plain text (WARNING: Security risk)
+                $isValid = true;
+                session()->setFlashdata('security_warning', 'Anda masih menggunakan password plain-text. Harap segera perbarui password Anda!');
+            }
+        }
+
+        if ($isValid) {
             session()->set([
                 'isLoggedIn' => true,
                 'username'   => $user->username,
@@ -94,39 +106,12 @@ class Entry extends BaseController
             return redirect()->to('admin/entry/verify');
         }
         
-        $db = \Config\Database::connect();
-        
-        // 1. Query Fungsi (Tetap)
-        $list_fungsi = $db->table('capaian_iku')
-                        ->select('Fungsi')
-                        ->distinct()
-                        ->get()
-                        ->getResult();
-        
-        // 2. Query List IKU (PERBAIKAN SINTAKS DISINI)
-        $list_iku = $db->table('capaian_iku')
-                      // Perhatikan koma ada DI DALAM tanda kutip
-                        ->select('CONCAT("IKU ", `No. IKU`) as no_iku, `No. Indikator` as no_indikator', false)
-                       ->distinct()
-                       ->orderBy('no_indikator', 'ASC') // Gunakan alias 'no_indikator' agar aman
-                       ->get()
-                       ->getResultArray();
-
-        // 3. Query List Nama Indikator (PERBAIKAN SINTAKS DISINI)
-        $list_nama_indikator = $db->table('capaian_iku')
-                                ->select('`Nama Indikator` as nama_indikator, `No. Indikator` as no_indikator', false)
-                                ->distinct()
-                                ->orderBy('no_indikator', 'ASC')
-                                ->get()
-                                ->getResultArray();
-
         $data = [
             'activeMenu'  => 'data_entry',
             'title'       => 'Input Realisasi Rutin',
-            'list_fungsi' => $list_fungsi,
-            'list_fungsi' => $list_fungsi,
-            'list_iku'    => $list_iku,
-            'list_nama_indikator' => $list_nama_indikator
+            'list_fungsi' => $this->ikuModel->getListFungsi(),
+            'list_iku'    => $this->ikuModel->getListIku(),
+            'list_nama_indikator' => $this->ikuModel->getListNamaIndikator()
         ];
 
         return view('admin/entry/index', $data);

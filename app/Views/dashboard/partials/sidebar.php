@@ -59,8 +59,13 @@
                 <i class="fa-solid fa-user-tie text-xs"></i>
             </div>
             <div class="overflow-hidden text-left">
-                <p class="text-xs text-white font-medium truncate">Admin BBPOM</p>
-                <p class="text-[9px] text-slate-500 uppercase tracking-widest">Dashboard View</p>
+                <?php if (session()->get('isLoggedIn')): ?>
+                    <p class="text-xs text-white font-medium truncate"><?= esc(session()->get('username')) ?></p>
+                    <p class="text-[9px] text-slate-500 uppercase tracking-widest"><?= esc(session()->get('role')) ?></p>
+                <?php else: ?>
+                    <p class="text-xs text-white font-medium truncate">Admin BBPOM</p>
+                    <p class="text-[9px] text-slate-500 uppercase tracking-widest">Dashboard View</p>
+                <?php endif; ?>
             </div>
         </div>
     </div>

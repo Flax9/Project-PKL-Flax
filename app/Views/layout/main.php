@@ -16,22 +16,6 @@
 
     <?= $this->renderSection('styles') ?>
 
-    <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-        }
-        /* Menghilangkan scrollbar default untuk tampilan dashboard yang clean */
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 10px;
-        }
-    </style>
 </head>
 <body class="bg-slate-950 text-slate-300 flex h-screen overflow-hidden">
 
