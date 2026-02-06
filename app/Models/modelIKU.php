@@ -54,21 +54,17 @@ class modelIKU extends Model {
      */
     public function getNkoAverage($filter = [])
     {
-        $db = \Config\Database::connect();
+        $builder = $this->db->table('nko');
+        $builder->select('ROUND(AVG(`NKO`), 2) as total_nko');
         
-        $whereNko = " WHERE 1=1 ";
         if (!empty($filter['tahun'])) {
-            $whereNko .= " AND Tahun = '{$filter['tahun']}' ";
+            $builder->where('Tahun', $filter['tahun']);
         }
         if (!empty($filter['bulan'])) {
-            $whereNko .= " AND Bulan = '{$filter['bulan']}' ";
+            $builder->where('Bulan', $filter['bulan']);
         }
 
-        return $db->query("
-            SELECT ROUND(AVG(`NKO`), 2) as total_nko 
-            FROM `nko` 
-            $whereNko
-        ")->getRow();
+        return $builder->get()->getRow();
     }
 
     /**

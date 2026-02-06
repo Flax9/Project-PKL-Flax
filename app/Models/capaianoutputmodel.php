@@ -238,19 +238,19 @@ class capaianoutputmodel extends Model
         $whereDetail = " WHERE 1=1 ";
 
         if (!empty($filter['tahun'])) {
-            $tahunSafe = $db->escapeString($filter['tahun']);
-            $whereDetail .= " AND Tahun = '$tahunSafe' ";
+            $tahunSafe = $db->escape($filter['tahun']);
+            $whereDetail .= " AND Tahun = $tahunSafe ";
         }
         if (!empty($filter['bulan'])) {
-            $bulanSafe = $db->escapeString($filter['bulan']);
-            $whereDetail .= " AND Bulan = '$bulanSafe'";
+            $bulanSafe = $db->escape($filter['bulan']);
+            $whereDetail .= " AND Bulan = $bulanSafe";
         }
         if (!empty($filter['fungsi'])) {
-            $fungsiSafe = $db->escapeString($filter['fungsi']);
-            $whereDetail .= " AND Fungsi = '$fungsiSafe'";
+            $fungsiSafe = $db->escape($filter['fungsi']);
+            $whereDetail .= " AND Fungsi = $fungsiSafe";
         }
         if (!empty($filter['keterangan_ro'])) {
-            $whereDetail .= " AND `Keterangan RO` = '" . $db->escapeString($filter['keterangan_ro']) . "'";
+            $whereDetail .= " AND `Keterangan RO` = " . $db->escape($filter['keterangan_ro']);
         }
 
         return $whereDetail;
