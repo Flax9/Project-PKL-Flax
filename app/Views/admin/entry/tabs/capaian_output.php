@@ -213,4 +213,6 @@
     </div>
 </div>
 
-<script src="<?= base_url('assets/js/admin/entry_capaian_output.js') ?>"></script>
+<?= $this->section('scripts') ?>
+    <script src="<?= base_url('assets/js/admin/entry_capaian_output.js') ?>"></script>
+<?= $this->endSection() ?>

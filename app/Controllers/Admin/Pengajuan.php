@@ -4,7 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\PengajuanModel;
-use App\Models\Entry\IkuEntryModel;
+use App\Models\IkuModel;
 
 class Pengajuan extends BaseController
 {
@@ -14,7 +14,7 @@ class Pengajuan extends BaseController
     public function __construct()
     {
         $this->pengajuanModel = new PengajuanModel();
-        $this->ikuModel = new IkuEntryModel();
+        $this->ikuModel = new IkuModel();
     }
 
     // 1. GATEWAY PAGE (Menu Selection)
@@ -70,12 +70,8 @@ class Pengajuan extends BaseController
             return redirect()->to('admin/pengajuan/validation')->with('error', 'Data tidak ditemukan.');
         }
 
-        // Fetch SNAPSHOT Data (Nilai Semula) from Table 2
-        $db = \Config\Database::connect();
-        $original = $db->table('pengajuan_perubahan_original')
-                       ->where('pengajuan_id', $id)
-                       ->get()
-                       ->getRowArray();
+        // Fetch SNAPSHOT Data (Nilai Semula)
+        $original = $this->pengajuanModel->getSnapshot($id);
         
         $data = [
             'activeMenu' => 'perubahan_data',
@@ -87,61 +83,7 @@ class Pengajuan extends BaseController
         return view('admin/pengajuan/validation_detail', $data);
     }
 
-    // Helper: Sync Staging -> Master
-    private function _sync_to_master($request)
-    {
-        $db = \Config\Database::connect();
-        
-        // 1. Fetch the SNAPSHOT to get the exact identity keys
-        $snapshot = $db->table('pengajuan_perubahan_original')
-                       ->where('pengajuan_id', $request['id'])
-                       ->get()
-                       ->getRowArray();
 
-        if (!$snapshot) {
-             $snapshot = $request;
-        }
-
-        // 2. Prepare Raw SQL to handle column names with %, spaces, and dots
-        // Strategy Change: "No. Indikator" column is fragile (dots/spaces).
-        // Instead, we target the row by ensuring 'Target' is NOT NULL (ignoring header rows)
-        $sql = "UPDATE `capaian_iku` SET 
-                `Target` = ?, 
-                `Realisasi` = ?, 
-                `Performa % Capaian Bulan` = ?, 
-                `Kategori Capaian Bulan` = ?, 
-                `Performa % Capaian Tahun` = ?, 
-                `Kategori Capaian Tahun` = ?, 
-                `Capaian Normalisasi` = ?, 
-                `Capaian normalisasi Angka` = ?
-                WHERE `Tahun` = ? 
-                AND `Bulan` = ? 
-                AND `Fungsi` = ? 
-                AND (`Target` IS NOT NULL AND `Target` != '-' AND `Target` != '')
-                AND (`No. IKU` = ? OR `No. IKU` = ?)";
-        
-        $ikuRaw = str_replace('IKU ', '', $snapshot['no_iku']);
-                
-        $binds = [
-            $request['target'],
-            $request['realisasi'],
-            $request['perf_bulan'],
-            $request['kat_bulan'],
-            $request['perf_tahun'],
-            $request['kat_tahun'],
-            $request['cap_norm'],
-            $request['cap_norm_angka'],
-            $snapshot['tahun'],
-            $snapshot['bulan'],
-            $snapshot['fungsi'],
-            // removed no_indikator
-            $ikuRaw,          // Value 1
-            'IKU ' . $ikuRaw  // Value 2
-        ];
-
-        // TEMPORARILY DISABLED TO ISOLATE ERROR
-        $db->query($sql, $binds);
-    }
 
     // 2. FORM PENGAJUAN (User View)
     public function submission()
@@ -210,56 +152,9 @@ class Pengajuan extends BaseController
         }
 
         try {
-            $db = \Config\Database::connect();
-            
-            // Revert to 'capaian_iku' as explicitly requested
-            $table = 'capaian_iku';
-    
-            // 1. Try EXACT match first
-            // Note: We use manual chaining to ensure 'No. IKU' is treated as a single identifier
-            $builder = $db->table($table);
-            $builder->where('Tahun', $tahun);
-            $builder->where('Bulan', $bulan);
-            $builder->where('Fungsi', $fungsi);
-            // Protect "No. IKU" with backticks and disable automatic escaping for this field
-            // CRITICA: Since escaping is FALSE, we MUST manually quote the value!
-            $builder->where('`No. IKU`', $db->escape($no_iku), false); 
-            
-            try {
-                 $rows = $builder->get()->getResultArray();
-            } catch (\Throwable $e) {
-                 $rows = [];
-            }
-    
-            // 2. If not found, try stripped "IKU " prefix (e.g. "1")
-            if (empty($rows)) {
-                $checkIku = str_replace('IKU ', '', $no_iku);
-                
-                $builder = $db->table($table);
-                $builder->where('Tahun', $tahun);
-                $builder->where('Bulan', $bulan);
-                $builder->where('Fungsi', $fungsi);
-                $builder->where('`No. IKU`', $db->escape($checkIku), false);
+            // Use generic Model method to find candidates
+            $rows = $this->pengajuanModel->findIkuCandidates($tahun, $bulan, $fungsi, $no_iku);
 
-                 try {
-                    $rows = $builder->get()->getResultArray();
-                } catch (\Throwable $e) { $rows = []; }
-            }
-    
-            // 3. If still not found, try adding "IKU " prefix (e.g. "IKU 1")
-            if (empty($rows)) {
-                $checkIku = 'IKU ' . str_replace('IKU ', '', $no_iku);
-                
-                $builder = $db->table($table);
-                $builder->where('Tahun', $tahun);
-                $builder->where('Bulan', $bulan);
-                $builder->where('Fungsi', $fungsi);
-                $builder->where('`No. IKU`', $db->escape($checkIku), false);
-
-                 try {
-                    $rows = $builder->get()->getResultArray();
-                } catch (\Throwable $e) { $rows = []; }
-            }
     
             if (!empty($rows)) {
                 // Initialize option lists
@@ -306,13 +201,9 @@ class Pengajuan extends BaseController
                     'options' => $options
                 ]);
             } else {
-                // Debug: Get Last Query to show User
-                $lastQuery = (string)$db->getLastQuery();
-                
                 return $this->response->setJSON([
                     'status' => 'not_found',
-                    'debug'  => "Data tidak ditemukan di tabel '$table'.",
-                    'query'  => $lastQuery, // Show EXACT SQL
+                    'debug'  => "Data tidak ditemukan di tabel capaian_iku.",
                     'params' => "Tahun=$tahun, Bulan=$bulan, Fungsi=$fungsi, IKU=$no_iku"
                 ]);
             }
@@ -334,45 +225,14 @@ class Pengajuan extends BaseController
         }
 
         $req = $this->request;
-        $db = \Config\Database::connect();
-        $table = 'capaian_iku';
-
-        $builder = $db->table($table);
-        
-        // Helper for consistent robust where clause
-        // We use $escape = false and manually quote identifiers and values
-        // to prevent CI4 from mishandling columns with dots/spaces/symbols.
-        $addWhere = function($col, $val) use ($builder, $db) {
-            // value escaping: $db->escape() adds quotes 'val'
-            // column quoting: manually add backticks `col`
-            $builder->where("`$col`", $db->escape($val), false);
-        };
-
-        $addWhere('Tahun', $req->getGet('db_tahun'));
-        $addWhere('Bulan', $req->getGet('db_bulan'));
-        $addWhere('Fungsi', $req->getGet('db_fungsi'));
-        $addWhere('No. IKU', $req->getGet('db_no_iku'));
-        $addWhere('Nama Indikator', $req->getGet('db_nama_indikator'));
-        
-        $addWhere('No. Indikator', $req->getGet('db_no_indikator'));
-        $addWhere('No. Bulan', $req->getGet('db_no_bulan'));
-        $addWhere('Target', $req->getGet('db_target'));
-        $addWhere('Realisasi', $req->getGet('db_realisasi'));
-        
-        $addWhere('Performa % Capaian Bulan', $req->getGet('db_perf_bulan'));
-        $addWhere('Kategori Capaian Bulan', $req->getGet('db_kat_bulan'));
-        $addWhere('Performa % Capaian Tahun', $req->getGet('db_perf_tahun'));
-        $addWhere('Kategori Capaian Tahun', $req->getGet('db_kat_tahun'));
-        $addWhere('Capaian Normalisasi', $req->getGet('db_cap_norm'));
-        $addWhere('Capaian normalisasi Angka', $req->getGet('db_cap_norm_angka'));
+        $req = $this->request;
 
         try {
-            $count = $builder->countAllResults();
-            
-            // Debug if needed (uncomment to see query in response if error persists)
-            //$lastQuery = $db->getLastQuery();
-            
-            if ($count > 0) {
+            // Use Model to check validity
+            // We pass the whole GET array, the model handles mapping
+            $isValid = $this->pengajuanModel->checkValidity($req->getGet());
+
+            if ($isValid) {
                  return $this->response->setJSON(['status' => 'valid', 'message' => 'Data Valid! Kombinasi ditemukan di Database.']);
             } else {
                  return $this->response->setJSON(['status' => 'invalid', 'message' => 'Data Tidak Valid / Tidak Ditemukan Kombinasi Ini.']);
@@ -380,11 +240,12 @@ class Pengajuan extends BaseController
         } catch (\Throwable $e) {
              return $this->response->setJSON([
                  'status' => 'error', 
-                 'message' => $e->getMessage(),
-                 'debug_query' => (string)$db->getLastQuery()
+                 'message' => $e->getMessage()
             ]);
         }
     }
+
+
 
     // 4. STORE (Handle User Submission)
     public function store()
@@ -454,68 +315,13 @@ class Pengajuan extends BaseController
             'created_at'       => date('Y-m-d H:i:s')
         ];
 
-        // Using Query Builder since we don't have a specific Model loaded for this table yet
+        // Using Model to create submission (Transaction & Snapshot handled in Model)
         try {
-            $db->transStart();
-            
-            // 1. Insert Proposed Changes (Table 1)
-            $db->table('pengajuan_perubahan')->insert($data);
-            $newId = $db->insertID();
-
-            // 2. Capture Snapshot of Original Data (Table 2)
-            $ikuRaw = str_replace('IKU ', '', $data['no_iku']);
-            $val1 = $db->escape($ikuRaw);
-            $val2 = $db->escape('IKU ' . $ikuRaw);
-            $valIndikator = $db->escape($data['no_indikator']);
-
-            $builder = $db->table('capaian_iku');
-            $builder->where('Tahun', $data['tahun'])
-                    ->where('Bulan', $data['bulan'])
-                    ->where('Fungsi', $data['fungsi'])
-                    // Strategy Use: Filter by Non-NULL Target instead of fragile No. Indikator
-                    ->where("(`Target` IS NOT NULL AND `Target` != '-' AND `Target` != '')", null, false)
-                    ->where("(`No. IKU` = $val1 OR `No. IKU` = $val2)", null, false);
-            
-            $query = $builder->get();
-
-            if (!$query) {
-                // Log DB Error if Query Fails
-                $error = $db->error();
-                throw new \RuntimeException("Query Capaian IKU Error: " . $error['message']);
+            if ($this->pengajuanModel->createSubmission($data)) {
+                return redirect()->to('admin/pengajuan/submission')->with('message', 'Pengajuan Perubahan berhasil dikirim! Menunggu verifikasi.');
+            } else {
+                throw new \Exception("Gagal menyimpan transaksi.");
             }
-
-            $originalMaster = $query->getRowArray();
-
-            if ($originalMaster) {
-                $snapshot = [
-                    'pengajuan_id'   => $newId,
-                    'tahun'          => $originalMaster['Tahun'],
-                    'bulan'          => $originalMaster['Bulan'],
-                    'fungsi'         => $originalMaster['Fungsi'],
-                    'no_iku'         => $originalMaster['No. IKU'],
-                    'nama_indikator' => $originalMaster['Nama Indikator'],
-                    'no_indikator'   => $originalMaster['No. Indikator'],
-                    'no_bulan'       => $originalMaster['No. Bulan'],
-                    'target'         => $originalMaster['Target'],
-                    'realisasi'      => $originalMaster['Realisasi'],
-                    'perf_bulan'     => $originalMaster['Performa % Capaian Bulan'],
-                    'kat_bulan'      => $originalMaster['Kategori Capaian Bulan'],
-                    'perf_tahun'     => $originalMaster['Performa % Capaian Tahun'],
-                    'kat_tahun'      => $originalMaster['Kategori Capaian Tahun'],
-                    'cap_norm'       => $originalMaster['Capaian Normalisasi'],
-                    'cap_norm_angka' => $originalMaster['Capaian normalisasi Angka'],
-                    'created_at'     => date('Y-m-d H:i:s')
-                ];
-                $db->table('pengajuan_perubahan_original')->insert($snapshot);
-            }
-
-            $db->transComplete();
-
-            if ($db->transStatus() === false) {
-                throw new \RuntimeException("Transaction failed");
-            }
-            
-            return redirect()->to('admin/pengajuan/submission')->with('message', 'Pengajuan Perubahan berhasil dikirim! Menunggu verifikasi.');
         } catch (\Throwable $e) {
             return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
@@ -546,33 +352,18 @@ class Pengajuan extends BaseController
         // Better approach: Sync only if role is valid (checked in _handle_upload)
         
         if (session()->get('role') === 'perencana') {
-            $db = \Config\Database::connect();
-            $request = $db->table('pengajuan_perubahan')->where('id', $id)->get()->getRowArray();
+            $request = $this->pengajuanModel->find($id);
             
             if ($request && $request['status'] == 'selesai') {
-                $this->_sync_to_master($request);
+                $this->pengajuanModel->syncToMaster($id);
             }
         }
 
         // If the upload was successful and status is 'selesai', we now fetch the original data
         // and display it for comparison.
         if (session()->get('role') === 'perencana' && $request && $request['status'] == 'selesai') {
-            $db = \Config\Database::connect();
-            
-            // Manual query to avoid CI4 escaping issues with "No. IKU"
-            $ikuRaw = str_replace('IKU ', '', $request['no_iku']);
-            $val1 = $db->escape($ikuRaw);
-            $val2 = $db->escape('IKU ' . $ikuRaw);
-
-            $original = $db->table('capaian_iku')
-                           ->where('Tahun', $request['tahun'])
-                           ->where('Bulan', $request['bulan'])
-                           ->where('Fungsi', $request['fungsi'])
-                           // Fix: Remove No. Indikator and use Target IS NOT NULL
-                           ->where("(`Target` IS NOT NULL AND `Target` != '-' AND `Target` != '')", null, false)
-                           ->where("(`No. IKU` = $val1 OR `No. IKU` = $val2)", null, false) 
-                           ->get()
-                           ->getRowArray();
+            // Fetch SNAPSHOT Data for consistent view
+            $original = $this->pengajuanModel->getSnapshot($id);
             
             $data = [
                 'activeMenu' => 'perubahan_data',
@@ -596,32 +387,8 @@ class Pengajuan extends BaseController
             return redirect()->to('admin/pengajuan');
         }
 
-        $file = $this->request->getFile($fieldInput);
-        
-        if ($file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
-            if (!is_dir(FCPATH . $targetDir)) {
-                mkdir(FCPATH . $targetDir, 0777, true);
-            }
-            $file->move(FCPATH . $targetDir, $newName);
-            
-            // Map timestamps based on field
-            $timeField = 'tgl_upload_nota'; // fallback
-            if($fieldInput == 'file_disposisi') $timeField = 'tgl_upload_disposisi';
-            if($fieldInput == 'file_surat_roren') $timeField = 'tgl_upload_roren';
-            if($fieldInput == 'file_sc_eperformance') $timeField = 'tgl_upload_eperformance';
-
-            $db = \Config\Database::connect();
-            $dataToUpdate = [
-                $fieldInput => $targetDir . '/' . $newName,
-                $timeField  => date('Y-m-d H:i:s'),
-                'status'    => $newStatus,
-                'updated_at'=> date('Y-m-d H:i:s')
-            ];
-
-            $db->table('pengajuan_perubahan')->where('id', $id)->update($dataToUpdate);
-            
-            return redirect()->to('admin/pengajuan/detail/' . $id)->with('message', $successMsg);
+        if ($this->pengajuanModel->handleUpload($id, $fieldInput, $targetDir, $newStatus)) {
+             return redirect()->to('admin/pengajuan/detail/' . $id)->with('message', $successMsg);
         }
 
         return redirect()->back()->with('error', 'Gagal mengupload file.');

@@ -98,35 +98,46 @@ class NkoEntryModel extends Model
     public function saveBatchData($data)
     {
         $db = \Config\Database::connect();
-        $builder = $db->table('nko');
+        $builder = $db->table($this->table);
+        
+        $db->transBegin();
 
         try {
-            // Hapus data lama (overwrite per bulan/tahun)
+            // Persiapkan data untuk batch insert
+            $newEntries = [];
             foreach ($data as $row) {
-                 // 1. Delete old data
-                 $builder->where('Tahun', $row['tahun'])
-                         ->where('Bulan', $row['bulan']);
-                 $builder->delete();
-                 
-                 // 2. Insert new data (Raw SQL to handle spaces in column names)
-                 $sql = "INSERT INTO nko (Tahun, Bulan, `Total Capaian`, `Total IKU`, NKO) VALUES (?, ?, ?, ?, ?)";
-                 $res = $db->query($sql, [
-                    $row['tahun'],
-                    $row['bulan'],
-                    $row['total_capaian'],
-                    $row['total_iku'],
-                    $row['nko']
-                 ]);
+                // DELETE old data based on unique key (Tahun + Bulan)
+                // Note: Deleting inside loop is still necessary if we want to clear specific months
+                $builder->where('Tahun', $row['tahun'])
+                        ->where('Bulan', $row['bulan'])
+                        ->delete();
 
-                 if (!$res) {
-                    $err = $db->error();
-                    throw new \Exception("Gagal insert: " . $err['message']);
-                }
+                // Prepare new entry
+                $newEntries[] = [
+                    'Tahun'         => $row['tahun'],
+                    'Bulan'         => $row['bulan'],
+                    'Total Capaian' => $row['total_capaian'],
+                    'Total IKU'     => $row['total_iku'],
+                    'NKO'           => $row['nko']
+                ];
             }
+
+            // Perform Batch Insert if we have data
+            if (!empty($newEntries)) {
+                $builder->insertBatch($newEntries);
+            }
+
+            if ($db->transStatus() === false) {
+                $db->transRollback();
+                return ['status' => 'error', 'message' => 'Transaction failed'];
+            }
+            
+            $db->transCommit();
+            return ['status' => 'success'];
+
         } catch (\Throwable $e) {
+            $db->transRollback();
             return ['status' => 'error', 'message' => $e->getMessage()];
         }
-        
-        return ['status' => 'success'];
     }
 }

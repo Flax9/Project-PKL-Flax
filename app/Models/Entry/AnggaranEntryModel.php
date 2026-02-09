@@ -17,15 +17,23 @@ class AnggaranEntryModel extends Model
     {
         try {
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file->getTempName());
-             // Coba ambil sheet 'Anggaran' atau active
+            // Coba ambil sheet 'Anggaran'
             $sheet = null;
+            $targetSheetName = 'Anggaran';
             foreach ($spreadsheet->getSheetNames() as $sheetName) {
-                if (strcasecmp($sheetName, 'Anggaran') === 0) {
+                if (strcasecmp($sheetName, $targetSheetName) === 0) {
                     $sheet = $spreadsheet->getSheetByName($sheetName);
                     break;
                 }
             }
-            if (!$sheet) $sheet = $spreadsheet->getActiveSheet();
+            
+            // STRICT VALIDATION: If sheet not found, return error
+            if (!$sheet) {
+                return [
+                    'status' => 'error', 
+                    'message' => "Sheet dengan nama '$targetSheetName' tidak ditemukan dalam file (Case-Insensitive)."
+                ];
+            }
 
             $highestRow = $sheet->getHighestRow();
             $headerRow = $sheet->rangeToArray('A1:Z1', null, true, false)[0];
@@ -94,46 +102,64 @@ class AnggaranEntryModel extends Model
     public function saveBatchData($data)
     {
         $db = \Config\Database::connect();
-        $builder = $db->table('anggaran');
+        $builder = $db->table($this->table);
+        
+        $db->transBegin();
         
         try {
-            foreach ($data as $row) {
-                // Delete Logic: Delete by No. RO + Month + Year to overwrite specific entries
-                // Assuming efficient enough for batch
-                $builder->where('Tahun', $row['tahun'])
-                        ->where('Bulan', $row['bulan'])
-                        ->where('`No. RO`', $row['no_ro'], false) // Manual backticks + disable escape
-                        ->delete();
-                
-                // Insert (Raw SQL)
-                $sql = "INSERT INTO anggaran 
-                        (`No. RO`, `RO`, `PROGRAM/KEGIATAN`, `PAGU`, `REALISASI`, `Capaian Realisasi`, `Target TW`, `CAPAIAN_TARGET_TW`, `Kategori TW`, `Bulan`, `Tahun`) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                
-                $res = $db->query($sql, [
-                    $row['no_ro'],
-                    $row['ro'],
-                    $row['program'],
-                    $row['pagu'],
-                    $row['realisasi'],
-                    $row['capaian_realisasi'],
-                    $row['target_tw'],
-                    $row['capaian_target_tw'],
-                    $row['kategori_tw'],
-                    $row['bulan'],
-                    $row['tahun']
-                ]);
+            $newEntries = [];
+            $processedKeys = [];
 
-                 if (!$res) {
-                    $err = $db->error();
-                    throw new \Exception("Gagal insert: " . $err['message']);
+            foreach ($data as $row) {
+                // Key: Tahun + Bulan + No. RO
+                $tahun = $row['tahun'];
+                $bulan = $row['bulan'];
+                $noRo  = $row['no_ro'];
+                
+                $uniqueKey = "{$tahun}_{$bulan}_{$noRo}";
+
+                // Delete Logic: Delete ONLY if not yet deleted in this batch
+                if (!isset($processedKeys[$uniqueKey])) {
+                    $builder->where('Tahun', $tahun)
+                            ->where('Bulan', $bulan)
+                            ->where('`No. RO`', $noRo, false) 
+                            ->delete();
+                    $processedKeys[$uniqueKey] = true;
                 }
+                
+                // Prepare for batch insert
+                $newEntries[] = [
+                    'No. RO'            => $row['no_ro'],
+                    'RO'                => $row['ro'],
+                    'PROGRAM/KEGIATAN'  => $row['program'],
+                    'PAGU'              => $row['pagu'],
+                    'REALISASI'         => $row['realisasi'],
+                    'Capaian Realisasi' => $row['capaian_realisasi'],
+                    'Target TW'         => $row['target_tw'],
+                    'CAPAIAN_TARGET_TW' => $row['capaian_target_tw'],
+                    'Kategori TW'       => $row['kategori_tw'],
+                    'Bulan'             => $row['bulan'],
+                    'Tahun'             => $row['tahun']
+                ];
             }
+
+            // Perform Batch Insert
+            if (!empty($newEntries)) {
+                $builder->insertBatch($newEntries);
+            }
+
+            if ($db->transStatus() === false) {
+                $db->transRollback();
+                return ['status' => 'error', 'message' => 'Transaction failed'];
+            }
+
+            $db->transCommit();
+            return ['status' => 'success'];
+
         } catch (\Throwable $e) {
+             $db->transRollback();
              return ['status' => 'error', 'message' => $e->getMessage()];
         }
-
-        return ['status' => 'success'];
     }
 
     public function getMasterAnggaran()

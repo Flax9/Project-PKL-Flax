@@ -1,0 +1,1657 @@
+﻿{
+    "anggaran": {
+        "columns": [
+            {
+                "Field": "No. RO",
+                "Type": "smallint(6)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "RO",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "PROGRAM\/KEGIATAN",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "PAGU",
+                "Type": "decimal(15,2)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "REALISASI",
+                "Type": "decimal(15,2)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Capaian Realisasi",
+                "Type": "decimal(5,2)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Target TW",
+                "Type": "decimal(15,2)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "CAPAIAN_TARGET_TW",
+                "Type": "decimal(15,2)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Kategori TW",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Bulan",
+                "Type": "varchar(20)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Tahun",
+                "Type": "smallint(6)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": []
+    },
+    "capaian_iku": {
+        "columns": [
+            {
+                "Field": "Fungsi",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "No. Indikator",
+                "Type": "tinyint(20)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "No. IKU",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Nama Indikator",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "No. Bulan",
+                "Type": "tinyint(20)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Bulan",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Target",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Realisasi",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Performa % Capaian Bulan",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Kategori Capaian Bulan",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Performa % Capaian Tahun",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Kategori Capaian Tahun",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Capaian Normalisasi",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Capaian normalisasi Angka",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Tahun",
+                "Type": "smallint(6)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": []
+    },
+    "capaian_output": {
+        "columns": [
+            {
+                "Field": "Rincian Output",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "No. RO",
+                "Type": "tinyint(20)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Keterangan RO",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Fungsi",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "No. Bulan",
+                "Type": "tinyint(20)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Bulan",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Target % Bulan",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Realisasi",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "% Realisasi",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Realisasi Kumulatif",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "salah % Realisasi Kumulatif",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Capaian",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Kategori",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Target tahun",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Kategori Belanja",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Realisasi Kumulatif %",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Tahun",
+                "Type": "smallint(20)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": []
+    },
+    "database_iku_2025": {
+        "columns": [
+            {
+                "Field": "No.IKU",
+                "Type": "smallint(6)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Nama Indikator",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Kertas Kerja iku",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Manual IKU",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Fungsi",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": []
+    },
+    "database_iku_2026": {
+        "columns": [
+            {
+                "Field": "No.IKU",
+                "Type": "smallint(6)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Nama Indikator",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Kertas Kerja iku",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Manual IKU",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Fungsi",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": []
+    },
+    "database_ro": {
+        "columns": [
+            {
+                "Field": "No. RO",
+                "Type": "smallint(6)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "RO",
+                "Type": "varchar(50)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Rincian Output",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Manual RO",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Kertas Kerja ro",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": []
+    },
+    "master_anggaran": {
+        "columns": [
+            {
+                "Field": "no_ro",
+                "Type": "int(11)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "ro",
+                "Type": "varchar(20)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "program_kegiatan",
+                "Type": "varchar(255)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": []
+    },
+    "master_database": {
+        "columns": [
+            {
+                "Field": "IKU",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "No.IKU",
+                "Type": "bigint(20)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Nama Indikator",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Kertas Kerja iku",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Manual IKU",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "RO",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "No. RO",
+                "Type": "double",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Rincian Output",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Manual RO",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Kertas Kerja ro",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": []
+    },
+    "migrations": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "bigint(20) unsigned",
+                "Collation": null,
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "version",
+                "Type": "varchar(255)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "class",
+                "Type": "varchar(255)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "group",
+                "Type": "varchar(255)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "namespace",
+                "Type": "varchar(255)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "time",
+                "Type": "int(11)",
+                "Collation": null,
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "batch",
+                "Type": "int(11) unsigned",
+                "Collation": null,
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": [
+            {
+                "Table": "migrations",
+                "Non_unique": "0",
+                "Key_name": "PRIMARY",
+                "Seq_in_index": "1",
+                "Column_name": "id",
+                "Collation": "A",
+                "Cardinality": "5",
+                "Sub_part": null,
+                "Packed": null,
+                "Null": "",
+                "Index_type": "BTREE",
+                "Comment": "",
+                "Index_comment": ""
+            }
+        ]
+    },
+    "nko": {
+        "columns": [
+            {
+                "Field": "Bulan",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Total Capaian",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Total IKU",
+                "Type": "smallint(20)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "NKO",
+                "Type": "decimal(10,0)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "Tahun",
+                "Type": "smallint(6)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": "2025",
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": []
+    },
+    "pengajuan_perubahan": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(11) unsigned",
+                "Collation": null,
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "user_id",
+                "Type": "int(11)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "tahun",
+                "Type": "year(4)",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "bulan",
+                "Type": "varchar(20)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "fungsi",
+                "Type": "varchar(100)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "no_iku",
+                "Type": "varchar(50)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "nama_indikator",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "no_indikator",
+                "Type": "varchar(50)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "no_bulan",
+                "Type": "varchar(10)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "target",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "realisasi",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "perf_bulan",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "kat_bulan",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "perf_tahun",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "kat_tahun",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "cap_norm",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "cap_norm_angka",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "jenis_revisi",
+                "Type": "varchar(100)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "file_nota_dinas",
+                "Type": "varchar(255)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "file_disposisi",
+                "Type": "varchar(255)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "file_surat_roren",
+                "Type": "varchar(255)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "file_sc_eperformance",
+                "Type": "varchar(255)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "tgl_upload_nota",
+                "Type": "datetime",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "tgl_upload_disposisi",
+                "Type": "datetime",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "tgl_upload_roren",
+                "Type": "datetime",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "tgl_upload_eperformance",
+                "Type": "datetime",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "status",
+                "Type": "enum('diajukan','disposisi','proses_roren','selesai','ditolak')",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": "diajukan",
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "keterangan",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "created_at",
+                "Type": "datetime",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "updated_at",
+                "Type": "datetime",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": [
+            {
+                "Table": "pengajuan_perubahan",
+                "Non_unique": "0",
+                "Key_name": "PRIMARY",
+                "Seq_in_index": "1",
+                "Column_name": "id",
+                "Collation": "A",
+                "Cardinality": "11",
+                "Sub_part": null,
+                "Packed": null,
+                "Null": "",
+                "Index_type": "BTREE",
+                "Comment": "",
+                "Index_comment": ""
+            }
+        ]
+    },
+    "pengajuan_perubahan_original": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(11) unsigned",
+                "Collation": null,
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "pengajuan_id",
+                "Type": "int(11) unsigned",
+                "Collation": null,
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": "Foreign key to pengajuan_perubahan.id"
+            },
+            {
+                "Field": "tahun",
+                "Type": "year(4)",
+                "Collation": null,
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "bulan",
+                "Type": "varchar(20)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "fungsi",
+                "Type": "varchar(100)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "no_iku",
+                "Type": "varchar(50)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "nama_indikator",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "no_indikator",
+                "Type": "varchar(50)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "no_bulan",
+                "Type": "varchar(10)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "target",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "realisasi",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "perf_bulan",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "kat_bulan",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "perf_tahun",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "kat_tahun",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "cap_norm",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "cap_norm_angka",
+                "Type": "text",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "created_at",
+                "Type": "datetime",
+                "Collation": null,
+                "Null": "YES",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": [
+            {
+                "Table": "pengajuan_perubahan_original",
+                "Non_unique": "0",
+                "Key_name": "PRIMARY",
+                "Seq_in_index": "1",
+                "Column_name": "id",
+                "Collation": "A",
+                "Cardinality": "6",
+                "Sub_part": null,
+                "Packed": null,
+                "Null": "",
+                "Index_type": "BTREE",
+                "Comment": "",
+                "Index_comment": ""
+            },
+            {
+                "Table": "pengajuan_perubahan_original",
+                "Non_unique": "1",
+                "Key_name": "pengajuan_id",
+                "Seq_in_index": "1",
+                "Column_name": "pengajuan_id",
+                "Collation": "A",
+                "Cardinality": "6",
+                "Sub_part": null,
+                "Packed": null,
+                "Null": "",
+                "Index_type": "BTREE",
+                "Comment": "",
+                "Index_comment": ""
+            }
+        ]
+    },
+    "users": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(11)",
+                "Collation": null,
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "username",
+                "Type": "varchar(50)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "UNI",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "password",
+                "Type": "varchar(255)",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "role",
+                "Type": "enum('user','perencana')",
+                "Collation": "utf8mb4_general_ci",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            },
+            {
+                "Field": "created_at",
+                "Type": "timestamp",
+                "Collation": null,
+                "Null": "NO",
+                "Key": "",
+                "Default": "current_timestamp()",
+                "Extra": "",
+                "Privileges": "select,insert,update,references",
+                "Comment": ""
+            }
+        ],
+        "keys": [
+            {
+                "Table": "users",
+                "Non_unique": "0",
+                "Key_name": "PRIMARY",
+                "Seq_in_index": "1",
+                "Column_name": "id",
+                "Collation": "A",
+                "Cardinality": "2",
+                "Sub_part": null,
+                "Packed": null,
+                "Null": "",
+                "Index_type": "BTREE",
+                "Comment": "",
+                "Index_comment": ""
+            },
+            {
+                "Table": "users",
+                "Non_unique": "0",
+                "Key_name": "username",
+                "Seq_in_index": "1",
+                "Column_name": "username",
+                "Collation": "A",
+                "Cardinality": "2",
+                "Sub_part": null,
+                "Packed": null,
+                "Null": "",
+                "Index_type": "BTREE",
+                "Comment": "",
+                "Index_comment": ""
+            }
+        ]
+    }
+}

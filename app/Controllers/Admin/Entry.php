@@ -109,10 +109,20 @@ class Entry extends BaseController
         $data = [
             'activeMenu'  => 'data_entry',
             'title'       => 'Input Realisasi Rutin',
-            'list_fungsi' => $this->ikuModel->getListFungsi(),
-            'list_iku'    => $this->ikuModel->getListIku(),
-            'list_nama_indikator' => $this->ikuModel->getListNamaIndikator()
+            'list_fungsi' => [],
+            'list_iku'    => [],
+            'list_nama_indikator' => []
         ];
+
+        try {
+            $data['list_fungsi'] = $this->ikuModel->getListFungsi();
+            $data['list_iku']    = $this->ikuModel->getListIku();
+            $data['list_nama_indikator'] = $this->ikuModel->getListNamaIndikator();
+        } catch (\Throwable $e) {
+            log_message('error', 'Entry::rutin data fetch error: ' . $e->getMessage());
+            // Optionally pass error to view to alert user
+            session()->setFlashdata('error', 'Gagal memuat data referensi: ' . $e->getMessage());
+        }
 
         return view('admin/entry/index', $data);
     }

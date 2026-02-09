@@ -119,4 +119,6 @@
     </div>
 </div>
 
-<script src="<?= base_url('assets/js/admin/entry_nko.js') ?>"></script>
+<?= $this->section('scripts') ?>
+    <script src="<?= base_url('assets/js/admin/entry_nko.js') ?>"></script>
+<?= $this->endSection() ?>

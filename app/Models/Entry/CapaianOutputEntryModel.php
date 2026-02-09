@@ -97,52 +97,68 @@ class CapaianOutputEntryModel extends Model
     public function saveBatchData($data)
     {
         $db = \Config\Database::connect();
-        
-        $sql = "INSERT INTO capaian_output 
-                (Tahun, Bulan, `No. Bulan`, `Rincian Output`, `No. RO`, `Keterangan RO`, Fungsi, `Target % Bulan`, Realisasi, `% Realisasi`, `Realisasi Kumulatif`, `salah % Realisasi Kumulatif`, Capaian, Kategori, `Target tahun`, `Kategori Belanja`, `Realisasi Kumulatif %`) 
-                VALUES 
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
+        $builder = $db->table($this->table);
         $db->transBegin();
         
         try {
+            $newEntries = [];
+            $processedKeys = []; // Track Deleted Keys to avoid deleting newly inserted rows in the same batch
+
             foreach ($data as $row) {
-                // FALLBACK: If 'rincian_output' is empty, use 'kode_ro' (some layouts swap them)
-                // or just keep explicit mapping from frontend
-                $ro_text = !empty($row['kode_ro']) ? $row['kode_ro'] : ($row['rincian_output'] ?? '');
+                // Determine Key for Deletion (Tahun + Bulan + No. RO)
+                $tahun = $row['tahun'] ?? date('Y');
+                $bulan = $row['bulan'] ?? '';
+                $noRo  = $row['no_ro'] ?? 0;
+                
+                $uniqueKey = "{$tahun}_{$bulan}_{$noRo}";
 
-                // Ensure 'rincian_output' (description) is prioritized from 'keterangan_ro' logic if available in mapping
-                $deskripsi = $row['rincian_output'] ?? ''; // This now holds 'Keterangan RO' from Excel import mapping
+                // Delete ONLY if not yet deleted in this batch
+                if (!isset($processedKeys[$uniqueKey])) {
+                    $builder->where('Tahun', $tahun)
+                            ->where('Bulan', $bulan)
+                            ->where('`No. RO`', $noRo, false)
+                            ->delete();
+                    $processedKeys[$uniqueKey] = true;
+                }
 
-                // Handling for 'keterangan_ro' field specifically if strictly needed by DB column
-                // In Excel mapping: 'keterangan_ro' -> 'keterangan ro'
-                $ket_ro = $row['keterangan_ro'] ?? '';
+                // Data Prep
+                $deskripsi = $row['rincian_output'] ?? ''; 
+                $ket_ro    = $row['keterangan_ro'] ?? '';
 
-                $db->query($sql, [
-                    $row['tahun'] ?? date('Y'),
-                    $row['bulan'] ?? '',
-                    $row['no_bulan'] ?? 0,
-                    $deskripsi, // Rincian Output column
-                    $row['no_ro'] ?? 0,
-                    $ket_ro, // Keterangan RO column
-                    $row['fungsi'] ?? '', // Handle missing fungsi
-                    $row['target_persen_bulan'] ?? 0,
-                    $row['realisasi'] ?? 0,
-                    $row['persen_realisasi'] ?? 0,
-                    $row['realisasi_kumulatif'] ?? 0,
-                    $row['salah_persen_realisasi_kumulatif'] ?? 0,
-                    $row['capaian'] ?? 0,
-                    $row['kategori'] ?? '',
-                    $row['target_tahun'] ?? 0,
-                    $row['kategori_belanja'] ?? '',
-                    $row['realisasi_kumulatif_persen'] ?? 0
-                ]);
+                $newEntries[] = [
+                    'Tahun'                         => $tahun,
+                    'Bulan'                         => $bulan,
+                    'No. Bulan'                     => $row['no_bulan'] ?? 0,
+                    'Rincian Output'                => $deskripsi,
+                    'No. RO'                        => $noRo,
+                    'Keterangan RO'                 => $ket_ro,
+                    'Fungsi'                        => $row['fungsi'] ?? '',
+                    'Target % Bulan'                => $row['target_persen_bulan'] ?? 0,
+                    'Realisasi'                     => $row['realisasi'] ?? 0,
+                    '% Realisasi'                   => $row['persen_realisasi'] ?? 0,
+                    'Realisasi Kumulatif'           => $row['realisasi_kumulatif'] ?? 0,
+                    'salah % Realisasi Kumulatif'   => $row['salah_persen_realisasi_kumulatif'] ?? 0,
+                    'Capaian'                       => $row['capaian'] ?? 0,
+                    'Kategori'                      => $row['kategori'] ?? '',
+                    'Target tahun'                  => $row['target_tahun'] ?? 0,
+                    'Kategori Belanja'              => $row['kategori_belanja'] ?? '',
+                    'Realisasi Kumulatif %'         => $row['realisasi_kumulatif_persen'] ?? 0
+                ];
             }
             
+            if (!empty($newEntries)) {
+                $builder->insertBatch($newEntries);
+            }
+            
+            if ($db->transStatus() === false) {
+                $db->transRollback();
+                return ['status' => 'error', 'message' => 'Transaction failed'];
+            }
+
             $db->transCommit();
             return ['status' => 'success'];
             
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $db->transRollback();
             return ['status' => 'error', 'message' => $e->getMessage()];
         }

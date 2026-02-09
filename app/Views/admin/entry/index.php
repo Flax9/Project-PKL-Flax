@@ -6,7 +6,7 @@
 
 <script>
     window.appConfig = {
-        baseUrl: '<?= base_url() ?>',
+        baseUrl: '<?= rtrim(base_url(), '/') . '/' ?>',
         csrfToken: '<?= csrf_token() ?>',
         csrfHash: '<?= csrf_hash() ?>'
     };

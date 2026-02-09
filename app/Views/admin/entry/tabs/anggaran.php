@@ -171,4 +171,6 @@
     </div>
 </div>
 
-<script src="<?= base_url('assets/js/admin/entry_anggaran.js') ?>"></script>
+<?= $this->section('scripts') ?>
+    <script src="<?= base_url('assets/js/admin/entry_anggaran.js') ?>"></script>
+<?= $this->endSection() ?>

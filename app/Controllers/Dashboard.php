@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\modelIKU;
+use App\Models\IkuModel;
 
 class Dashboard extends BaseController
 {
@@ -11,7 +11,7 @@ class Dashboard extends BaseController
 
     public function __construct()
     {
-        $this->ikuModel = new modelIKU();
+        $this->ikuModel = new IkuModel();
     }
 
     public function index()
