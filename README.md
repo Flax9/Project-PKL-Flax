@@ -47,3 +47,42 @@ extension=exif — Membaca metadata dari gambar (seperti data lokasi atau model 
 
 ***Start web CI4***
 1. Pada terminal vscode bisa ketikkan "php spark serve --port 8081", routes sudah disesuaikan
+
+***Tree Folder***
+.
+├── app
+│   ├── Config
+│   │   └── DataMapping.php  <-- Konfigurasi terpusat Nama Tabel & Header
+│   ├── Controllers
+│   │   ├── Admin
+│   │   │   ├── Entry.php
+│   │   │   └── Pengajuan.php
+│   │   ├── Anggaran.php
+│   │   ├── BaseController.php
+│   │   ├── CapaianOutput.php
+│   │   ├── Dashboard.php
+│   │   └── Home.php
+│   ├── Database
+│   │   └── Migrations       <-- Skema Database
+│   ├── Models
+│   │   ├── Entry            <-- Model Khusus Import Data
+│   │   │   ├── AnggaranEntryModel.php
+│   │   │   ├── CapaianOutputEntryModel.php
+│   │   │   ├── IkuEntryModel.php
+│   │   │   └── NkoEntryModel.php
+│   │   ├── AnggaranModel.php
+│   │   ├── CapaianOutputModel.php
+│   │   ├── IkuModel.php
+│   │   └── PengajuanModel.php
+│   └── Views
+│       ├── admin            <-- View Halaman Admin
+│       ├── anggaran
+│       ├── capaian_output
+│       ├── dashboard
+│       └── layout           <-- Template Utama
+├── public
+│   └── assets
+│       ├── css
+│       ├── img
+│       └── js
+└── .env                     <-- Konfigurasi Environment
