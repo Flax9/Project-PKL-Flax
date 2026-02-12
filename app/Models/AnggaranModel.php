@@ -6,7 +6,15 @@ use CodeIgniter\Model;
 
 class AnggaranModel extends Model
 {
-    protected $table = 'anggaran'; // Nama tabel sesuai phpMyAdmin
+    protected $config;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->config = config('DataMapping');
+        $this->table = $this->config->tables['anggaran'];
+    }
+
 
     /**
      * Fungsi pembantu untuk menerapkan filter ke Query Builder

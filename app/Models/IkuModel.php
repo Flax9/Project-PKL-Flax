@@ -4,7 +4,16 @@ use CodeIgniter\Model;
 
 // Nama class harus sama persis dengan nama file (Case Sensitive)
 class IkuModel extends Model {
-    protected $table = 'capaian_iku';
+    protected $config;
+    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->config = config('DataMapping');
+        $this->table = $this->config->tables['capaian_iku'];
+    }
+
+
     protected $primaryKey = 'id';
     protected $allowedFields = ['Fungsi', 'No. Indikator', 'No. IKU', 'Nama Indikator', 'No. Bulan', 'Bulan', 'Target', 'Realisasi', 'Tahun'];
 
@@ -54,7 +63,7 @@ class IkuModel extends Model {
      */
     public function getNkoAverage($filter = [])
     {
-        $builder = $this->db->table('nko');
+        $builder = $this->db->table($this->config->tables['nko']);
         $builder->select('ROUND(AVG(`NKO`), 2) as total_nko');
         
         if (!empty($filter['tahun'])) {

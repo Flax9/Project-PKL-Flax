@@ -6,7 +6,15 @@ use CodeIgniter\Model;
 
 class AnggaranEntryModel extends Model
 {
-    protected $table = 'anggaran';
+    protected $config;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->config = config('DataMapping');
+        $this->table = $this->config->tables['anggaran'];
+    }
+
     protected $allowedFields = [
         'No. RO', 'RO', 'PROGRAM/KEGIATAN', 'PAGU', 'REALISASI',
         'Capaian Realisasi', 'Target TW', 'CAPAIAN_TARGET_TW',
@@ -165,7 +173,7 @@ class AnggaranEntryModel extends Model
     public function getMasterAnggaran()
     {
         $db = \Config\Database::connect();
-        return $db->table('master_anggaran')
+        return $db->table($this->config->tables['master_anggaran'])
                   ->select('no_ro, ro, program_kegiatan')
                   ->orderBy('no_ro', 'ASC')
                   ->get()

@@ -6,7 +6,15 @@ use CodeIgniter\Model;
 
 class CapaianOutputModel extends Model
 {
-    protected $table = 'capaian_output';
+    protected $config;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->config = config('DataMapping');
+        $this->table = $this->config->tables['capaian_output'];
+    }
+
     protected $primaryKey = 'id';
 
     /**
@@ -43,7 +51,7 @@ class CapaianOutputModel extends Model
     {
         // Subquery for Indeks Capaian
         // Complex logic: Average of Max Capaian per RO
-        $subBuilder = $this->db->table('capaian_output')
+        $subBuilder = $this->db->table($this->config->tables['capaian_output'])
                            ->select('MAX(Capaian) as max_capaian', false)
                            ->where('Capaian >', 0)
                            ->groupBy('`No. RO`', false);

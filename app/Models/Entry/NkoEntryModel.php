@@ -6,7 +6,15 @@ use CodeIgniter\Model;
 
 class NkoEntryModel extends Model
 {
-    protected $table = 'nko';
+    protected $config;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->config = config('DataMapping');
+        $this->table = $this->config->tables['nko'];
+    }
+
     protected $allowedFields = ['Tahun', 'Bulan', 'Total Capaian', 'Total IKU', 'NKO'];
 
     public function importData($file)
@@ -41,8 +49,8 @@ class NkoEntryModel extends Model
                 $map[$key] = $idx;
             }
 
-            // Required columns (Tahun is now optional)
-            $required = ['bulan', 'total capaian', 'total iku', 'nko']; 
+            // Required columns (from Config)
+            $required = $this->config->headers['nko_required']; 
             $missing = [];
 
             foreach ($required as $req) {

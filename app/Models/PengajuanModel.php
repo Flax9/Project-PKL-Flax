@@ -6,7 +6,15 @@ use CodeIgniter\Model;
 
 class PengajuanModel extends Model
 {
-    protected $table            = 'pengajuan_perubahan';
+    protected $config;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->config = config('DataMapping');
+        $this->table = $this->config->tables['pengajuan_perubahan'];
+    }
+
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -70,7 +78,7 @@ class PengajuanModel extends Model
     public function findIkuCandidates($tahun, $bulan, $fungsi, $no_iku)
     {
         $db = \Config\Database::connect();
-        $table = 'capaian_iku';
+        $table = $this->config->tables['capaian_iku'];
         $rows = [];
 
         // 1. Try EXACT match first
@@ -123,7 +131,7 @@ class PengajuanModel extends Model
     public function checkValidity($params)
     {
         $db = \Config\Database::connect();
-        $builder = $db->table('capaian_iku');
+        $builder = $db->table($this->config->tables['capaian_iku']);
         
         // Helper map params to DB columns
         $map = [
@@ -172,7 +180,7 @@ class PengajuanModel extends Model
             $val1 = $db->escape($ikuRaw);
             $val2 = $db->escape('IKU ' . $ikuRaw);
             
-            $builder = $db->table('capaian_iku');
+            $builder = $db->table($this->config->tables['capaian_iku']);
             $builder->where('Tahun', $data['tahun'])
                     ->where('Bulan', $data['bulan'])
                     ->where('Fungsi', $data['fungsi'])
@@ -203,7 +211,7 @@ class PengajuanModel extends Model
                     'cap_norm_angka' => $originalMaster['Capaian normalisasi Angka'],
                     'created_at'     => date('Y-m-d H:i:s')
                 ];
-                $db->table('pengajuan_perubahan_original')->insert($snapshot);
+                $db->table($this->config->tables['pengajuan_log'])->insert($snapshot);
             }
 
             $db->transComplete();
@@ -259,7 +267,7 @@ class PengajuanModel extends Model
         if (!$request) return false;
 
         // 1. Fetch the SNAPSHOT to get the exact identity keys
-        $snapshot = $db->table('pengajuan_perubahan_original')
+        $snapshot = $db->table($this->config->tables['pengajuan_log'])
                        ->where('pengajuan_id', $requestId)
                        ->get()
                        ->getRowArray();
@@ -273,7 +281,7 @@ class PengajuanModel extends Model
         $ikuRaw = str_replace('IKU ', '', $snapshot['no_iku']);
         $ikuWithPrefix = 'IKU ' . $ikuRaw;
 
-        $builder = $db->table('capaian_iku');
+        $builder = $db->table($this->config->tables['capaian_iku']);
         
         // Set Values
         $builder->set('Target', $request['target'])
@@ -304,7 +312,7 @@ class PengajuanModel extends Model
     public function getSnapshot($id)
     {
         $db = \Config\Database::connect();
-        return $db->table('pengajuan_perubahan_original')
+        return $db->table($this->config->tables['pengajuan_log'])
                   ->where('pengajuan_id', $id)
                   ->get()
                   ->getRowArray();

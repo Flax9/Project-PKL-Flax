@@ -6,7 +6,15 @@ use CodeIgniter\Model;
 
 class IkuEntryModel extends Model
 {
-    protected $table = 'capaian_iku';
+    protected $config;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->config = config('DataMapping');
+        $this->table = $this->config->tables['capaian_iku'];
+    }
+
     protected $primaryKey = 'id';
     protected $allowedFields = [
         'Fungsi', 'No. Indikator', 'No. IKU', 'Nama Indikator', 'No. Bulan',
@@ -33,13 +41,8 @@ class IkuEntryModel extends Model
             $highestRow = $sheet->getHighestRow();
             $data = [];
 
-            // Expected header
-            $expectedHeaders = [
-                'Fungsi', 'No. Indikator', 'No. IKU', 'Nama Indikator', 'No. Bulan', 'Bulan',
-                'Target', 'Realisasi', 'Performa %Capaian Bulan', 'Kategori Capaian Bulan',
-                'Performa %Capaian Tahun', 'Kategori Capaian Tahun', 'Capaian Normalisasi',
-                'Capaian normalisasi Angka', 'Tahun'
-            ];
+            // Expected header from Config
+            $expectedHeaders = $this->config->headers['iku_import'];
 
             // Read header row (row 1)
             $headerRow = $sheet->rangeToArray('A1:O1', null, true, false)[0];
@@ -112,8 +115,9 @@ class IkuEntryModel extends Model
     {
         $db = \Config\Database::connect();
 
+        $table = $this->config->tables['capaian_iku'];
         $sql = "
-            INSERT INTO capaian_iku (
+            INSERT INTO $table (
                 `Fungsi`,
                 `No. Indikator`,
                 `No. IKU`,
@@ -214,7 +218,7 @@ class IkuEntryModel extends Model
     public function getIkuByTahun($tahun)
     {
         $db = \Config\Database::connect();
-        $table = 'database_iku_'.$tahun;
+        $table = $this->config->tables['iku_year_prefix'] . $tahun;
 
         try {
             // Try resilient query logic

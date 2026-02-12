@@ -6,7 +6,15 @@ use CodeIgniter\Model;
 
 class CapaianOutputEntryModel extends Model
 {
-    protected $table = 'capaian_output';
+    protected $config;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->config = config('DataMapping');
+        $this->table = $this->config->tables['capaian_output'];
+    }
+
     protected $allowedFields = [
         'Tahun', 'Bulan', 'No. Bulan', 'Rincian Output', 'No. RO', 
         'Keterangan RO', 'Fungsi', 'Target % Bulan', 'Realisasi', 
@@ -168,7 +176,7 @@ class CapaianOutputEntryModel extends Model
     {
         try {
             $db = \Config\Database::connect();
-            $data = $db->table('database_ro')
+            $data = $db->table($this->config->tables['database_ro'])
                        ->select('`No. RO`, RO, `Rincian Output`, `Kertas Kerja ro`, `Manual RO`', false)
                        ->orderBy('`No. RO`', 'ASC', false)
                        ->get()
