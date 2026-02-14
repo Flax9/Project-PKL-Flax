@@ -13,13 +13,8 @@ class AnggaranEntryModel extends Model
         parent::__construct();
         $this->config = config('DataMapping');
         $this->table = $this->config->tables['anggaran'];
+        $this->allowedFields = $this->config->allowedFields['anggaran'];
     }
-
-    protected $allowedFields = [
-        'No. RO', 'RO', 'PROGRAM/KEGIATAN', 'PAGU', 'REALISASI',
-        'Capaian Realisasi', 'Target TW', 'CAPAIAN_TARGET_TW',
-        'Kategori TW', 'Bulan', 'Tahun'
-    ];
 
     public function importData($file)
     {
@@ -54,9 +49,11 @@ class AnggaranEntryModel extends Model
                 $map[$key] = $idx;
             }
 
-            // Validasi Header Minimal
-            $requiredHeaders = $this->config->headers['anggaran_required'];
+            // Validasi Header Minimal (Updated for Associative Array)
+            $schema = $this->config->headers['anggaran_required'];
+            $requiredHeaders = array_keys($schema); // Get keys only
             $missing = [];
+            
             foreach ($requiredHeaders as $req) {
                 if (!isset($map[strtolower($req)])) {
                     $missing[] = $req;
@@ -66,7 +63,6 @@ class AnggaranEntryModel extends Model
             if (!empty($missing)) {
                 throw new \Exception('Format header tidak sesuai. Kolom berikut tidak ditemukan: ' . implode(', ', $missing));
             }
-
 
             // Required columns (Flexible mapping)
             $data = [];
@@ -82,35 +78,62 @@ class AnggaranEntryModel extends Model
                  $getVal = function($k) use ($map, $r) {
                      return isset($map[$k]) ? $r[$map[$k]] : null;
                  };
+
+                 // Helper Sanitizer based on Schema
+                 $sanitize = function($key, $val) use ($schema) {
+                     $type = $schema[$key] ?? 'string';
+                     if ($val === null) return $val;
+                     
+                     switch($type) {
+                         case 'decimal':
+                         case 'float':
+                             // Remove non-numeric chars except dot and minus
+                             // Handle "1.000,00" format if necessary (Indonesian format often uses comma as decimal)
+                             // For now assuming standard or raw numeric from Excel
+                             return (float) filter_var($val, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                         case 'integer':
+                         case 'int':
+                             return (int) filter_var($val, FILTER_SANITIZE_NUMBER_INT);
+                         case 'string':
+                         default:
+                             return trim(htmlspecialchars((string)$val));
+                     }
+                 };
                  
                  // 1. Tahun
                  $tahunVal = $getVal('tahun') ?? $currentYear;
                  
-                 // 2. Target TW (Might be "% Target TW")
-                 // Check map keys for partial matching if exact fail
+                 // 2. Target TW
                  $targetTwIdx = $map['% target tw'] ?? $map['target tw'] ?? null;
-                 $targetTw = ($targetTwIdx !== null) ? $r[$targetTwIdx] : 0;
-
-                 // 3. Capaian Target (Might be "CAPAIAN TERHADAP TARGET TW")
+                 $targetTwRaw = ($targetTwIdx !== null) ? $r[$targetTwIdx] : 0;
+                 $targetTw = $sanitize('% Target TW', $targetTwRaw);
+ 
+                 // 3. Capaian Target
                  $capTargetIdx = $map['capaian terhadap target tw'] ?? $map['capaian target tw'] ?? null;
-                 $capTarget = ($capTargetIdx !== null) ? $r[$capTargetIdx] : 0;
+                 $capTargetRaw = ($capTargetIdx !== null) ? $r[$capTargetIdx] : 0;
+                 $capTarget = $sanitize('CAPAIAN TERHADAP TARGET TW', $capTargetRaw);
                  
                  // 4. Capaian Realisasi
                  $capRealIdx = $map['capaian realisasi'] ?? null;
-                 $capReal = ($capRealIdx !== null) ? $r[$capRealIdx] : 0;
+                 $capRealRaw = ($capRealIdx !== null) ? $r[$capRealIdx] : 0;
+                 $capReal = $sanitize('Capaian Realisasi', $capRealRaw);
+ 
+                 // 5. Regular Fields
+                 $paguRaw = $getVal('pagu');
+                 $realisasiRaw = $getVal('realisasi');
 
                  $data[] = [
-                    'tahun'             => $tahunVal,
-                    'bulan'             => $getVal('bulan') ?? '',
-                    'no_ro'             => $getVal('no. ro') ?? 0,
-                    'ro'                => $getVal('ro') ?? '',
-                    'program'           => $getVal('program/kegiatan') ?? '',
-                    'pagu'              => $getVal('pagu') ?? 0,
-                    'realisasi'         => $getVal('realisasi') ?? 0,
+                    'tahun'             => (int)$tahunVal,
+                    'bulan'             => $sanitize('Bulan', $getVal('bulan')),
+                    'no_ro'             => $sanitize('No. RO', $getVal('no. ro')),
+                    'ro'                => $sanitize('RO', $getVal('ro')),
+                    'program'           => $sanitize('PROGRAM/KEGIATAN', $getVal('program/kegiatan')),
+                    'pagu'              => $sanitize('PAGU', $paguRaw),
+                    'realisasi'         => $sanitize('REALISASI', $realisasiRaw),
                     'capaian_realisasi' => $capReal,
                     'target_tw'         => $targetTw,
                     'capaian_target_tw' => $capTarget,
-                    'kategori_tw'       => $getVal('kategori tw') ?? ''
+                    'kategori_tw'       => $sanitize('Kategori TW', $getVal('kategori tw'))
                  ];
             }
 

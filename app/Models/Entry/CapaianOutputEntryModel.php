@@ -13,15 +13,8 @@ class CapaianOutputEntryModel extends Model
         parent::__construct();
         $this->config = config('DataMapping');
         $this->table = $this->config->tables['capaian_output'];
+        $this->allowedFields = $this->config->allowedFields['capaian_output'];
     }
-
-    protected $allowedFields = [
-        'Tahun', 'Bulan', 'No. Bulan', 'Rincian Output', 'No. RO', 
-        'Keterangan RO', 'Fungsi', 'Target % Bulan', 'Realisasi', 
-        '% Realisasi', 'Realisasi Kumulatif', 'salah % Realisasi Kumulatif', 
-        'Capaian', 'Kategori', 'Target tahun', 'Kategori Belanja', 
-        'Realisasi Kumulatif %'
-    ];
 
     public function importData($file)
     {
@@ -50,9 +43,11 @@ class CapaianOutputEntryModel extends Model
                 $map[$key] = $idx;
             }
 
-            // Validasi Header Minimal
-            $requiredHeaders = $this->config->headers['capaian_output_required'];
+            // Validasi Header Minimal (Updated for Associative Array)
+            $schema = $this->config->headers['capaian_output_required'];
+            $requiredHeaders = array_keys($schema);
             $missing = [];
+            
             foreach ($requiredHeaders as $req) {
                 // Check exact or with % symbol
                 $searchKey = strtolower($req);
@@ -80,29 +75,47 @@ class CapaianOutputEntryModel extends Model
                  $getVal = function($k) use ($map, $r) {
                      return isset($map[$k]) ? $r[$map[$k]] : null;
                  };
+
+                 // Helper Sanitizer based on Schema
+                 $sanitize = function($key, $val) use ($schema) {
+                     $type = $schema[$key] ?? 'string';
+                     if ($val === null) return $val;
+                     
+                     switch($type) {
+                         case 'decimal':
+                         case 'float':
+                             return (float) filter_var($val, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                         case 'integer':
+                         case 'int':
+                             return (int) filter_var($val, FILTER_SANITIZE_NUMBER_INT);
+                         case 'string':
+                         default:
+                             return trim(htmlspecialchars((string)$val));
+                     }
+                 };
                  
                  // Tahun
                  $tahunVal = $getVal('tahun') ?? $currentYear;
                  
                  $data[] = [
-                    'tahun'                        => $tahunVal,
-                    'bulan'                        => $getVal('bulan') ?? '',
-                    'no_bulan'                     => $getVal('no. bulan') ?? $getVal('no bulan') ?? 0,
-                    'rincian_output'               => $getVal('keterangan ro') ?? $getVal('nama ro') ?? $getVal('uraian') ?? '', // Updated: Prioritize 'Keterangan RO'
-                    'no_ro'                        => $getVal('no. ro') ?? $getVal('no.ro') ?? 0,
-                    'kode_ro'                      => $getVal('rincian output') ?? $getVal('ro') ?? $getVal('kode ro') ?? '', 
-                    'keterangan_ro'                => $getVal('keterangan ro') ?? '',
-                    'fungsi'                       => $getVal('fungsi') ?? '',
-                    'target_persen_bulan'          => $getVal('target % bulan') ?? $getVal('target persen bulan') ?? 0,
-                    'realisasi'                    => $getVal('realisasi') ?? 0,
-                    'persen_realisasi'             => $getVal('% realisasi') ?? $getVal('%realisasi') ?? $getVal('persen realisasi') ?? 0,
-                    'realisasi_kumulatif'          => $getVal('realisasi kumulatif') ?? 0,
-                    'salah_persen_realisasi_kumulatif'   => $getVal('salah % realisasi kumulatif') ?? $getVal('salah %realisasi kumulatif') ?? $getVal('% realisasi kumulatif') ?? $getVal('%realisasi kumulatif') ?? 0, // RESTORE SALAH VAR
-                    'capaian'                      => $getVal('capaian') ?? 0,
-                    'kategori'                     => $getVal('kategori') ?? '',
-                    'target_tahun'                 => $getVal('target tahun') ?? 0,
-                    'kategori_belanja'             => $getVal('kategori belanja') ?? '',
-                    'realisasi_kumulatif_persen'   => $getVal('realisasi kumulatif %') ?? $getVal('realisasi kumulatif persen') ?? 0
+                    'tahun'                        => (int)$tahunVal,
+                    'bulan'                        => $sanitize('Bulan', $getVal('bulan')),
+                    'no_bulan'                     => $sanitize('No. Bulan', $getVal('no. bulan') ?? $getVal('no bulan')),
+                    'rincian_output'               => $sanitize('Rincian Output', $getVal('keterangan ro') ?? $getVal('nama ro') ?? $getVal('uraian')),
+                    'no_ro'                        => $sanitize('No. RO', $getVal('no. ro') ?? $getVal('no.ro')),
+                    'kode_ro'                      => $getVal('rincian output') ?? $getVal('ro') ?? $getVal('kode ro') ?? '', // Not in schema, keep raw or add to schema
+                    'keterangan_ro'                => $sanitize('Keterangan RO', $getVal('keterangan ro')),
+                    'fungsi'                       => $sanitize('Fungsi', $getVal('fungsi')),
+                    'target_persen_bulan'          => $sanitize('Target %Bulan', $getVal('target % bulan') ?? $getVal('target persen bulan')),
+                    'realisasi'                    => $sanitize('Realisasi', $getVal('realisasi')),
+                    'persen_realisasi'             => $sanitize('%Realisasi', $getVal('% realisasi') ?? $getVal('%realisasi') ?? $getVal('persen realisasi')),
+                    'realisasi_kumulatif'          => $sanitize('Realisasi Kumulatif', $getVal('realisasi kumulatif')),
+                    'salah_persen_realisasi_kumulatif'   => $getVal('salah % realisasi kumulatif') ?? $getVal('salah %realisasi kumulatif') ?? $getVal('% realisasi kumulatif') ?? $getVal('%realisasi kumulatif') ?? 0,
+                    'capaian'                      => $sanitize('Capaian', $getVal('capaian')),
+                    'kategori'                     => $sanitize('Kategori', $getVal('kategori')),
+                    'target_tahun'                 => $getVal('target tahun') ?? 0, // Not in schema
+                    'kategori_belanja'             => $getVal('kategori belanja') ?? '', // Not in schema
+                    'realisasi_kumulatif_persen'   => $getVal('realisasi kumulatif %') ?? $getVal('realisasi kumulatif persen') ?? 0 // Not in schema
                  ];
             }
 

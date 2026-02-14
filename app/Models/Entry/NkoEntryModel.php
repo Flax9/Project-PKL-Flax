@@ -13,9 +13,8 @@ class NkoEntryModel extends Model
         parent::__construct();
         $this->config = config('DataMapping');
         $this->table = $this->config->tables['nko'];
+        $this->allowedFields = config('DataMapping')->allowedFields['nko'];
     }
-
-    protected $allowedFields = ['Tahun', 'Bulan', 'Total Capaian', 'Total IKU', 'NKO'];
 
     public function importData($file)
     {
@@ -44,56 +43,70 @@ class NkoEntryModel extends Model
             
             // Map header positions
             $map = [];
+            // Validasi Header (STRICT) - Updated for Dynamic Schema
+            $schema = $this->config->headers['nko_required'];
+            $expectedHeaders = array_keys($schema);
+            
+            // Map and Validate
+            $map = []; 
+            $missing = [];
+            
             foreach ($headerRow as $idx => $val) {
                 if (empty($val)) continue;
-                $key = trim(strtolower($val));
-                $map[$key] = $idx;
+                $key = trim($val);
+                $map[strtolower($key)] = $idx;
             }
 
-            // Required columns (from Config)
-            $required = $this->config->headers['nko_required']; 
-            $missing = [];
-
-            foreach ($required as $req) {
-                 if (!isset($map[$req])) {
-                     $found = false;
-                     foreach($map as $k => $i) {
-                         if ($k == $req) { $found = true; break; }
-                     }
-                     if (!$found) $missing[] = $req;
+            foreach ($expectedHeaders as $req) {
+                 if (!isset($map[strtolower($req)])) {
+                     $missing[] = $req;
                  }
             }
 
             if (!empty($missing)) {
-                 throw new \Exception('Kolom tidak ditemukan: ' . implode(', ', $missing) . '. Pastikan header minimal: Bulan;Total Capaian;Total IKU;NKO');
+                throw new \Exception("Header file tidak sesuai. Kolom hilang: " . implode(', ', $missing));
             }
 
-            $currentYear = date('Y');
-
+            // Data Processing
             $data = [];
-            for($row=2; $row<=$highestRow; $row++) {
-                // Read row by index
+            
+            for ($row = 2; $row <= $highestRow; $row++) {
                 $r = $sheet->rangeToArray("A{$row}:Z{$row}", null, true, false)[0];
                 
-                // Check if empty row
-                $allEmpty = true;
-                foreach($required as $req) {
-                    if(!empty($r[$map[$req]])) $allEmpty = false;
-                }
-                if($allEmpty) continue;
+                if (empty(array_filter($r))) continue;
 
-                // Tahun priority: 
-                // 1. Column 'tahun' if exists
-                // 2. Default to Current Year
-                $tahunVal = isset($map['tahun']) ? ($r[$map['tahun']] ?? $currentYear) : $currentYear;
-                if(empty($tahunVal)) $tahunVal = $currentYear;
+                // Helper Sanitizer based on Schema
+                $getVal = function($k) use ($map, $r) {
+                     // Normalize key to lower to match map keys
+                     $normalizedKey = strtolower($k);
+                     return isset($map[$normalizedKey]) ? $r[$map[$normalizedKey]] : null;
+                };
+
+                $sanitize = function($key, $val) use ($schema) {
+                     $type = $schema[$key] ?? 'string';
+                     if ($val === null) return $val;
+                     
+                     switch($type) {
+                         case 'decimal':
+                             return (float) filter_var($val, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                         case 'integer':
+                             return (int) filter_var($val, FILTER_SANITIZE_NUMBER_INT);
+                         case 'string':
+                         default:
+                             return trim(htmlspecialchars((string)$val));
+                     }
+                };
+                
+                // Get Tahun (Priority: Excel > Current Year)
+                $tahunStr = $getVal('tahun');
+                $tahunVal = !empty($tahunStr) ? $sanitize('tahun', $tahunStr) : date('Y');
 
                 $data[] = [
-                    'bulan'         => $r[$map['bulan']] ?? '',
-                    'total_capaian' => $r[$map['total capaian']] ?? 0,
-                    'total_iku'     => $r[$map['total iku']] ?? 0,
-                    'nko'           => $r[$map['nko']] ?? 0,
-                    'tahun'         => $tahunVal
+                    'tahun'         => $tahunVal,
+                    'bulan'         => $sanitize('bulan', $getVal('bulan')),
+                    'total_capaian' => $sanitize('total capaian', $getVal('total capaian')),
+                    'total_iku'     => $sanitize('total iku', $getVal('total iku')),
+                    'nko'           => $sanitize('nko', $getVal('nko'))
                 ];
             }
 

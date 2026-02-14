@@ -13,16 +13,10 @@ class IkuEntryModel extends Model
         parent::__construct();
         $this->config = config('DataMapping');
         $this->table = $this->config->tables['capaian_iku'];
+        $this->allowedFields = $this->config->allowedFields['iku'];
     }
 
     protected $primaryKey = 'id';
-    protected $allowedFields = [
-        'Fungsi', 'No. Indikator', 'No. IKU', 'Nama Indikator', 'No. Bulan',
-        'Bulan', 'Target', 'Realisasi', 'Performa % Capaian Bulan',
-        'Kategori Capaian Bulan', 'Performa % Capaian Tahun',
-        'Kategori Capaian Tahun', 'Capaian Normalisasi',
-        'Capaian normalisasi Angka', 'Tahun'
-    ];
 
     public function importData($file)
     {
@@ -42,59 +36,83 @@ class IkuEntryModel extends Model
             $highestRow = $sheet->getHighestRow();
             $data = [];
 
-            // Expected header from Config
-            $expectedHeaders = $this->config->headers['iku_import'];
-
             // Read header row (row 1)
-            $headerRow = $sheet->rangeToArray('A1:O1', null, true, false)[0];
+            $headerRow = $sheet->rangeToArray('A1:Z1', null, true, false)[0]; // Read up to Z for flexibility
+
+            // Validasi Header (STRICT) - Updated for Dynamic Schema
+            $schema = $this->config->headers['iku_import'];
+            $expectedHeaders = array_keys($schema);
             
-            // Normalize headers for comparison (trim and lowercase)
-            $normalizedHeaderRow = array_map(function($h) {
-                return trim(strtolower($h ?? ''));
-            }, $headerRow);
-            
-            $normalizedExpected = array_map(function($h) {
-                return trim(strtolower($h));
-            }, $expectedHeaders);
-            
-            // Validate headers
-            if ($normalizedHeaderRow !== $normalizedExpected) {
-                 throw new \Exception('Format header tidak sesuai. Expected: ' . implode(', ', $expectedHeaders) . '. Got: ' . implode(', ', $headerRow));
+            // Check count match first
+            if (count(array_filter($headerRow)) < count($expectedHeaders)) { // Use array_filter to count non-empty headers
+                // throw new \Exception... (Optional: bisa diskip jika ingin fleksibel)
             }
 
-            // Map bulan name to number
-            $mapBulan = [
-                'Januari' => 1, 'Februari' => 2, 'Maret' => 3, 'April' => 4,
-                'Mei' => 5, 'Juni' => 6, 'Juli' => 7, 'Agustus' => 8,
-                'September' => 9, 'Oktober' => 10, 'November' => 11, 'Desember' => 12
-            ];
+            // Map and Validate
+            $map = []; 
+            $missing = [];
+            
+            foreach ($headerRow as $idx => $val) {
+                if (empty($val)) continue;
+                $key = trim($val); // Case sensitive for strict check? Or standardize?
+                // Let's rely on standard search
+                $map[strtolower($key)] = $idx;
+            }
 
-            // Read data rows (starting from row 2)
+            foreach ($expectedHeaders as $req) {
+                 if (!isset($map[strtolower($req)])) {
+                     $missing[] = $req;
+                 }
+            }
+
+            if (!empty($missing)) {
+                throw new \Exception("Header file tidak sesuai. Kolom hilang: " . implode(', ', $missing));
+            }
+
+            // Data Processing
+            $data = [];
+            
             for ($row = 2; $row <= $highestRow; $row++) {
-                $rowData = $sheet->rangeToArray("A{$row}:O{$row}", null, true, false)[0];
+                $r = $sheet->rangeToArray("A{$row}:Z{$row}", null, true, false)[0];
+                
+                if (empty(array_filter($r))) continue;
 
-                // Skip empty rows
-                if (empty(array_filter($rowData))) {
-                    continue;
-                }
+                // Helper Sanitizer based on Schema
+                $getVal = function($k) use ($map, $r) {
+                     return isset($map[strtolower($k)]) ? $r[$map[strtolower($k)]] : null;
+                };
 
-                // Map to queueData structure
+                $sanitize = function($key, $val) use ($schema) {
+                     $type = $schema[$key] ?? 'string';
+                     if ($val === null) return $val;
+                     
+                     switch($type) {
+                         case 'decimal':
+                             return (float) filter_var($val, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                         case 'integer':
+                             return (int) filter_var($val, FILTER_SANITIZE_NUMBER_INT);
+                         case 'string':
+                         default:
+                             return trim(htmlspecialchars((string)$val));
+                     }
+                };
+
                 $data[] = [
-                    'fungsi'                        => $rowData[0] ?? '',
-                    'no_indikator'                  => $rowData[1] ?? '',
-                    'no_iku'                        => $rowData[2] ?? '',
-                    'nama_indikator'                => $rowData[3] ?? '',
-                    'no_bulan'                      => $rowData[4] ?? ($mapBulan[$rowData[5]] ?? 0),
-                    'bulan'                         => $rowData[5] ?? '',
-                    'target'                        => $rowData[6] ?? 0,
-                    'realisasi'                     => $rowData[7] ?? 0,
-                    'perf_bulan'                    => $rowData[8] ?? 0,
-                    'kat_bulan'                     => $rowData[9] ?? '',
-                    'perf_tahun'                    => $rowData[10] ?? 0,
-                    'kat_tahun'                     => $rowData[11] ?? '',
-                    'capaian_normalisasi_persen'    => $rowData[12] ?? 0,
-                    'capaian_normalisasi_angka'     => $rowData[13] ?? 0,
-                    'tahun'                         => $rowData[14] ?? ''
+                    'fungsi'                    => $sanitize('Fungsi', $getVal('Fungsi')),
+                    'no_indikator'              => $sanitize('No. Indikator', $getVal('No. Indikator')),
+                    'no_iku'                    => $sanitize('No. IKU', $getVal('No. IKU')),
+                    'nama_indikator'            => $sanitize('Nama Indikator', $getVal('Nama Indikator')),
+                    'no_bulan'                  => $sanitize('No. Bulan', $getVal('No. Bulan')),
+                    'bulan'                     => $sanitize('Bulan', $getVal('Bulan')),
+                    'target'                    => $sanitize('Target', $getVal('Target')),
+                    'realisasi'                 => $sanitize('Realisasi', $getVal('Realisasi')),
+                    'perf_bulan'                => $sanitize('Performa %Capaian Bulan', $getVal('Performa %Capaian Bulan')),
+                    'kat_bulan'                 => $sanitize('Kategori Capaian Bulan', $getVal('Kategori Capaian Bulan')),
+                    'perf_tahun'                => $sanitize('Performa %Capaian Tahun', $getVal('Performa %Capaian Tahun')),
+                    'kat_tahun'                 => $sanitize('Kategori Capaian Tahun', $getVal('Kategori Capaian Tahun')),
+                    'capaian_normalisasi_persen'=> $sanitize('Capaian Normalisasi', $getVal('Capaian Normalisasi')),
+                    'capaian_normalisasi_angka' => $sanitize('Capaian normalisasi Angka', $getVal('Capaian normalisasi Angka')),
+                    'tahun'                     => $sanitize('Tahun', $getVal('Tahun'))
                 ];
             }
 

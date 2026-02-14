@@ -2,6 +2,7 @@
  * NKO Entry Tab JS
  */
 $(document).ready(function () {
+    console.log("Entry NKO JS v2 Loaded"); // Debug check
     let nkoQueue = JSON.parse(localStorage.getItem('nkoQueue_v1')) || [];
     renderNkoTable();
 
@@ -85,9 +86,9 @@ $(document).ready(function () {
                     alert('Gagal: ' + resp.message);
                 }
             },
-            error: function (xhr) {
-                alert('Error upload file.');
-                console.error(xhr);
+            error: function (xhr, status, error) {
+                console.error("Upload Error Details:", xhr.responseText);
+                alert('Error upload file: ' + (xhr.statusText || error) + "\nCek Console untuk detail.");
             },
             complete: function () {
                 $btn.prop('disabled', false).html(originalText);
