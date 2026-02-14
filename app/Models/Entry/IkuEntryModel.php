@@ -30,14 +30,15 @@ class IkuEntryModel extends Model
             // Load PhpSpreadsheet
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file->getTempName());
 
-            // Validasi: Hanya terima sheet bernama "Capaian IKU"
+            // Validasi: Ambil sheet dari Config
             $sheetNames = $spreadsheet->getSheetNames();
+            $targetSheet = $this->config->sheets['iku'];
             
-            if (!in_array('Capaian IKU', $sheetNames)) {
-                throw new \Exception('Sheet "Capaian IKU" tidak ditemukan. Sheet yang tersedia: ' . implode(', ', $sheetNames));
+            if (!in_array($targetSheet, $sheetNames)) {
+                throw new \Exception("Sheet \"$targetSheet\" tidak ditemukan. Sheet yang tersedia: " . implode(', ', $sheetNames));
             }
 
-            $sheet = $spreadsheet->getSheetByName('Capaian IKU');
+            $sheet = $spreadsheet->getSheetByName($targetSheet);
             $highestRow = $sheet->getHighestRow();
             $data = [];
 

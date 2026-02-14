@@ -24,14 +24,24 @@ class DataMapping extends BaseConfig
     ];
 
     /**
+     * Mapping Nama Sheet Excel untuk Import.
+     */
+    public $sheets = [
+        'anggaran'       => 'Anggaran',
+        'iku'            => 'Capaian IKU',
+        'capaian_output' => 'Capaian Output',
+        'nko'            => 'NKO',
+    ];
+
+    /**
      * Definisi Header untuk validasi Import Excel.
      */
     public $headers = [
         // Header ketat untuk IkuEntryModel
         'iku_import' => [
             'Fungsi', 'No. Indikator', 'No. IKU', 'Nama Indikator', 'No. Bulan',
-            'Bulan', 'Target', 'Realisasi', 'Performa % Capaian Bulan',
-            'Kategori Capaian Bulan', 'Performa % Capaian Tahun',
+            'Bulan', 'Target', 'Realisasi', 'Performa %Capaian Bulan',
+            'Kategori Capaian Bulan', 'Performa %Capaian Tahun',
             'Kategori Capaian Tahun', 'Capaian Normalisasi',
             'Capaian normalisasi Angka', 'Tahun'
         ],
@@ -39,6 +49,20 @@ class DataMapping extends BaseConfig
         // Header minimal untuk NkoEntryModel check
         'nko_required' => [
             'bulan', 'total capaian', 'total iku', 'nko'
+        ],
+
+        // Header untuk AnggaranEntryModel
+        'anggaran_required' => [
+            'No. RO', 'RO', 'PROGRAM/KEGIATAN', 'PAGU', 'REALISASI',
+            'Capaian Realisasi', '% Target TW', 'CAPAIAN TERHADAP TARGET TW', 
+            'Kategori TW', 'Bulan'
+        ],
+
+        // Header untuk CapaianOutputEntryModel
+        'capaian_output_required' => [
+            'Tahun', 'Bulan', 'No. Bulan', 'Rincian Output', 'No. RO', 
+            'Keterangan RO', 'Fungsi', 'Target %Bulan', 'Realisasi', 
+            '%Realisasi', 'Realisasi Kumulatif', 'Capaian', 'Kategori'
         ]
     ];
 }

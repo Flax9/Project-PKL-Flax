@@ -22,10 +22,11 @@ class NkoEntryModel extends Model
         try {
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file->getTempName());
             
-            // Coba ambil sheet bernama 'NKO' (case-insensitive)
+            // Ambil sheet dari Config
             $sheet = null;
+            $targetSheetName = $this->config->sheets['nko'];
             foreach ($spreadsheet->getSheetNames() as $sheetName) {
-                if (strcasecmp($sheetName, 'NKO') === 0) {
+                if (strcasecmp($sheetName, $targetSheetName) === 0) {
                     $sheet = $spreadsheet->getSheetByName($sheetName);
                     break;
                 }

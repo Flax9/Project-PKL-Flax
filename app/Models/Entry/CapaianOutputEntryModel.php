@@ -28,10 +28,11 @@ class CapaianOutputEntryModel extends Model
         try {
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file->getTempName());
             
-            // Look for sheet named "Capaian Output"
+            // Ambil sheet dari Config
             $sheet = null;
+            $targetSheetName = $this->config->sheets['capaian_output'];
             foreach ($spreadsheet->getAllSheets() as $s) {
-                if (strtolower(trim($s->getTitle())) === 'capaian output') {
+                if (strcasecmp(trim($s->getTitle()), $targetSheetName) === 0) {
                     $sheet = $s;
                     break;
                 }
@@ -48,8 +49,22 @@ class CapaianOutputEntryModel extends Model
                 $key = trim(strtolower($val));
                 $map[$key] = $idx;
             }
-            // Debug Header Map
-            log_message('error', 'Import Excel Headers: ' . json_encode(array_keys($map)));
+
+            // Validasi Header Minimal
+            $requiredHeaders = $this->config->headers['capaian_output_required'];
+            $missing = [];
+            foreach ($requiredHeaders as $req) {
+                // Check exact or with % symbol
+                $searchKey = strtolower($req);
+                if (!isset($map[$searchKey])) {
+                    $missing[] = $req;
+                }
+            }
+
+            if (!empty($missing)) {
+                throw new \Exception('Format header tidak sesuai. Kolom berikut tidak ditemukan: ' . implode(', ', $missing));
+            }
+
 
             // Required columns (Flexible mapping)
             $data = [];

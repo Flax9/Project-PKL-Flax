@@ -25,9 +25,9 @@ class AnggaranEntryModel extends Model
     {
         try {
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file->getTempName());
-            // Coba ambil sheet 'Anggaran'
+            // Ambil sheet dari Config
             $sheet = null;
-            $targetSheetName = 'Anggaran';
+            $targetSheetName = $this->config->sheets['anggaran'];
             foreach ($spreadsheet->getSheetNames() as $sheetName) {
                 if (strcasecmp($sheetName, $targetSheetName) === 0) {
                     $sheet = $spreadsheet->getSheetByName($sheetName);
@@ -53,6 +53,20 @@ class AnggaranEntryModel extends Model
                 $key = trim(strtolower($val));
                 $map[$key] = $idx;
             }
+
+            // Validasi Header Minimal
+            $requiredHeaders = $this->config->headers['anggaran_required'];
+            $missing = [];
+            foreach ($requiredHeaders as $req) {
+                if (!isset($map[strtolower($req)])) {
+                    $missing[] = $req;
+                }
+            }
+
+            if (!empty($missing)) {
+                throw new \Exception('Format header tidak sesuai. Kolom berikut tidak ditemukan: ' . implode(', ', $missing));
+            }
+
 
             // Required columns (Flexible mapping)
             $data = [];
