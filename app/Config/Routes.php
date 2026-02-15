@@ -118,6 +118,12 @@ $routes->group('admin', function($routes) {
     // Profile Route
     $routes->get('profile', 'Admin\Entry::profile');
 
+    // Telegram Test Route
+    $routes->get('testtelegram', 'Admin\TestTelegram::index');
+
+    // Telegram Webhook Route (Public)
+    $routes->post('telegram/webhook', 'TelegramWebhook::index');
+
     // fallback route untuk method lain di Entry
     $routes->get('entry/(:any)', 'Admin\Entry::$1');
 });

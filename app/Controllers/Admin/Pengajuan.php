@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\PengajuanModel;
 use App\Models\IkuModel;
+use App\Libraries\TelegramService;
 
 class Pengajuan extends BaseController
 {
@@ -318,6 +319,20 @@ class Pengajuan extends BaseController
         // Using Model to create submission (Transaction & Snapshot handled in Model)
         try {
             if ($this->pengajuanModel->createSubmission($data)) {
+                // --- NOTIFIKASI TELEGRAM ---
+                $telegram = new TelegramService();
+                $adminId = env('TELEGRAM_ADMIN_CHAT_ID');
+                if ($adminId) {
+                    $msg = "🔔 <b>Pengajuan Baru!</b>\n\n";
+                    $msg .= "ID: #{$db->insertID()}\n";
+                    $msg .= "IKU: {$data['no_iku']} - {$data['nama_indikator']}\n";
+                    $msg .= "Fungsi: {$data['fungsi']}\n";
+                    $msg .= "Oleh: " . (session()->get('username') ?? 'User');
+                    
+                    $telegram->sendMessage($adminId, $msg);
+                }
+                // ---------------------------
+
                 return redirect()->to('admin/pengajuan/submission')->with('message', 'Pengajuan Perubahan berhasil dikirim! Menunggu verifikasi.');
             } else {
                 throw new \Exception("Gagal menyimpan transaksi.");
