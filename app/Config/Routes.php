@@ -117,6 +117,12 @@ $routes->group('admin', function($routes) {
 
     // Profile Route
     $routes->get('profile', 'Admin\Entry::profile');
+    $routes->post('entry/upload-photo', 'Admin\Entry::upload_photo');
+    $routes->post('entry/update-profile', 'Admin\Entry::update_profile');
+    
+    // Email Verification Routes
+    $routes->post('entry/request-verification', 'Admin\Entry::request_verification');
+    $routes->post('entry/verify-otp', 'Admin\Entry::verify_otp');
 
     // Telegram Test Route
     $routes->get('testtelegram', 'Admin\TestTelegram::index');

@@ -4,7 +4,7 @@
 <!-- SHARED HEADER -->
 <?= $this->include('admin/pengajuan/partials/header') ?>
 
-<div class="flex-1 overflow-y-auto p-8 bg-slate-950 flex flex-col items-center justify-center">
+<div class="flex-1 overflow-y-auto p-8 flex flex-col items-center justify-center">
     
     <div class="grid md:grid-cols-2 gap-8 max-w-5xl w-full mt-8">
         

@@ -1,7 +1,7 @@
 <?= $this->extend('layout/main') ?>
 
 <?= $this->section('content') ?>
-<div class="flex-1 flex flex-col overflow-hidden bg-slate-950">
+<div class="flex-1 flex flex-col overflow-hidden relative">
     
     <?= $this->include('dashboard/partials/header') ?>
 

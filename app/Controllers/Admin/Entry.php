@@ -57,6 +57,7 @@ class Entry extends BaseController
             session()->set([
                 'isLoggedIn' => true,
                 'username'   => $user->username,
+                'name'       => $user->name, // Store name in session
                 'role'       => $user->role
             ]);
             session()->setFlashdata('access_granted', true);
@@ -133,13 +134,20 @@ class Entry extends BaseController
             return redirect()->to('admin/entry/verify');
         }
 
+        // Fetch fresh user data from DB to ensure updates (photo, name, email) are visible
+        $db = \Config\Database::connect();
+        $username = session()->get('username');
+        $user = $db->table('users')->where('username', $username)->get()->getRowArray();
+
+        // Inject 'name' into session if it's missing (Auto-fix for sidebar)
+        if (!session()->has('name') && !empty($user['name'])) {
+            session()->set('name', $user['name']);
+        }
+
         $data = [
             'activeMenu' => 'profile',
             'title'      => 'Profil Pengguna',
-            'user'       => [
-                'username' => session()->get('username'),
-                'role'     => session()->get('role')
-            ]
+            'user'       => $user
         ];
 
         return view('admin/profile', $data);
@@ -276,5 +284,144 @@ class Entry extends BaseController
 
         $result = $this->capaianModel->saveBatchData($data);
         return $this->response->setJSON($result);
+    }
+
+    // --- 3. PROFILE OPERATIONS ---
+
+    public function upload_photo()
+    {
+        if (!$this->request->isAJAX()) return $this->response->setStatusCode(404);
+
+        $validationRule = [
+            'photo' => [
+                'label' => 'Image File',
+                'rules' => [
+                    'uploaded[photo]',
+                    'is_image[photo]',
+                    'mime_in[photo,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
+                    'max_size[photo,2048]',
+                ],
+            ],
+        ];
+
+        if (! $this->validate($validationRule)) {
+            return $this->response->setJSON([
+                'status' => 'error', 
+                'message' => $this->validator->getErrors()['photo'] ?? 'Invalid file'
+            ]);
+        }
+
+        $img = $this->request->getFile('photo');
+
+        if (! $img->hasMoved()) {
+            $username = session()->get('username');
+            $newName = $username . '_' . time() . '.' . $img->getExtension();
+            
+            // Ensure directory exists
+            if (!is_dir(FCPATH . 'uploads/profile')) {
+                mkdir(FCPATH . 'uploads/profile', 0777, true);
+            }
+
+            $img->move(FCPATH . 'uploads/profile', $newName);
+
+            // Update DB
+            $db = \Config\Database::connect();
+            $db->table('users')->where('username', $username)->update(['photo' => $newName]);
+
+            return $this->response->setJSON([
+                'status' => 'success',
+                'photo' => base_url('uploads/profile/' . $newName)
+            ]);
+        }
+
+        return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal memindahkan file']);
+    }
+
+    public function update_profile()
+    {
+        $db = \Config\Database::connect();
+        $username = session()->get('username');
+        
+        $name = $this->request->getPost('name');
+        // Email update is now handled via OTP verification
+        $password = $this->request->getPost('password');
+
+        $data = [
+            'name' => $name,
+        ];
+
+        if (!empty($password)) {
+            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+
+        $db->table('users')->where('username', $username)->update($data);
+
+        // Update session so sidebar reflects changes immediately
+        session()->set('name', $name);
+
+        session()->setFlashdata('success', 'Profil berhasil diperbarui!');
+        return redirect()->to('admin/profile');
+    }
+
+    // --- EMAIL VERIFICATION (OTP) ---
+
+    public function request_verification()
+    {
+        if (!$this->request->isAJAX()) return $this->response->setStatusCode(404);
+
+        $newEmail = $this->request->getPost('email');
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Format email tidak valid']);
+        }
+
+        // Check if email already used by another user
+        $db = \Config\Database::connect();
+        $exists = $db->table('users')->where('email', $newEmail)->countAllResults();
+        if ($exists > 0) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Email sudah digunakan oleh pengguna lain']);
+        }
+
+        // Generate OTP
+        $otp = rand(100000, 999999);
+        $username = session()->get('username');
+
+        // Save to DB
+        $db->table('users')->where('username', $username)->update([
+            'temp_email' => $newEmail,
+            'email_otp'  => $otp,
+            'otp_created_at' => date('Y-m-d H:i:s')
+        ]);
+
+        // SIMULATION MODE: Return OTP in response because SMTP is not configured
+        return $this->response->setJSON([
+            'status'  => 'success',
+            'message' => 'Kode OTP dikirim (Mode Simulasi)',
+            'debug_otp' => $otp // Exposed for testing
+        ]);
+    }
+
+    public function verify_otp()
+    {
+        if (!$this->request->isAJAX()) return $this->response->setStatusCode(404);
+
+        $otp = $this->request->getPost('otp');
+        $username = session()->get('username');
+        $db = \Config\Database::connect();
+        
+        $user = $db->table('users')->where('username', $username)->get()->getRowArray();
+
+        if (!$user || $user['email_otp'] !== $otp) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Kode OTP salah']);
+        }
+
+        // Update Email & Clear OTP
+        $db->table('users')->where('username', $username)->update([
+            'email'      => $user['temp_email'],
+            'temp_email' => null,
+            'email_otp'  => null,
+            'otp_created_at' => null
+        ]);
+
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Email berhasil diperbarui!']);
     }
 }

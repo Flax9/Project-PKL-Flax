@@ -92,7 +92,7 @@ class CreatePengajuanPerubahanOriginalTable extends Migration
 
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('pengajuan_id', 'pengajuan_perubahan', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('pengajuan_perubahan_original');
+        $this->forge->createTable('pengajuan_perubahan_original', true);
     }
 
     public function down()

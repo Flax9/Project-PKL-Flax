@@ -60,7 +60,7 @@
             </div>
             <div class="overflow-hidden text-left flex-1">
                 <?php if (session()->get('isLoggedIn')): ?>
-                    <p class="text-xs text-white font-medium truncate group-hover:text-teal-400 transition-colors"><?= esc(session()->get('username')) ?></p>
+                    <p class="text-xs text-white font-medium truncate group-hover:text-teal-400 transition-colors"><?= esc(session()->get('name') ?? session()->get('username')) ?></p>
                     <p class="text-[9px] text-slate-500 uppercase tracking-widest"><?= esc(session()->get('role')) ?></p>
                 <?php else: ?>
                     <p class="text-xs text-white font-medium truncate group-hover:text-teal-400 transition-colors">Admin BBPOM</p>

@@ -3,19 +3,24 @@
         <div>
             <h2 class="text-2xl font-bold text-white">
                 <?php 
-                    if($activeMenu == 'dashboard') echo 'Ringkasan Kinerja IKU';
+                if($activeMenu == 'dashboard') echo 'Ringkasan Kinerja IKU';
                     elseif($activeMenu == 'anggaran') echo 'Manajemen Anggaran';
                     elseif($activeMenu == 'capaian_output') echo 'Monitor Capaian Output';
                     elseif($activeMenu == 'data_entry') echo 'Data Management System';
+                    elseif($activeMenu == 'profile') echo 'Pengaturan Profil';
                     else echo 'Ringkasan Kinerja';
                 ?>
             </h2>
             <p class="text-sm text-slate-500">
-                <?= ($activeMenu == 'data_entry') ? 'Silakan pilih kategori data yang ingin diinput atau diperbarui.' : 'Update terakhir: ' . date('d M Y') ?>
+                <?php 
+                    if($activeMenu == 'data_entry') echo 'Silakan pilih kategori data yang ingin diinput atau diperbarui.';
+                    elseif($activeMenu == 'profile') echo 'Perbarui informasi akun dan preferensi Anda.';
+                    else echo 'Update terakhir: ' . date('d M Y');
+                ?>
             </p>
         </div>
         
-        <?php if($activeMenu != 'data_entry'): ?>
+        <?php if($activeMenu != 'data_entry' && $activeMenu != 'profile'): ?>
         <div class="flex flex-wrap gap-3 no-print">
             <?php if($activeMenu == 'dashboard'): ?>
                 <select id='filterNamaIndikator' onchange="applyFilter()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 w-48 cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none">

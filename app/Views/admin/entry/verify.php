@@ -7,16 +7,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-900 font-sans antialiased">
+<body class="bg-slate-900 font-sans antialiased relative overflow-hidden">
 
-    <div class="min-h-screen flex items-center justify-center px-4">
+    <!-- Ambient Background -->
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-teal-500/10 blur-[150px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none z-0"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/10 blur-[150px] rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none z-0"></div>
+
+    <div class="min-h-screen flex items-center justify-center px-4 relative z-10">
         <div class="max-w-md w-full">
             
             <div class="bg-slate-800 rounded-3xl shadow-2xl border border-slate-700 overflow-hidden">
                 <div class="p-8 text-center">
                     
-                    <div class="w-20 h-20 bg-slate-700 rounded-2xl flex items-center justify-center text-teal-400 mx-auto mb-6 border border-slate-600 shadow-inner">
-                        <i class="fa-solid fa-shield-halved text-3xl"></i>
+                    <div class="mb-6">
+                        <img src="<?= base_url('assets/img/logo_bpom_1.png') ?>" alt="Logo BBPOM" class="h-24 mx-auto drop-shadow-2xl">
                     </div>
 
                     <h3 class="text-2xl font-bold text-white mb-2">Akses Terbatas</h3>
