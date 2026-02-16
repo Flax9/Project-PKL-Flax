@@ -55,9 +55,13 @@
 
     <div class="p-4 border-t border-slate-800">
         <a href="<?= base_url('admin/profile') ?>" class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-300 group">
+        <?php if (session()->get('photo')): ?>
+            <img src="<?= base_url('uploads/profile/' . session()->get('photo')) ?>" class="w-8 h-8 rounded-full object-cover border border-slate-600 shadow-sm group-hover:border-teal-500/50 group-hover:shadow-teal-500/20 transition-all">
+        <?php else: ?>
             <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-teal-400 border border-slate-600 shadow-sm group-hover:border-teal-500/50 group-hover:shadow-teal-500/20 transition-all">
                 <i class="fa-solid fa-user-tie text-xs"></i>
             </div>
+        <?php endif; ?>
             <div class="overflow-hidden text-left flex-1">
                 <?php if (session()->get('isLoggedIn')): ?>
                     <p class="text-xs text-white font-medium truncate group-hover:text-teal-400 transition-colors"><?= esc(session()->get('name') ?? session()->get('username')) ?></p>

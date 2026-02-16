@@ -31,8 +31,9 @@
                             </div>
 
                             <!-- Overlay Update Icon -->
-                            <label for="photoUpload" class="absolute inset-0 z-20 flex items-center justify-center bg-black/50 opacity-0 group-hover/photo:opacity-100 transition-all duration-300 rounded-full cursor-pointer backdrop-blur-sm">
-                                <i class="fa-solid fa-camera text-2xl text-white drop-shadow-md"></i>
+                            <label for="photoUpload" class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover/photo:opacity-100 transition-all duration-300 rounded-full cursor-pointer backdrop-blur-sm">
+                                <i class="fa-solid fa-camera text-2xl text-white drop-shadow-md mb-1"></i>
+                                <span class="text-xs text-white font-medium drop-shadow-md tracking-wider">Edit</span>
                             </label>
                             <input type="file" id="photoUpload" class="hidden" accept="image/*">
                         </div>

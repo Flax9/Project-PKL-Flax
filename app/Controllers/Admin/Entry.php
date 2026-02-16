@@ -57,8 +57,9 @@ class Entry extends BaseController
             session()->set([
                 'isLoggedIn' => true,
                 'username'   => $user->username,
-                'name'       => $user->name, // Store name in session
-                'role'       => $user->role
+                'name'       => $user->name,
+                'role'       => $user->role,
+                'photo'      => $user->photo ?? null // Add Photo to session
             ]);
             session()->setFlashdata('access_granted', true);
 
@@ -139,9 +140,12 @@ class Entry extends BaseController
         $username = session()->get('username');
         $user = $db->table('users')->where('username', $username)->get()->getRowArray();
 
-        // Inject 'name' into session if it's missing (Auto-fix for sidebar)
+        // Inject 'name' & 'photo' into session if missing/updated (Auto-fix for sidebar)
         if (!session()->has('name') && !empty($user['name'])) {
             session()->set('name', $user['name']);
+        }
+        if (!empty($user['photo']) && session()->get('photo') !== $user['photo']) {
+            session()->set('photo', $user['photo']);
         }
 
         $data = [
@@ -327,6 +331,9 @@ class Entry extends BaseController
             // Update DB
             $db = \Config\Database::connect();
             $db->table('users')->where('username', $username)->update(['photo' => $newName]);
+
+            // Update Session
+            session()->set('photo', $newName);
 
             return $this->response->setJSON([
                 'status' => 'success',
