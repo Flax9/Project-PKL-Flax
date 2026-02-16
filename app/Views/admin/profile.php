@@ -169,35 +169,54 @@
 
 <!-- Scripts for Image Handling -->
 <!-- OTP Verification Modal -->
-<div id="otpModal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeOtpModal()"></div>
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-6">
-        <div class="glass-card bg-slate-900 border border-slate-700 shadow-2xl rounded-2xl relative overflow-hidden">
-            <!-- Modal Header -->
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 rounded-full bg-teal-500/10 flex items-center justify-center mx-auto mb-4 animate-pulse">
-                    <i class="fa-solid fa-envelope-circle-check text-3xl text-teal-400"></i>
-                </div>
-                <h3 class="text-xl font-bold text-white">Verifikasi Email</h3>
-                <p class="text-slate-400 text-sm mt-2">Kode OTP telah dikirim ke email baru Anda.</p>
-                <p class="text-xs text-slate-500 mt-1">(Cek console/alert untuk mode simulasi)</p>
-            </div>
+<div id="otpModal" class="fixed inset-0 z-50 hidden transition-opacity duration-300" aria-modal="true">
+    <!-- Backdrop with blur -->
+    <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity" onclick="closeOtpModal()"></div>
+    
+    <!-- Modal Content -->
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-4">
+        <div class="bg-slate-900/90 border border-white/10 shadow-2xl rounded-3xl relative overflow-hidden backdrop-blur-xl">
+            
 
-            <!-- OTP Input -->
-            <div class="space-y-4">
-                <input type="text" id="otpInput" maxlength="6" placeholder="Masukkan 6 Digit OTP" 
-                    class="w-full bg-slate-950/50 border border-slate-700 text-white text-center text-2xl tracking-[0.5em] rounded-xl py-3 focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 outline-none transition-all placeholder:text-slate-700 placeholder:text-sm placeholder:tracking-normal">
-                
-                <button type="button" onclick="verifyOtp()" id="btnVerify"
-                    class="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl shadow-lg shadow-teal-500/20 transition-all transform hover:-translate-y-0.5">
-                    Verifikasi
+
+            <div class="p-8">
+                <!-- Close Button -->
+                <button onclick="closeOtpModal()" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-full transition-all">
+                    <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
-            </div>
 
-            <!-- Close Button -->
-            <button onclick="closeOtpModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-teal-500/20 to-emerald-500/20 flex items-center justify-center mx-auto mb-6 shadow-inner border border-white/5">
+                        <i class="fa-solid fa-shield-halved text-4xl text-teal-400 drop-shadow-lg"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Verifikasi Email</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed px-4">
+                        Kami telah mengirimkan kode 6 digit ke email baru Anda.
+                    </p>
+                </div>
+
+                <!-- Input Section -->
+                <div class="space-y-6">
+                    <div class="relative group">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-2xl opacity-20 group-focus-within:opacity-100 transition duration-500 blur"></div>
+                        <input type="text" id="otpInput" maxlength="6" placeholder="• • • • • •" 
+                            class="relative w-full bg-slate-950 border border-slate-700 text-white text-center text-3xl font-mono tracking-[0.5em] rounded-xl py-5 focus:outline-none focus:border-teal-500/50 transition-all placeholder:text-slate-700 placeholder:tracking-[0.2em] shadow-inner">
+                    </div>
+
+                    <button type="button" onclick="verifyOtp()" id="btnVerify"
+                        class="w-full py-4 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-teal-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0 text-sm uppercase tracking-wider border border-white/10">
+                        Verifikasi Sekarang
+                    </button>
+                    
+                    <div class="text-center">
+                        <p class="text-xs text-slate-500">
+                            Tidak menerima kode? <button class="text-teal-400 hover:text-teal-300 font-medium transition-colors">Kirim Ulang</button>
+                        </p>
+                        <p class="text-[10px] text-slate-600 mt-2 font-mono" id="simModeHint">(Mode Simulasi: Cek Alert)</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -257,14 +276,22 @@ $(document).ready(function() {
 
     // 2. Profile Form Interception
     $('form[action*="update-profile"]').on('submit', function(e) {
+        // Capture Current Values
         const currentEmail = $('input[name="email"]').val();
+        const currentName  = $('input[name="name"]').val();
+        const newPassword  = $('input[name="password"]').val();
 
-        // If email changed and NOT yet verified -> Prevent Submit & Start OTP Flow
-        if (currentEmail !== originalEmail && !isEmailVerified) {
+        // Check for ANY changes
+        const emailChanged = currentEmail !== originalEmail;
+        const nameChanged  = currentName !== "<?= esc($user['name']) ?>"; 
+        const passChanged  = newPassword.length > 0;
+
+        // If ANY change exists and NOT yet verified -> Prevent Submit & Start OTP Flow
+        if ((emailChanged || nameChanged || passChanged) && !isEmailVerified) {
             e.preventDefault();
-            requestVerification(currentEmail);
+            requestVerification(currentEmail); // Send OTP to currently entered email
         }
-        // If email same OR already verified -> Allow Form Submit (to update name/password)
+        // If NO changes or ALREADY verified -> Allow Form Submit
     });
 
     // Add CSS animations
@@ -298,9 +325,16 @@ function requestVerification(email) {
                 // Show Modal
                 $('#otpModal').removeClass('hidden');
                 
-                // SIMULATION MODE ALERT
-                alert("SIMULASI OTP: Kode Anda adalah " + res.debug_otp);
-                console.log("OTP Code:", res.debug_otp);
+                // SIMULATION MODE ALERT (Only if email fails or debug_otp is present)
+                if (res.debug_otp) {
+                    if (res.email_error) {
+                        console.error("SMTP Configuration Error:", res.email_error);
+                        alert("Gagal mengirim email (Cek Console untuk detail error).\nMode Simulasi: Kode Anda adalah " + res.debug_otp);
+                    } else {
+                        alert("SIMULASI OTP: Kode Anda adalah " + res.debug_otp);
+                    }
+                    console.log("OTP Code:", res.debug_otp);
+                }
             } else {
                 alert(res.message);
             }
@@ -335,11 +369,11 @@ function verifyOtp() {
 
             if (res.status === 'success') {
                 alert(res.message);
-                isEmailVerified = true; // Mark as verified
+                isEmailVerified = true; 
                 closeOtpModal();
                 
-                // Submit main form to update Session Name & Password if any
-                $('form[action*="update-profile"]').unbind('submit').submit();
+                // Submit main form to update Session Name & Password
+                $('form[action*="update-profile"]').off('submit').submit();
             } else {
                 alert(res.message);
             }

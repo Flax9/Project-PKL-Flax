@@ -130,6 +130,9 @@ $routes->group('admin', function($routes) {
     // Telegram Webhook Route (Public)
     $routes->post('telegram/webhook', 'TelegramWebhook::index');
 
+    // Diagnostic Route (Temporary)
+    $routes->get('test-email', 'TestEmail::index');
+
     // fallback route untuk method lain di Entry
     $routes->get('entry/(:any)', 'Admin\Entry::$1');
 });

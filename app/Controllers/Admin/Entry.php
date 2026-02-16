@@ -370,34 +370,13 @@ class Entry extends BaseController
         if (!$this->request->isAJAX()) return $this->response->setStatusCode(404);
 
         $newEmail = $this->request->getPost('email');
-        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Format email tidak valid']);
-        }
-
-        // Check if email already used by another user
-        $db = \Config\Database::connect();
-        $exists = $db->table('users')->where('email', $newEmail)->countAllResults();
-        if ($exists > 0) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Email sudah digunakan oleh pengguna lain']);
-        }
-
-        // Generate OTP
-        $otp = rand(100000, 999999);
         $username = session()->get('username');
 
-        // Save to DB
-        $db->table('users')->where('username', $username)->update([
-            'temp_email' => $newEmail,
-            'email_otp'  => $otp,
-            'otp_created_at' => date('Y-m-d H:i:s')
-        ]);
+        // Use OTP Service
+        $otpService = new \App\Libraries\OTPService();
+        $result = $otpService->requestOTP($username, $newEmail);
 
-        // SIMULATION MODE: Return OTP in response because SMTP is not configured
-        return $this->response->setJSON([
-            'status'  => 'success',
-            'message' => 'Kode OTP dikirim (Mode Simulasi)',
-            'debug_otp' => $otp // Exposed for testing
-        ]);
+        return $this->response->setJSON($result);
     }
 
     public function verify_otp()
@@ -406,22 +385,11 @@ class Entry extends BaseController
 
         $otp = $this->request->getPost('otp');
         $username = session()->get('username');
-        $db = \Config\Database::connect();
-        
-        $user = $db->table('users')->where('username', $username)->get()->getRowArray();
 
-        if (!$user || $user['email_otp'] !== $otp) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Kode OTP salah']);
-        }
+        // Use OTP Service
+        $otpService = new \App\Libraries\OTPService();
+        $result = $otpService->verifyOTP($username, $otp);
 
-        // Update Email & Clear OTP
-        $db->table('users')->where('username', $username)->update([
-            'email'      => $user['temp_email'],
-            'temp_email' => null,
-            'email_otp'  => null,
-            'otp_created_at' => null
-        ]);
-
-        return $this->response->setJSON(['status' => 'success', 'message' => 'Email berhasil diperbarui!']);
+        return $this->response->setJSON($result);
     }
 }

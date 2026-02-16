@@ -1,16 +1,16 @@
 <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 border-r border-slate-800 transition-transform duration-300 transform -translate-x-full md:translate-x-0 md:static md:inset-auto flex flex-col shrink-0">
-    <div class="p-6 flex items-center gap-4">
-        <div class="w-18 h-18 bg-white/5 border border-white/10 rounded-full flex items-center justify-center shadow-md backdrop-blur-sm">
+    <a href="<?= base_url('dashboard') ?>" class="p-6 flex items-center gap-4 group hover:bg-slate-800/50 transition-colors duration-300">
+        <div class="w-16 h-16 bg-white/5 border border-white/10 rounded-full flex items-center justify-center shadow-md backdrop-blur-sm group-hover:border-teal-500/30 group-hover:shadow-teal-500/20 transition-all duration-300">
             <img src="<?= base_url('assets/img/logo_bpom_1.png') ?>" 
                 alt="Logo BPOM" 
-                class="w-14 h-14 object-contain"> 
+                class="w-10 h-10 object-contain group-hover:scale-110 transition-transform duration-300"> 
         </div>
         
         <div>
-            <h1 class="font-bold text-white text-base tracking-widest leading-tight">E-KINERJA</h1>
-            <p class="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em] mt-1">BBPOM Surabaya</p>
+            <h1 class="font-bold text-white text-base tracking-widest leading-tight group-hover:text-teal-400 transition-colors duration-300">E-KINERJA</h1>
+            <p class="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em] mt-1 group-hover:text-slate-300 transition-colors duration-300">BBPOM Surabaya</p>
         </div>
-    </div>
+    </a>
 
     <nav class="flex-1 px-4 py-4 space-y-2">
         
