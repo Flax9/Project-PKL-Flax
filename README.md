@@ -1,54 +1,68 @@
-***Penyesuaian file php.ini pada config app Xampp***
-1. Buka file 'php.ini' pada config apache di xampp
-2. 🧩 Required PHP Extensions
-Aplikasi ini memerlukan beberapa ekstensi PHP aktif untuk menangani database, autentikasi, dan pemrosesan media. Pastikan baris-baris berikut tidak dikomentari (tanpa tanda ;) pada file php.ini Anda:
+# Panduan Instalasi & Konfigurasi E-Kinera BBPOM
 
-a. Database & Persistence
-Digunakan untuk komunikasi dengan server database (MySQL/MariaDB) dan database lokal (SQLite).
+Berikut adalah langkah-langkah untuk menjalankan aplikasi ini di lingkungan lokal (XAMPP).
 
-extension=mysqli — Driver utama untuk koneksi ke MySQL.
+## 1. Konfigurasi PHP (XAMPP)
 
-extension=pdo_mysql — Interface PDO untuk akses database MySQL yang lebih aman.
+Aplikasi ini memerlukan beberapa ekstensi PHP aktif. Silakan buka file `php.ini` pada konfigurasi Apache di XAMPP Anda, lalu **hilangkan tanda titik koma (;)** di depan baris-baris berikut:
 
-extension=pdo_sqlite — Digunakan jika sistem memerlukan database file-based ringan.
+### a. Database & Persistence
+Digunakan untuk komunikasi dengan server database.
+```ini
+extension=mysqli      ; Driver utama untuk koneksi ke MySQL
+extension=pdo_mysql   ; Interface PDO untuk akses database MySQL
+extension=pdo_sqlite  ; (Opsional) Jika sistem memerlukan database file-based
+```
 
-b. Security & Networking
-Penting untuk integrasi API eksternal dan enkripsi data.
+### b. Security & Networking
+Penting untuk enkripsi data dan integrasi API.
+```ini
+extension=openssl     ; Menangani protokol HTTPS dan enkripsi
+extension=curl        ; Library untuk HTTP Request (API)
+extension=ftp         ; (Opsional) Operasi transfer file
+```
 
-extension=php_openssl.dll — Menangani protokol HTTPS dan enkripsi.
+### c. Data Processing & Localization
+Menangani string, format angka, dan bahasa.
+```ini
+extension=mbstring    ; String multibita (krusial untuk validasi)
+extension=intl        ; Format angka, mata uang, dan tanggal
+extension=gettext     ; Fitur lokalisasi/multibahasa
+extension=bz2         ; Kompresi file
+extension=zip         ; Ekstraksi file arsip
+```
 
-extension=curl — Library untuk melakukan HTTP Request (penting untuk konsumsi API).
+### d. Media & Metadata
+Untuk pengelolaan gambar dan dashboard.
+```ini
+extension=gd          ; Pemrosesan gambar (resize, crop, chart)
+extension=fileinfo    ; Deteksi tipe file (MIME type) amam
+extension=exif        ; Membaca metadata gambar
+```
 
-extension=php_ftp.dll — Digunakan untuk operasi transfer file antar server.
+---
 
-c. Data Processing & Localization
-Menangani manipulasi string kompleks, multibahasa, dan format data.
+## 2. Setup Database
 
-extension=mbstring — Menangani string multibita (sangat krusial untuk validasi input).
+1.  Pastikan MySQL/MariaDB sudah berjalan di XAMPP.
+2.  Buat database baru (misal: `db_monitoring_bpom`).
+3.  **Import** file SQL bawaan: `db_monitoring_bpom.sql` ke dalam database tersebut.
+4.  *(Opsional)* Admin sudah menyertakan file migrasi untuk struktur terbaru.
 
-extension=intl — Internationalization support (format angka, mata uang, dan tanggal).
+## 3. Menjalankan Aplikasi
 
-extension=gettext — Digunakan untuk fitur lokalisasi atau multibahasa.
+Buka terminal di root project, lalu jalankan perintah:
 
-extension=bz2 & extension=zip — Untuk kompresi dan ekstraksi file arsip.
+```bash
+php spark serve --port 8081
+```
 
-d. Media & Metadata
-Untuk pengelolaan dashboard yang melibatkan upload gambar atau pembacaan file.
+Akses website di: [http://localhost:8081](http://localhost:8081)
 
-extension=gd — Library pemrosesan gambar (resize, crop, atau generate chart).
+---
 
-extension=fileinfo — Mendeteksi tipe file (MIME type) secara akurat untuk keamanan upload.
+## 4. Struktur Project
 
-extension=exif — Membaca metadata dari gambar (seperti data lokasi atau model kamera).
-
-***DB yang Digunakan***
-1. import data dummy terlebih dahulu ke dalam xampp anda dimana nama file merupakan "db_monitoring_bpom.sql"
-2. admin sudah menambahkan file migrasi untuk mempermudah
-
-***Start web CI4***
-1. Pada terminal vscode bisa ketikkan "php spark serve --port 8081", routes sudah disesuaikan
-
-***Project Structure***
 Berikut adalah struktur folder utama aplikasi:
 
 ```text
@@ -60,29 +74,18 @@ Berikut adalah struktur folder utama aplikasi:
 │   │   ├── Admin
 │   │   │   ├── Entry.php
 │   │   │   └── Pengajuan.php
-│   │   ├── Anggaran.php
-│   │   ├── BaseController.php
-│   │   ├── CapaianOutput.php
-│   │   ├── Dashboard.php
-│   │   └── Home.php
-│   ├── Database
-│   │   └── Migrations
+│   │   └── ...
 │   ├── Models
 │   │   ├── Entry
 │   │   │   ├── AnggaranEntryModel.php
 │   │   │   ├── CapaianOutputEntryModel.php
 │   │   │   ├── IkuEntryModel.php
 │   │   │   └── NkoEntryModel.php
-│   │   ├── AnggaranModel.php
-│   │   ├── CapaianOutputModel.php
-│   │   ├── IkuModel.php
-│   │   └── PengajuanModel.php
+│   │   └── ...
 │   └── Views
 │       ├── admin
-│       ├── anggaran
-│       ├── capaian_output
 │       ├── dashboard
-│       └── layout
+│       └── ...
 ├── public
 │   └── assets
 │       ├── css
