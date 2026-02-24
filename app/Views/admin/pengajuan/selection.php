@@ -9,13 +9,13 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-12">
         
         <!-- CARD 1: PENGAJUAN (User) -->
-        <a href="<?= base_url('admin/pengajuan/submission') ?>" class="block p-8 rounded-3xl bg-slate-900 hover:bg-slate-800 transition-colors border border-slate-800">
+        <a href="<?= base_url('admin/pengajuan/submission') ?>" class="block p-8 rounded-3xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-800 shadow-md dark:shadow-none">
             <div class="w-12 h-12 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center text-xl mb-6">
                 <i class="fa-solid fa-right-left"></i>
             </div>
             
-            <h3 class="text-xl font-bold text-white mb-3">Pengajuan Perubahan Data</h3>
-            <p class="text-slate-400 text-sm leading-relaxed">
+            <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 transition-colors">Pengajuan Perubahan Data</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed transition-colors">
                 Menu pengelolaan perubahan data. Termasuk pengajuan perubahan (User) dan validasi perubahan (Perencana).
             </p>
         </a>
@@ -28,13 +28,13 @@
             $link = $isPerencana ? base_url('admin/pengajuan/validation') : '#';
             $opacity = $isPerencana ? '' : 'opacity-50 cursor-not-allowed';
         ?>
-        <a href="<?= $link ?>" class="block p-8 rounded-3xl bg-slate-900 hover:bg-slate-800 transition-colors border border-slate-800 <?= $opacity ?>">
+        <a href="<?= $link ?>" class="block p-8 rounded-3xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-800 shadow-md dark:shadow-none <?= $opacity ?>">
              <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl mb-6">
                 <i class="fa-solid fa-clipboard-check"></i>
             </div>
             
-            <h3 class="text-xl font-bold text-white mb-3">Validasi Pengubahan Data</h3>
-            <p class="text-slate-400 text-sm leading-relaxed">
+            <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 transition-colors">Validasi Pengubahan Data</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed transition-colors">
                 (Khusus Perencana) Validasi pengajuan perubahan data, upload disposisi, dan update data ePerformance.
             </p>
         </a>

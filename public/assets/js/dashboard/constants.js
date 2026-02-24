@@ -1,13 +1,13 @@
 // Global Constants untuk Dashboard
 window.ChartColors = {
     bulan: {
-        'Sangat Baik': '#3b82f6', 
-        'Baik': '#22c55e', 
+        'Sangat Baik': '#3b82f6',
+        'Baik': '#22c55e',
         'Tercapai atau Melampaui': '#22c55e',
-        'Cukup': '#eab308', 
-        'Akan Tercapai': '#eab308', 
+        'Cukup': '#eab308',
+        'Akan Tercapai': '#eab308',
         'Kurang': '#ef4444',
-        'Perlu Upaya Keras': '#ef4444', 
+        'Perlu Upaya Keras': '#ef4444',
         'Tidak Dapat Disimpulkan': '#94a3b8'
     },
     trend: {
@@ -17,7 +17,7 @@ window.ChartColors = {
         bgTahunan: 'rgba(245, 158, 11, 0.1)'
     },
     rank: {
-        rendah: '#dc2626',
+        rendah: '#ef4444',
         tinggi: '#1e3a8a'
     }
 };

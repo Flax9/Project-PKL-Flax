@@ -17,8 +17,9 @@ class Anggaran extends BaseController
     public function index()
     {
         // 1. Tangkap semua input filter dari URL (GET)
+        $reqTahun = $this->request->getGet('tahun');
         $filter = [
-            'tahun'   => $this->request->getGet('tahun'),
+            'tahun'   => ($reqTahun === null) ? date('Y') : $reqTahun,
             'bulan'   => $this->request->getGet('bulan'),
             'program' => $this->request->getGet('program'),
             'ro'      => $this->request->getGet('ro'),

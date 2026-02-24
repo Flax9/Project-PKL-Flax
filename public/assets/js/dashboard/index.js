@@ -1,7 +1,7 @@
 /**
  * Dashboard Main Logic (IKU & RO)
  */
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // 1. Inisialisasi Data dari Manager
     const data = DashboardDataManager.getData();
     if (!data) {
@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const charts = [
         { id: 'trendChartGabungan', init: () => initTrendChart('trendChartGabungan', data.trend) },
         { id: 'barChartIKU', init: () => initBarIKUChart('barChartIKU', data.barIKU) },
-        { id: 'chartBulan', init: () => initDonutChart('chartBulan', data.katBulan, 'legendBulan') },
-        { id: 'chartTahun', init: () => initDonutChart('chartTahun', data.katTahun, 'legendTahun') },
+        { id: 'chartBulan', init: () => initDonutChart('chartBulan', data.katBulan, 'legendBulan', data.totalIku) },
+        { id: 'chartTahun', init: () => initDonutChart('chartTahun', data.katTahun, 'legendTahun', data.totalIku) },
         { id: 'chartTinggi', init: () => initRankChart('chartTinggi', data.tinggi, window.ChartColors.rank.tinggi) },
         { id: 'chartRendah', init: () => initRankChart('chartRendah', data.rendah, window.ChartColors.rank.rendah) }
     ];
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ikuFilterIds.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            el.addEventListener('change', function() {
+            el.addEventListener('change', function () {
                 const vIndikator = document.getElementById('filterIndikator')?.value || '';
                 const vBulan = document.getElementById('filterBulan')?.value || '';
                 const vTahun = document.getElementById('filterTahun')?.value || '';
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     roFilterIds.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            el.addEventListener('change', function() {
+            el.addEventListener('change', function () {
                 // Gunakan optional chaining (?.) agar tidak error jika elemen tidak ada
                 const vRo = document.getElementById('filterRo')?.value || '';
                 const vFungsi = document.getElementById('filterFungsi')?.value || '';
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 5. Sidebar & Export (Global)
     const sidebarLinks = document.querySelectorAll('aside nav a');
     sidebarLinks.forEach(link => {
-        link.addEventListener('click', function() {
+        link.addEventListener('click', function () {
             sidebarLinks.forEach(l => l.classList.remove('bg-slate-800', 'text-teal-400'));
             this.classList.add('bg-slate-800', 'text-teal-400');
         });

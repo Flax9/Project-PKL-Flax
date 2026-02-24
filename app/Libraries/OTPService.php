@@ -51,13 +51,13 @@ class OTPService
         ]);
 
         // 5. Send Email
-        $this->emailService->setFrom('no-reply@bbpom-surabaya.go.id', 'E-Kinerja BBPOM');
+        $this->emailService->setFrom('no-reply@bbpom-surabaya.go.id', 'Insight BBPOM');
         $this->emailService->setTo($newEmail);
         $this->emailService->setSubject('Kode Verifikasi Perubahan Data Akun');
         $this->emailService->setMessage("
             <h3>Verifikasi Perubahan Data Akun</h3>
             <p>Halo,</p>
-            <p>Anda menerima email ini karena ada permintaan perubahan data pada akun E-Kinerja Anda.</p>
+            <p>Anda menerima email ini karena ada permintaan perubahan data pada akun Insight Anda.</p>
             <p>Kode OTP Anda adalah: <b>$otp</b></p>
             <p>Kode ini berlaku selama 10 menit. Jangan berikan kode ini kepada siapapun.</p>
             <br>

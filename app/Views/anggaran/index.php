@@ -5,15 +5,15 @@
     
     <?= $this->include('dashboard/partials/header') ?>
 
-    <main class="flex-1 overflow-x-hidden overflow-y-auto p-8 custom-scrollbar">
+    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 custom-scrollbar">
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             
-            <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 shadow-lg backdrop-blur-sm group hover:border-blue-500/30 transition-all cursor-default">
+            <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-blue-500/30 transition-all cursor-default">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-slate-400 text-[10px] font-medium uppercase tracking-wider">Total Pagu</p>
-                        <h3 class="text-xl font-bold text-white mt-2">
+                        <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider transition-colors">Total Pagu</p>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-2 transition-colors">
                             Rp <?= number_format($anggaran_data['scoreboard']->total_pagu ?? 0, 0, ',', '.') ?>
                         </h3>
                     </div>
@@ -23,10 +23,10 @@
                 </div>
             </div>
 
-            <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 shadow-lg backdrop-blur-sm group hover:border-teal-500/30 transition-all cursor-default">
+            <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-teal-500/30 transition-all cursor-default">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-slate-400 text-[10px] font-medium uppercase tracking-wider">Total Realisasi</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider transition-colors">Total Realisasi</p>
                         <h3 class="text-xl font-bold text-teal-400 mt-2">
                             Rp <?= number_format($anggaran_data['scoreboard']->total_realisasi ?? 0, 0, ',', '.') ?>
                         </h3>
@@ -37,10 +37,10 @@
                 </div>
             </div>
 
-            <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 shadow-lg backdrop-blur-sm group hover:border-orange-500/30 transition-all cursor-default">
+            <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-orange-500/30 transition-all cursor-default">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-slate-400 text-[10px] font-medium uppercase tracking-wider">Sisa Anggaran</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider transition-colors">Sisa Anggaran</p>
                         <h3 class="text-xl font-bold text-orange-400 mt-2">
                             Rp <?= number_format($anggaran_data['scoreboard']->sisa_anggaran ?? 0, 0, ',', '.') ?>
                         </h3>
@@ -51,10 +51,10 @@
                 </div>
             </div>
 
-            <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 shadow-lg backdrop-blur-sm group hover:border-purple-500/30 transition-all cursor-default">
+            <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-purple-500/30 transition-all cursor-default">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-slate-400 text-[10px] font-medium uppercase tracking-wider">% Serapan</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider transition-colors">% Serapan</p>
                         <h3 class="text-xl font-bold text-purple-400 mt-2">
                             <?= number_format($anggaran_data['scoreboard']->persentase_serapan ?? 0, 2, ',', '.') ?>%
                         </h3>
@@ -68,10 +68,10 @@
 
        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
     
-            <div class="col-span-full bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 shadow-lg backdrop-blur-sm group hover:border-amber-500/30 transition-all cursor-default">
+            <div class="col-span-full bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-amber-500/30 transition-all cursor-default">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-slate-400 text-[10px] font-medium uppercase tracking-wider">Target per Triwulan</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider transition-colors">Target per Triwulan</p>
                         <h3 class="text-xl font-bold text-amber-400 mt-2">
                             <?= number_format($summary->avg_target_tw ?? 0, 2, ',', '.') ?>%
                         </h3>
@@ -88,9 +88,9 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl shadow-lg flex flex-col h-[500px] overflow-hidden">
-                <div class="p-6 pb-2 border-b border-slate-700/50">
-                    <h4 class="text-white font-semibold flex items-center gap-2">
+            <div class="bg-white/80 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-2xl shadow-md dark:shadow-lg flex flex-col h-[500px] overflow-hidden transition-colors duration-300">
+                <div class="p-6 pb-2 border-b border-slate-200 dark:border-slate-700/50">
+                    <h4 class="text-slate-800 dark:text-white font-semibold flex items-center gap-2 transition-colors">
                         <i class="fa-solid fa-chart-bar text-teal-400"></i>
                         Pagu vs Realisasi per Program
                     </h4>
@@ -110,8 +110,8 @@
                 </div>
             </div>
 
-            <div class="bg-slate-800/50 border border-slate-700/50 p-6 rounded-2xl shadow-lg">
-                <h4 class="text-white font-semibold mb-6 flex items-center gap-2">
+            <div class="bg-white/80 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 p-6 rounded-2xl shadow-md dark:shadow-lg transition-colors duration-300">
+                <h4 class="text-slate-800 dark:text-white font-semibold mb-6 flex items-center gap-2 transition-colors">
                     <i class="fa-solid fa-chart-line text-blue-400"></i>
                     Tren Penyerapan Bulanan (<?= $tahun_label ?>)
                 </h4>

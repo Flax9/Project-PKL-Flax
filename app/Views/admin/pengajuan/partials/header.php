@@ -23,21 +23,21 @@
     $backLabel = isset($backLabel) ? $backLabel : $dynamicBackLabel;
 ?>
 <!-- STICKY HEADER: TITLE & USER INFO -->
-<header class="h-auto border-b border-slate-800 bg-slate-900/80 backdrop-blur-md z-10 sticky top-0">
+<header class="h-auto border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-10 sticky top-0 transition-colors duration-300">
     <div class="px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <!-- LEFT: TITLE -->
         <div>
-            <h2 class="text-2xl font-bold text-white mb-1">Data Management System</h2>
-            <p class="text-sm text-slate-500">Silakan pilih kategori data yang ingin diinput atau diperbarui.</p>
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-1 transition-colors">Data Management System</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Silakan pilih kategori data yang ingin diinput atau diperbarui.</p>
         </div>
 
         <!-- RIGHT: USER INFO -->
-        <div class="flex items-center gap-4 bg-slate-950 border border-slate-800 p-2 pr-4 pl-4 rounded-full shadow-lg">
+        <div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-2 pr-4 pl-4 rounded-full shadow-md dark:shadow-lg transition-colors">
             <div class="flex flex-col text-right mr-2 hidden md:block">
                 <span class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Role Access</span>
-                <span class="text-xs text-white font-bold capitalize"><?= session()->get('role') ?? 'Guest' ?></span>
+                <span class="text-xs text-slate-800 dark:text-white font-bold capitalize transition-colors"><?= session()->get('role') ?? 'Guest' ?></span>
             </div>
-            <div class="h-8 w-[1px] bg-slate-800 hidden md:block"></div>
+            <div class="h-8 w-[1px] bg-slate-200 dark:bg-slate-800 hidden md:block transition-colors"></div>
             <a href="<?= base_url('admin/entry/logout') ?>" class="flex items-center gap-2 text-red-400 hover:text-red-300 transition-colors text-xs font-bold uppercase tracking-wider">
                 <i class="fa-solid fa-power-off"></i> Logout
             </a>
@@ -46,7 +46,7 @@
 
     <!-- TABS SECTION (Only for Entry Routine) -->
     <?php if ($seg3 === 'rutin'): ?>
-    <div class="px-8 border-t border-slate-800/50">
+    <div class="px-8 border-t border-slate-200 dark:border-slate-800/50 transition-colors">
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="entryTabs" role="tablist">
             <li class="me-2" role="presentation">
                 <button class="inline-flex items-center p-4 border-b-2 border-teal-500 text-teal-400 rounded-t-lg active" 
@@ -93,7 +93,7 @@
 
 <?php if (!$isSelectionPage && empty($hideBack)): ?>
 <div class="px-8 py-6">
-    <a href="<?= $backUrl ?>" class="flex items-center gap-2 text-slate-400 hover:text-teal-400 text-sm transition-colors">
+    <a href="<?= $backUrl ?>" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 text-sm transition-colors">
         <i class="fa-solid fa-arrow-left"></i> <?= $backLabel ?>
     </a>
 </div>

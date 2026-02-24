@@ -46,7 +46,7 @@ $routes->group('admin', function($routes) {
      * PENAMBAHAN BARU: PEMISAHAN JALUR OPERASIONAL
      * Mengarahkan ke form sesuai kebutuhan (Rutin atau Modifikasi)
      */
-    $routes->get('entry/rutin', 'Admin\Entry::rutin');      // Form untuk data baru
+    // $routes->get('entry/rutin', 'Admin\Entry::rutin');      // Form untuk data baru (Dinonaktifkan)
     $routes->get('entry/modifikasi', 'Admin\Entry::modifikasi'); // Form untuk revisi data
 
     /**

@@ -19,8 +19,9 @@ class CapaianOutput extends BaseController
         // =================================================================
         // 1. LOGIKA FILTER (Konsisten dengan Dashboard)
         // =================================================================
+        $reqTahun = $this->request->getGet('tahun');
         $filter = [
-            'tahun'         => $this->request->getGet('tahun'),
+            'tahun'         => ($reqTahun === null) ? date('Y') : $reqTahun,
             'bulan'         => $this->request->getGet('bulan'),
             'fungsi'        => $this->request->getGet('fungsi'),
             'keterangan_ro' => $this->request->getGet('keterangan_ro'),

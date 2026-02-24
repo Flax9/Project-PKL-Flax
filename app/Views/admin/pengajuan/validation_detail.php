@@ -10,7 +10,7 @@
         <div class="lg:col-span-2 space-y-6">
             
             <!-- IDENTITAS CARD -->
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm dark:shadow-none transition-colors duration-300">
                 <h3 class="text-teal-400 font-bold uppercase tracking-wider text-sm flex items-center gap-2 mb-6">
                     <i class="fa-solid fa-circle-info"></i> Identitas Pengajuan
                 </h3>
@@ -18,20 +18,20 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-1">
                         <label class="text-xs text-slate-500 uppercase font-bold">Fungsi Pengirim</label>
-                        <div class="text-white font-medium"><?= esc($request['fungsi']) ?></div>
+                        <div class="text-slate-800 dark:text-white font-medium transition-colors"><?= esc($request['fungsi']) ?></div>
                     </div>
                     <div class="space-y-1">
                         <label class="text-xs text-slate-500 uppercase font-bold">Waktu Pengajuan</label>
-                        <div class="text-white font-medium"><?= date('d F Y, H:i', strtotime($request['created_at'])) ?> WIB</div>
+                        <div class="text-slate-800 dark:text-white font-medium transition-colors"><?= date('d F Y, H:i', strtotime($request['created_at'])) ?> WIB</div>
                     </div>
                     <div class="md:col-span-2 space-y-1">
                         <label class="text-xs text-slate-500 uppercase font-bold">Indikator Kinerja Utama (IKU)</label>
                         <div class="text-amber-400 font-bold text-lg"><?= esc($request['no_iku']) ?></div>
-                        <div class="text-slate-300 text-sm"><?= esc($request['nama_indikator']) ?></div>
+                        <div class="text-slate-700 dark:text-slate-300 text-sm transition-colors"><?= esc($request['nama_indikator']) ?></div>
                     </div>
                     <div class="space-y-1">
                         <label class="text-xs text-slate-500 uppercase font-bold">Periode Data</label>
-                        <div class="text-white font-medium"><?= esc($request['bulan']) ?> <?= esc($request['tahun']) ?></div>
+                        <div class="text-slate-800 dark:text-white font-medium transition-colors"><?= esc($request['bulan']) ?> <?= esc($request['tahun']) ?></div>
                     </div>
                     <div class="space-y-1">
                         <label class="text-xs text-slate-500 uppercase font-bold">Jenis Revisi</label>
@@ -42,30 +42,30 @@
                 </div>
 
                 <!-- ALASAN / KETERANGAN -->
-                <div class="mt-6 pt-6 border-t border-slate-800 space-y-2">
+                <div class="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800 transition-colors space-y-2">
                     <label class="text-xs text-slate-500 uppercase font-bold">Keterangan / Alasan Revisi</label>
-                    <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800 text-slate-300 text-sm italic">
+                    <div class="bg-slate-50 dark:bg-slate-950/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 transition-colors text-sm italic">
                         "<?= esc($request['keterangan']) ?>"
                     </div>
                 </div>
             </div>
 
             <!-- DETAIL PERUBAHAN (OLD VS NEW) -->
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm dark:shadow-none transition-colors duration-300">
                 <h3 class="text-amber-500 font-bold uppercase tracking-wider text-sm flex items-center gap-2 mb-6">
                     <i class="fa-solid fa-right-left"></i> Rincian Perubahan Data
                 </h3>
 
-                <div class="overflow-x-auto rounded-xl border border-slate-800">
+                <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <table class="w-full text-sm text-left text-slate-400">
-                        <thead class="text-xs text-slate-500 uppercase bg-slate-950">
+                        <thead class="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-slate-950 transition-colors">
                             <tr>
                                 <th class="px-4 py-3 min-w-[150px]">Data</th>
                                 <th class="px-4 py-3 text-red-400 opacity-80 min-w-[200px]">Nilai Semula (Staging)</th>
                                 <th class="px-4 py-3 text-emerald-400 min-w-[200px]">Nilai Menjadi (Pengajuan)</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-800 bg-slate-900/50">
+                        <tbody class="divide-y divide-slate-200 dark:divide-slate-800 bg-white dark:bg-slate-900/50 transition-colors">
                             <?php 
                                 // DEFINISI 15 KOLOM AUDIT (Sesuai Gambar User)
                                 $auditColumns = [
@@ -101,7 +101,7 @@
                                     $highlightClass = $isDiff ? 'bg-amber-500/10 text-amber-300 font-bold border-l-2 border-amber-500 pl-3' : '';
                             ?>
                             <tr class="<?= $isDiff ? 'bg-amber-900/10' : '' ?>">
-                                <td class="px-4 py-3 font-medium text-slate-300 <?= $highlightClass ?>">
+                                <td class="px-4 py-3 font-medium text-slate-800 dark:text-slate-300 transition-colors <?= $highlightClass ?>">
                                     <?= $col['label'] ?>
                                 </td>
                                 
@@ -124,7 +124,7 @@
                 </div>
                 
                 <?php if(empty($original)): ?>
-                <div class="mt-4 p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+                <div class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 transition-colors flex items-start gap-3">
                     <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-1"></i>
                     <div>
                         <div class="text-amber-400 font-bold text-xs mb-1">Data Asli Tidak Ditemukan</div>
@@ -138,7 +138,7 @@
             </div>
             
             <!-- NOTA DINAS (USER FILE) -->
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm dark:shadow-none transition-colors duration-300">
                 <h3 class="text-blue-400 font-bold uppercase tracking-wider text-sm flex items-center gap-2 mb-6">
                     <i class="fa-solid fa-file-pdf"></i> Dokumen Pendukung User
                 </h3>
@@ -148,11 +148,11 @@
                         <i class="fa-solid fa-file-pdf"></i>
                     </div>
                     <div class="flex-1">
-                        <div class="text-white font-bold text-sm">Nota Dinas Pengajuan.pdf</div>
+                        <div class="text-slate-800 dark:text-white font-bold text-sm transition-colors">Nota Dinas Pengajuan.pdf</div>
                         <div class="text-xs text-slate-500">Diunggah: <?= date('d M Y H:i', strtotime($request['tgl_upload_nota'])) ?></div>
                     </div>
                     <?php if($request['file_nota_dinas']): ?>
-                        <a href="<?= base_url($request['file_nota_dinas']) ?>" target="_blank" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs rounded-lg transition-colors border border-slate-700">
+                        <a href="<?= base_url($request['file_nota_dinas']) ?>" target="_blank" class="px-4 py-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white text-xs rounded-lg transition-colors border border-slate-300 dark:border-slate-700 shadow-sm dark:shadow-none">
                             <i class="fa-solid fa-eye mr-1"></i> Lihat
                         </a>
                     <?php else: ?>
@@ -165,24 +165,24 @@
 
         <!-- RIGHT PANEL: PLANNER ACTION TIMELINE -->
         <div class="lg:col-span-1">
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 sticky top-24">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm dark:shadow-none transition-colors duration-300 sticky top-24">
                 <h3 class="text-purple-400 font-bold uppercase tracking-wider text-sm flex items-center gap-2 mb-8">
                     <i class="fa-solid fa-timeline"></i> Timeline Validasi
                 </h3>
 
-                <div class="relative space-y-12 pl-4 border-l-2 border-slate-800">
+                <div class="relative space-y-12 pl-4 border-l-2 border-slate-200 dark:border-slate-800 transition-colors">
                     
                     <!-- STEP 1: PENGAJUAN DIBUAT (START) -->
                     <div class="relative pl-8">
                         <!-- Dot -->
-                        <div class="absolute -left-[21px] top-0 w-10 h-10 rounded-full border-4 border-slate-900 flex items-center justify-center bg-emerald-500 text-white">
+                        <div class="absolute -left-[21px] top-0 w-10 h-10 rounded-full border-4 border-white dark:border-slate-900 transition-colors flex items-center justify-center bg-emerald-500 text-white">
                             <i class="fa-solid fa-paper-plane"></i>
                         </div>
                         
-                        <h4 class="font-bold text-white mb-1">Pengajuan Dibuat</h4>
+                        <h4 class="font-bold text-slate-800 dark:text-white mb-1 transition-colors">Pengajuan Dibuat</h4>
                         <p class="text-xs text-slate-500 mb-4">User membuat permohonan perubahan data.</p>
 
-                        <div class="bg-slate-800/50 border border-slate-700/50 rounded-lg p-3 mb-2">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 transition-colors rounded-lg p-3 mb-2">
                              <div class="text-xs text-slate-400">Status Awal: <span class="text-amber-400 font-bold">Diajukan</span></div>
                              <div class="text-[10px] text-slate-500 mt-1"><?= date('d F Y, H:i', strtotime($request['created_at'])) ?></div>
                         </div>
@@ -195,11 +195,11 @@
                     ?>
                     <div class="relative pl-8">
                         <!-- Dot -->
-                        <div class="absolute -left-[21px] top-0 w-10 h-10 rounded-full border-4 border-slate-900 flex items-center justify-center <?= $step2Done ? 'bg-emerald-500 text-white' : ($step2Active ? 'bg-amber-500 text-white animate-pulse' : 'bg-slate-800 text-slate-500') ?>">
+                        <div class="absolute -left-[21px] top-0 w-10 h-10 rounded-full border-4 border-white dark:border-slate-900 transition-colors flex items-center justify-center <?= $step2Done ? 'bg-emerald-500 text-white' : ($step2Active ? 'bg-amber-500 text-white animate-pulse' : 'bg-slate-800 text-slate-500') ?>">
                             <i class="fa-solid <?= $step2Done ? 'fa-check' : 'fa-1' ?>"></i>
                         </div>
                         
-                        <h4 class="font-bold text-white mb-1">Disposisi Pimpinan</h4>
+                        <h4 class="font-bold text-slate-800 dark:text-white mb-1 transition-colors">Disposisi Pimpinan</h4>
                         <p class="text-xs text-slate-500 mb-4">Upload bukti disposisi dari Kepala Balai / Ka TU.</p>
 
                         <?php if($step2Done): ?>
@@ -214,7 +214,7 @@
                             <!-- Active Form -->
                             <form action="<?= base_url('admin/pengajuan/upload_disposisi/'.$request['id']) ?>" method="POST" enctype="multipart/form-data" class="space-y-3">
                                 <?= csrf_field() ?>
-                                <input type="file" name="file_disposisi" required class="block w-full text-xs text-slate-400 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400 bg-slate-950 border border-slate-700 rounded-lg cursor-pointer">
+                                <input type="file" name="file_disposisi" required class="block w-full text-xs text-slate-400 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-white hover:file:bg-amber-400 rounded-lg cursor-pointer transition-colors">
                                 <button type="submit" class="w-full py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-lg transition-colors">
                                     Simpan Disposisi
                                 </button>
@@ -232,11 +232,11 @@
                     ?>
                     <div class="relative pl-8">
                         <!-- Dot -->
-                        <div class="absolute -left-[21px] top-0 w-10 h-10 rounded-full border-4 border-slate-900 flex items-center justify-center <?= $step3Done ? 'bg-emerald-500 text-white' : ($step3Active ? 'bg-amber-500 text-white animate-pulse' : 'bg-slate-800 text-slate-500') ?>">
+                        <div class="absolute -left-[21px] top-0 w-10 h-10 rounded-full border-4 border-white dark:border-slate-900 transition-colors flex items-center justify-center <?= $step3Done ? 'bg-emerald-500 text-white' : ($step3Active ? 'bg-amber-500 text-white animate-pulse' : 'bg-slate-800 text-slate-500') ?>">
                             <i class="fa-solid <?= $step3Done ? 'fa-check' : 'fa-3' ?>"></i>
                         </div>
                         
-                        <h4 class="font-bold text-white mb-1">Surat ke Roren Pusat</h4>
+                        <h4 class="font-bold text-slate-800 dark:text-white mb-1 transition-colors">Surat ke Roren Pusat</h4>
                         <p class="text-xs text-slate-500 mb-4">Upload surat pengajuan perubahan ke Biro Perencanaan.</p>
 
                          <?php if($step3Done): ?>
@@ -249,7 +249,7 @@
                         <?php elseif($step3Active): ?>
                             <form action="<?= base_url('admin/pengajuan/upload_roren/'.$request['id']) ?>" method="POST" enctype="multipart/form-data" class="space-y-3">
                                 <?= csrf_field() ?>
-                                <input type="file" name="file_surat_roren" required class="block w-full text-xs text-slate-400 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400 bg-slate-950 border border-slate-700 rounded-lg cursor-pointer">
+                                <input type="file" name="file_surat_roren" required class="block w-full text-xs text-slate-400 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-white hover:file:bg-amber-400 rounded-lg cursor-pointer transition-colors">
                                 <button type="submit" class="w-full py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-lg transition-colors">
                                     Simpan Surat
                                 </button>
@@ -266,11 +266,11 @@
                     ?>
                     <div class="relative pl-8">
                         <!-- Dot -->
-                        <div class="absolute -left-[21px] top-0 w-10 h-10 rounded-full border-4 border-slate-900 flex items-center justify-center <?= $step4Done ? 'bg-emerald-500 text-white' : ($step4Active ? 'bg-amber-500 text-white animate-pulse' : 'bg-slate-800 text-slate-500') ?>">
+                        <div class="absolute -left-[21px] top-0 w-10 h-10 rounded-full border-4 border-white dark:border-slate-900 transition-colors flex items-center justify-center <?= $step4Done ? 'bg-emerald-500 text-white' : ($step4Active ? 'bg-amber-500 text-white animate-pulse' : 'bg-slate-800 text-slate-500') ?>">
                             <i class="fa-solid <?= $step4Done ? 'fa-flag-checkered' : 'fa-4' ?>"></i>
                         </div>
                         
-                        <h4 class="font-bold text-white mb-1">Update ePerformance</h4>
+                        <h4 class="font-bold text-slate-800 dark:text-white mb-1 transition-colors">Update ePerformance</h4>
                         <p class="text-xs text-slate-500 mb-4">Upload bukti screenshot update data di aplikasi ePerformance.</p>
 
                         <?php if($step4Done): ?>
@@ -288,7 +288,7 @@
                         <?php elseif($step4Active): ?>
                             <form action="<?= base_url('admin/pengajuan/upload_eperformance/'.$request['id']) ?>" method="POST" enctype="multipart/form-data" class="space-y-3">
                                 <?= csrf_field() ?>
-                                <input type="file" name="file_sc_eperformance" required class="block w-full text-xs text-slate-400 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400 bg-slate-950 border border-slate-700 rounded-lg cursor-pointer">
+                                <input type="file" name="file_sc_eperformance" required class="block w-full text-xs text-slate-400 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-white hover:file:bg-amber-400 rounded-lg cursor-pointer transition-colors">
                                 <button type="submit" class="w-full py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-lg transition-colors">
                                     Selesai & Tutup Kasus
                                 </button>

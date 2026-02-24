@@ -92,7 +92,7 @@ class Email extends BaseConfig
         $this->SMTPCrypto = env('email.SMTPCrypto', 'tls');
         $this->mailType = env('email.mailType', 'html');
         $this->fromEmail = env('email.fromEmail', 'no-reply@bbpom-surabaya.go.id');
-        $this->fromName  = env('email.fromName', 'E-Kinerja BBPOM');
+        $this->fromName  = env('email.fromName', 'Insight BBPOM');
     }
 
     /**

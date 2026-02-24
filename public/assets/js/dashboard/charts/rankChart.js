@@ -1,28 +1,62 @@
 /**
- * Render Horizontal Bar Chart untuk Ranking
+ * Render Horizontal Bar Chart untuk Ranking (menggunakan ApexCharts)
  */
-window.initRankChart = function(canvasId, dataJson, barColor) {
-    const ctx = document.getElementById(canvasId).getContext('2d');
-    
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: dataJson.map(row => row.no),
-            datasets: [{
-                data: dataJson.map(row => row.nilai),
-                backgroundColor: barColor,
-                borderRadius: 5
-            }]
+window.initRankChart = function (elementId, dataJson, barColor) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+
+    // Bersihkan kontainer jika dipanggil ulang
+    el.innerHTML = '';
+
+    const options = {
+        chart: {
+            type: 'bar',
+            height: '100%',
+            background: 'transparent',
+            toolbar: { show: false }
         },
-        options: {
-            indexAxis: 'y', // Membuat bar menjadi horizontal
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
-                y: { ticks: { color: '#94a3b8' }, grid: { display: false } }
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                barHeight: '60%',
+                borderRadius: 4,
+                dataLabels: { position: 'top' }
             }
-        }
-    });
+        },
+        series: [{
+            name: 'Realisasi',
+            data: dataJson.map(row => parseFloat(row.nilai))
+        }],
+        colors: [barColor],
+        dataLabels: {
+            enabled: true,
+            formatter: (val) => (Math.round(val * 100) / 100) + "%",
+            offsetX: -18,
+            style: {
+                fontSize: '11px',
+                colors: ['#ffffff']
+            }
+        },
+        xaxis: {
+            categories: dataJson.map(row => row.no),
+            labels: { show: false },
+            axisBorder: { show: false },
+            axisTicks: { show: false }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: '#64748b'
+                }
+            }
+        },
+        grid: {
+            show: false,
+            padding: { top: 0, right: 0, bottom: 10, left: 0 }
+        },
+        tooltip: { theme: 'dark' }
+    };
+
+    const chart = new ApexCharts(el, options);
+    chart.render();
 }

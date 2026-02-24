@@ -6,8 +6,18 @@ body {
 
 /* Pengaturan warna variabel untuk konsistensi */
 :root {
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    /* Light mode bg */
+    --glass-border: rgba(226, 232, 240, 0.8);
+    /* slate-200 */
+    --teal-glow: rgba(20, 184, 166, 0.1);
+}
+
+html.dark {
     --glass-bg: rgba(30, 41, 59, 0.7);
+    /* Dark mode bg */
     --glass-border: rgba(51, 65, 85, 0.5);
+    /* slate-700 */
     --teal-glow: rgba(20, 184, 166, 0.1);
 }
 
@@ -58,10 +68,19 @@ body {
 }
 
 ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+html.dark ::-webkit-scrollbar-track {
     background: #0f172a;
 }
 
 ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
     background: #334155;
     border-radius: 10px;
 }

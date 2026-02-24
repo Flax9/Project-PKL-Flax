@@ -1,7 +1,7 @@
 <?= $this->extend('layout/main') ?>
 
 <?= $this->section('content') ?>
-<div class="flex-1 flex flex-col h-screen overflow-hidden text-slate-300 relative">
+<div class="flex-1 flex flex-col h-screen overflow-hidden text-slate-700 dark:text-slate-300 relative transition-colors duration-300">
 
     <!-- Header -->
     <!-- Header -->
@@ -16,13 +16,13 @@
                 <!-- Profile Card -->
                 <div class="relative">
                     <div class="absolute inset-0 bg-gradient-to-b from-teal-500/20 to-transparent blur-2xl -z-10 rounded-[3rem]"></div>
-                    <div class="glass-card p-8 flex flex-col items-center text-center border border-white/5 bg-slate-900/60 backdrop-blur-xl relative overflow-hidden">
+                    <div class="glass-card p-8 flex flex-col items-center text-center bg-white/60 dark:bg-slate-900/60 border border-slate-200/50 dark:border-white/5 transition-colors duration-300 backdrop-blur-xl relative overflow-hidden">
                         
                         <!-- Photo Container -->
                         <div class="relative w-40 h-40 mb-6 group/photo cursor-pointer">
                             <div class="absolute inset-0 bg-teal-500 rounded-full blur opacity-20 group-hover/photo:opacity-40 transition-opacity duration-500"></div>
                             
-                            <div id="profilePhotoContainer" class="w-full h-full rounded-full bg-slate-800 border-4 border-slate-700 group-hover/photo:border-teal-400/50 transition-all duration-300 overflow-hidden flex items-center justify-center relative z-10 shadow-2xl">
+                            <div id="profilePhotoContainer" class="w-full h-full rounded-full bg-slate-100 dark:bg-slate-800 border-4 border-white dark:border-slate-700 transition-colors group-hover/photo:border-teal-400/50 transition-all duration-300 overflow-hidden flex items-center justify-center relative z-10 shadow-2xl">
                                 <?php if(!empty($user['photo'])): ?>
                                     <img src="<?= base_url('uploads/profile/' . $user['photo']) ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover/photo:scale-110">
                                 <?php else: ?>
@@ -38,21 +38,21 @@
                             <input type="file" id="photoUpload" class="hidden" accept="image/*">
                         </div>
 
-                        <h3 class="text-2xl font-bold text-white mb-0.5 tracking-tight"><?= esc($user['name'] ?? $user['username']) ?></h3>
-                        <p class="text-sm text-slate-400 font-medium mb-4">@<?= esc($user['username']) ?></p>
+                        <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-0.5 tracking-tight transition-colors"><?= esc($user['name'] ?? $user['username']) ?></h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mb-4 transition-colors">@<?= esc($user['username']) ?></p>
                         
                         <div class="inline-flex px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-[10px] font-bold uppercase tracking-wider mb-6">
                             <?= esc($user['role']) ?>
                         </div>
 
                         <div class="w-full grid grid-cols-2 gap-4">
-                            <div class="p-3 rounded-xl bg-slate-800/50 border border-slate-700/50 text-center">
+                            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 transition-colors text-center">
                                 <p class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Status Akun</p>
                                 <p class="text-emerald-400 font-bold text-sm"><i class="fa-solid fa-circle-check mr-1"></i> Aktif</p>
                             </div>
-                            <div class="p-3 rounded-xl bg-slate-800/50 border border-slate-700/50 text-center">
+                            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 transition-colors text-center">
                                 <p class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Terdaftar</p>
-                                <p class="text-white font-bold text-sm">2026</p>
+                                <p class="text-slate-800 dark:text-white font-bold text-sm transition-colors">2026</p>
                             </div>
                         </div>
 
@@ -67,10 +67,10 @@
 
             <!-- Right Column: Edit Form -->
             <div class="lg:col-span-8">
-                <div class="glass-card p-8 border border-white/5 bg-slate-900/60 backdrop-blur-xl h-full">
+                <div class="glass-card p-8 bg-white/60 dark:bg-slate-900/60 border border-slate-200/50 dark:border-white/5 transition-colors duration-300 backdrop-blur-xl h-full">
                     <div class="flex items-center justify-between mb-8 pb-6 border-b border-slate-800/50">
                         <div>
-                            <h3 class="text-lg font-bold text-white">Informasi Pribadi</h3>
+                            <h3 class="text-lg font-bold text-slate-800 dark:text-white transition-colors">Informasi Pribadi</h3>
                             <p class="text-slate-500 text-sm mt-1">Perbarui informasi akun Anda di sini.</p>
                         </div>
                         <div class="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400">
@@ -103,7 +103,7 @@
                                     <i class="fa-solid fa-at text-slate-600"></i>
                                 </div>
                                 <input type="text" value="<?= esc($user['username']) ?>" readonly 
-                                    class="w-full bg-slate-950/50 border border-slate-800 text-slate-400 rounded-xl pl-10 pr-4 py-3.5 text-sm font-medium focus:outline-none cursor-not-allowed select-all">
+                                    class="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 rounded-xl pl-10 pr-4 py-3.5 text-sm font-medium focus:outline-none cursor-not-allowed select-all">
                                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                                     <i class="fa-solid fa-lock text-slate-600 text-xs" title="Tidak dapat diubah demi integritas data"></i>
                                 </div>
@@ -119,7 +119,7 @@
                                     <i class="fa-solid fa-id-card text-slate-500 group-focus-within:text-teal-400 transition-colors"></i>
                                 </div>
                                 <input type="text" name="name" value="<?= esc($user['name'] ?? $user['username']) ?>" required
-                                    class="w-full bg-slate-800/50 border border-slate-700 text-white rounded-xl pl-10 pr-10 py-3.5 text-sm font-medium focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all placeholder:text-slate-600">
+                                    class="w-full bg-white dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white rounded-xl pl-10 pr-10 py-3.5 text-sm font-medium focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-colors placeholder:text-slate-400 dark:placeholder:text-slate-600">
                                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                                     <i class="fa-solid fa-pen text-slate-500 text-xs"></i>
                                 </div>
@@ -134,7 +134,7 @@
                                     <i class="fa-solid fa-envelope text-slate-500 group-focus-within:text-teal-400 transition-colors"></i>
                                 </div>
                                 <input type="email" name="email" value="<?= esc($user['email'] ?? '') ?>" required
-                                    class="w-full bg-slate-800/50 border border-slate-700 text-white rounded-xl pl-10 pr-10 py-3.5 text-sm font-medium focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all placeholder:text-slate-600">
+                                    class="w-full bg-white dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white rounded-xl pl-10 pr-10 py-3.5 text-sm font-medium focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-colors placeholder:text-slate-400 dark:placeholder:text-slate-600">
                                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                                     <i class="fa-solid fa-pen text-slate-500 text-xs"></i>
                                 </div>
@@ -149,12 +149,12 @@
                                     <i class="fa-solid fa-key text-slate-500 group-focus-within:text-teal-400 transition-colors"></i>
                                 </div>
                                 <input type="password" name="password" placeholder="Biarkan kosong jika tidak ingin mengubah password"
-                                    class="w-full bg-slate-800/50 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-3.5 text-sm font-medium focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all placeholder:text-slate-600">
+                                    class="w-full bg-white dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white rounded-xl pl-10 pr-4 py-3.5 text-sm font-medium focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-colors placeholder:text-slate-400 dark:placeholder:text-slate-600">
                             </div>
                         </div>
 
                         <div class="pt-6 flex justify-end gap-3">
-                            <button type="button" onclick="history.back()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm font-bold transition-all">
+                            <button type="button" onclick="history.back()" class="px-6 py-3 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold transition-all">
                                 Batal
                             </button>
                             <button type="submit" class="px-8 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white rounded-xl text-sm font-bold shadow-lg shadow-teal-500/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
@@ -176,7 +176,7 @@
     
     <!-- Modal Content -->
     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-4">
-        <div class="bg-slate-900/90 border border-white/10 shadow-2xl rounded-3xl relative overflow-hidden backdrop-blur-xl">
+        <div class="bg-white/90 dark:bg-slate-900/90 border border-slate-200/50 dark:border-white/10 shadow-2xl rounded-3xl relative overflow-hidden backdrop-blur-xl transition-colors duration-300">
             
 
 
@@ -191,7 +191,7 @@
                     <div class="w-20 h-20 rounded-full bg-gradient-to-br from-teal-500/20 to-emerald-500/20 flex items-center justify-center mx-auto mb-6 shadow-inner border border-white/5">
                         <i class="fa-solid fa-shield-halved text-4xl text-teal-400 drop-shadow-lg"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Verifikasi Email</h3>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2 tracking-tight transition-colors">Verifikasi Email</h3>
                     <p class="text-slate-400 text-sm leading-relaxed px-4">
                         Kami telah mengirimkan kode 6 digit ke email baru Anda.
                     </p>
@@ -202,7 +202,7 @@
                     <div class="relative group">
                         <div class="absolute -inset-0.5 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-2xl opacity-20 group-focus-within:opacity-100 transition duration-500 blur"></div>
                         <input type="text" id="otpInput" maxlength="6" placeholder="• • • • • •" 
-                            class="relative w-full bg-slate-950 border border-slate-700 text-white text-center text-3xl font-mono tracking-[0.5em] rounded-xl py-5 focus:outline-none focus:border-teal-500/50 transition-all placeholder:text-slate-700 placeholder:tracking-[0.2em] shadow-inner">
+                            class="relative w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white text-center text-3xl font-mono tracking-[0.5em] rounded-xl py-5 focus:outline-none focus:border-teal-500/50 transition-colors placeholder:text-slate-400 dark:placeholder:text-slate-700 placeholder:tracking-[0.2em] shadow-inner">
                     </div>
 
                     <button type="button" onclick="verifyOtp()" id="btnVerify"

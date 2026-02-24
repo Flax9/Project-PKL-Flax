@@ -17,28 +17,28 @@
     <div id="entryTabContent" class="mt-2">
         <!-- TAB IKU -->
         <div class="tab-pane block" id="iku-content" role="tabpanel">
-            <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <div class="bg-white/80 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-2xl p-6 shadow-md dark:shadow-xl transition-colors duration-300">
                 <?= view('admin/entry/tabs/iku') ?>
             </div>
         </div>
 
         <!-- TAB NKO -->
         <div class="tab-pane hidden" id="nko-content" role="tabpanel">
-            <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <div class="bg-white/80 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-2xl p-6 shadow-md dark:shadow-xl transition-colors duration-300">
                 <?= view('admin/entry/tabs/nko') ?>
             </div>
         </div>
 
         <!-- TAB ANGGARAN -->
         <div class="tab-pane hidden" id="anggaran-content" role="tabpanel">
-            <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <div class="bg-white/80 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-2xl p-6 shadow-md dark:shadow-xl transition-colors duration-300">
                 <?= view('admin/entry/tabs/anggaran') ?>
             </div>
         </div>
 
         <!-- TAB CAPAIAN OUTPUT -->
         <div class="tab-pane hidden" id="capaian-output-content" role="tabpanel">
-            <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <div class="bg-white/80 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-2xl p-6 shadow-md dark:shadow-xl transition-colors duration-300">
                 <?= view('admin/entry/tabs/capaian_output') ?>
             </div>
         </div>

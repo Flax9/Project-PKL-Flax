@@ -9,16 +9,16 @@
         <!-- HEADER SECTION -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
-                <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                <h3 class="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-3 transition-colors">
                     <i class="fa-solid fa-list-check text-amber-500"></i>
                     Antrian Validasi Perubahan Data
                 </h3>
-                <p class="text-slate-400 mt-1">Daftar pengajuan perubahan data yang menunggu tindak lanjut dari Perencana.</p>
+                <p class="text-slate-500 dark:text-slate-400 mt-1 transition-colors">Daftar pengajuan perubahan data yang menunggu tindak lanjut dari Perencana.</p>
             </div>
             
             <!-- FILTER (Optional) -->
             <div class="flex gap-3">
-                <select id="statusFilter" onchange="window.location.href='?status='+this.value" class="bg-slate-900 border border-slate-700 text-slate-300 text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block p-2.5">
+                <select id="statusFilter" onchange="window.location.href='?status='+this.value" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-300 text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block p-2.5 transition-colors">
                     <option value="all" <?= ($activeStatus == 'all') ? 'selected' : '' ?>>Semua Status</option>
                     <option value="diajukan" <?= ($activeStatus == 'diajukan') ? 'selected' : '' ?>>Menunggu Disposisi</option>
                     <option value="disposisi" <?= ($activeStatus == 'disposisi') ? 'selected' : '' ?>>Proses Roren</option>
@@ -29,10 +29,10 @@
         </div>
 
         <!-- TABLE CARD -->
-        <div class="bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden shadow-xl backdrop-blur-sm">
+        <div class="bg-white/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-xl backdrop-blur-sm transition-colors duration-300">
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-slate-400">
-                    <thead class="text-xs text-slate-500 uppercase bg-slate-950 border-b border-slate-800">
+                    <thead class="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 transition-colors">
                         <tr>
                             <th scope="col" class="px-6 py-4 font-bold">Waktu Pengajuan</th>
                             <th scope="col" class="px-6 py-4 font-bold">Fungsi / Pengirim</th>
@@ -42,7 +42,7 @@
                             <th scope="col" class="px-6 py-4 font-bold text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-800/50">
+                    <tbody class="divide-y divide-slate-200 dark:divide-slate-800/50 transition-colors">
                         <?php if (empty($requests)) : ?>
                             <tr>
                                 <td colspan="6" class="px-6 py-12 text-center text-slate-500 italic">
@@ -54,9 +54,9 @@
                             </tr>
                         <?php else : ?>
                             <?php foreach ($requests as $req) : ?>
-                                <tr class="hover:bg-slate-800/50 transition-colors group">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
                                     <td class="px-6 py-4">
-                                        <div class="text-white font-medium"><?= date('d M Y', strtotime($req['created_at'])) ?></div>
+                                        <div class="text-slate-800 dark:text-white font-medium transition-colors"><?= date('d M Y', strtotime($req['created_at'])) ?></div>
                                         <div class="text-xs text-slate-500"><?= date('H:i', strtotime($req['created_at'])) ?> WIB</div>
                                     </td>
                                     <td class="px-6 py-4">
@@ -65,7 +65,7 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 max-w-xs">
-                                        <div class="font-bold text-slate-200 mb-1"><?= esc($req['no_iku']) ?></div>
+                                        <div class="font-bold text-slate-800 dark:text-slate-200 mb-1 transition-colors"><?= esc($req['no_iku']) ?></div>
                                         <div class="text-xs text-slate-500 line-clamp-2" title="<?= esc($req['nama_indikator']) ?>">
                                             <?= esc($req['nama_indikator']) ?>
                                         </div>
@@ -112,7 +112,7 @@
             </div>
             
             <!-- PAGINATION (Placeholder) -->
-            <div class="px-6 py-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-500">
+            <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs text-slate-500 transition-colors">
                 <span>Menampilkan <?= count($requests) ?> data</span>
                 <!-- Pagination links could go here -->
             </div>

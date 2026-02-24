@@ -23,12 +23,12 @@ document.addEventListener('DOMContentLoaded', function () {
             categories: dataBar.map(i => i.program),
             position: 'top',
             labels: {
-                style: { colors: '#94a3b8', fontSize: '10px' },
+                style: { colors: '#64748b', fontSize: '10px' },
                 formatter: (val) => val >= 1e9 ? (val / 1e9).toFixed(1) + " M" : val
             },
             axisBorder: { show: false }
         },
-        yaxis: { labels: { maxWidth: 220, style: { colors: '#94a3b8', fontSize: '11px' } } },
+        yaxis: { labels: { maxWidth: 220, style: { colors: '#64748b', fontSize: '11px' } } },
         tooltip: { theme: 'dark', y: { formatter: (val) => "Rp " + val.toLocaleString('id-ID') } }
     };
     if (document.querySelector("#chartProgram")) {
@@ -49,14 +49,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.1 } },
         stroke: { curve: 'smooth', width: 3 },
-        grid: { borderColor: '#1e293b', strokeDashArray: 4 },
+        grid: { borderColor: 'rgba(100, 116, 139, 0.2)', strokeDashArray: 4 },
         xaxis: {
             categories: dataTrend.map(i => i.Bulan),
-            labels: { style: { colors: '#94a3b8', fontSize: '10px' } }
+            labels: { style: { colors: '#64748b', fontSize: '10px' } }
         },
         yaxis: {
             labels: {
-                style: { colors: '#94a3b8' },
+                style: { colors: '#64748b' },
                 formatter: (v) => (v / 1e6).toFixed(0) + "jt"
             }
         },

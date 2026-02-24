@@ -1,7 +1,7 @@
-<header class="h-auto border-b border-slate-800 bg-slate-900/80 backdrop-blur-md z-10 sticky top-0">
-    <div class="flex flex-wrap items-center justify-between px-8 py-4 gap-4">
+<header class="h-auto border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 backdrop-blur-md z-10 sticky top-0 transition-colors duration-300">
+    <div class="flex flex-wrap items-center justify-between px-4 md:px-8 py-4 gap-4">
         <div>
-            <h2 class="text-2xl font-bold text-white">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white transition-colors duration-300">
                 <?php 
                 if($activeMenu == 'dashboard') echo 'Ringkasan Kinerja IKU';
                     elseif($activeMenu == 'anggaran') echo 'Manajemen Anggaran';
@@ -11,7 +11,7 @@
                     else echo 'Ringkasan Kinerja';
                 ?>
             </h2>
-            <p class="text-sm text-slate-500">
+            <p class="text-sm text-slate-600 dark:text-slate-500 transition-colors duration-300">
                 <?php 
                     if($activeMenu == 'data_entry') echo 'Silakan pilih kategori data yang ingin diinput atau diperbarui.';
                     elseif($activeMenu == 'profile') echo 'Perbarui informasi akun dan preferensi Anda.';
@@ -21,14 +21,14 @@
         </div>
         
         <?php if($activeMenu != 'data_entry' && $activeMenu != 'profile'): ?>
-        <div class="flex flex-wrap gap-3 no-print">
+        <div class="flex flex-wrap gap-3 no-print items-center">
             <?php if($activeMenu == 'dashboard'): ?>
-                <select id='filterNamaIndikator' onchange="applyFilter()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 w-48 cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none">
-                    <option value="" class="bg-slate-900">Nama Indikator</option>
+                <select id='filterNamaIndikator' onchange="applyFilter()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-xs rounded-lg p-2.5 w-48 cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none transition-colors shadow-sm">
+                    <option value="" class="bg-white dark:bg-slate-900">Nama Indikator</option>
                     <?php if(isset($filterIndikator)): ?>
                         <?php foreach($filterIndikator as $i): ?>
                             <?php if(!empty($i['nama'])): ?>
-                                <option value="<?= $i['nama'] ?>" class="bg-slate-900" 
+                                <option value="<?= $i['nama'] ?>" class="bg-white dark:bg-slate-900" 
                                     <?= (request()->getGet('nama_indikator') == $i['nama']) ? 'selected' : '' ?>>
                                     <?= $i['nama'] ?>
                                 </option>
@@ -37,12 +37,12 @@
                     <?php endif; ?>
                 </select>
 
-                <select id="filterFungsi" onchange="applyFilter()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none">
-                    <option value="" class="bg-slate-900">Semua Fungsi</option>
+                <select id="filterFungsi" onchange="applyFilter()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-xs rounded-lg p-2.5 cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none transition-colors shadow-sm">
+                    <option value="" class="bg-white dark:bg-slate-900">Semua Fungsi</option>
                     <?php if(isset($filter_fungsi)): ?>
                         <?php foreach($filter_fungsi as $f): ?>
                             <?php if(!empty($f['Fungsi'])): ?>
-                                <option value="<?= $f['Fungsi'] ?>" class="bg-slate-900" 
+                                <option value="<?= $f['Fungsi'] ?>" class="bg-white dark:bg-slate-900" 
                                     <?= (request()->getGet('fungsi') == $f['Fungsi']) ? 'selected' : '' ?>>
                                     <?= $f['Fungsi'] ?>
                                 </option>
@@ -53,12 +53,12 @@
 
             <?php else: ?>
                 <?php if($activeMenu == 'anggaran'): ?>
-                    <select id="filterProgram" onchange="applyFilter()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 max-w-[200px] cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none">
-                        <option value="" class="bg-slate-900">Semua Program</option>
+                    <select id="filterProgram" onchange="applyFilter()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-xs rounded-lg p-2.5 max-w-[200px] cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none transition-colors shadow-sm">
+                        <option value="" class="bg-white dark:bg-slate-900">Semua Program</option>
                         <?php if(isset($filter_program)): ?>
                             <?php foreach($filter_program as $p): ?>
                                 <?php if(!empty($p['PROGRAM/KEGIATAN'])): ?>
-                                    <option value="<?= $p['PROGRAM/KEGIATAN'] ?>" class="bg-slate-900" 
+                                    <option value="<?= $p['PROGRAM/KEGIATAN'] ?>" class="bg-white dark:bg-slate-900" 
                                         <?= (request()->getGet('program') == $p['PROGRAM/KEGIATAN']) ? 'selected' : '' ?>>
                                         <?= $p['PROGRAM/KEGIATAN'] ?>
                                     </option>
@@ -68,8 +68,8 @@
                     </select>
                 <?php endif; ?>
 
-                <select id="filterRO" onchange="applyFilter()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 max-w-[200px] cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none">
-                    <option value="" class="bg-slate-900">Keterangan RO</option>
+                <select id="filterRO" onchange="applyFilter()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-xs rounded-lg p-2.5 max-w-[200px] cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none transition-colors shadow-sm">
+                    <option value="" class="bg-white dark:bg-slate-900">Keterangan RO</option>
                     <?php 
                         $ro_data = ($activeMenu == 'anggaran') ? ($filter_ro ?? []) : ($filter_keterangan_ro ?? []);
                         $ro_param = ($activeMenu == 'anggaran') ? 'ro' : 'keterangan_ro';
@@ -77,7 +77,7 @@
                     <?php foreach($ro_data as $ro): ?>
                         <?php $val = ($activeMenu == 'anggaran') ? $ro['RO'] : $ro['keterangan']; ?>
                         <?php if(!empty($val)): ?>
-                            <option value="<?= $val ?>" class="bg-slate-900" <?= (request()->getGet($ro_param) == $val) ? 'selected' : '' ?>>
+                            <option value="<?= $val ?>" class="bg-white dark:bg-slate-900" <?= (request()->getGet($ro_param) == $val) ? 'selected' : '' ?>>
                                 <?= $val ?>
                             </option>
                         <?php endif; ?>
@@ -85,12 +85,12 @@
                 </select>
             <?php endif; ?>
 
-            <select id="filterBulan" onchange="applyFilter()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 cursor-pointer outline-none">
-                <option value="" class="bg-slate-900" <?= (request()->getGet('bulan') == '') ? 'selected' : '' ?>>Semua Bulan</option>
+            <select id="filterBulan" onchange="applyFilter()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-xs rounded-lg p-2.5 cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none transition-colors shadow-sm">
+                <option value="" class="bg-white dark:bg-slate-900" <?= (request()->getGet('bulan') == '') ? 'selected' : '' ?>>Semua Bulan</option>
                 <?php if(isset($filter_bulan)): ?>
                     <?php foreach($filter_bulan as $b): ?>
                         <?php if(!empty($b['Bulan'])): ?>
-                            <option value="<?= $b['Bulan'] ?>" class="bg-slate-900" <?= (request()->getGet('bulan') == $b['Bulan']) ? 'selected' : '' ?>>
+                            <option value="<?= $b['Bulan'] ?>" class="bg-white dark:bg-slate-900" <?= (request()->getGet('bulan') == $b['Bulan']) ? 'selected' : '' ?>>
                                 <?= $b['Bulan'] ?>
                             </option>
                         <?php endif; ?>
@@ -98,12 +98,13 @@
                 <?php endif; ?>
             </select>
 
-            <select id="filterTahun" onchange="applyFilter()" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 min-w-[100px] cursor-pointer outline-none">
-                <option value="" class="bg-slate-900" <?= (request()->getGet('tahun') == '') ? 'selected' : '' ?>>Tahun</option>
+            <?php $currentTahun = (request()->getGet('tahun') === null) ? date('Y') : request()->getGet('tahun'); ?>
+            <select id="filterTahun" onchange="applyFilter()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-xs rounded-lg p-2.5 min-w-[100px] cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none transition-colors shadow-sm">
+                <option value="" class="bg-white dark:bg-slate-900" <?= ($currentTahun === '') ? 'selected' : '' ?>>Semua Tahun</option>
                 <?php if(isset($filter_tahun)): ?>
                     <?php foreach($filter_tahun as $t): ?>
                         <?php if(!empty($t['Tahun'])): ?>
-                            <option value="<?= $t['Tahun'] ?>" class="bg-slate-900" <?= (request()->getGet('tahun') == $t['Tahun']) ? 'selected' : '' ?>>
+                            <option value="<?= $t['Tahun'] ?>" class="bg-white dark:bg-slate-900" <?= ($currentTahun == $t['Tahun']) ? 'selected' : '' ?>>
                                 <?= $t['Tahun'] ?>
                             </option>
                         <?php endif; ?>
@@ -119,39 +120,39 @@
     </div>
 
     <?php if($activeMenu == 'data_entry'): ?>
-    <div class="px-8 border-t border-slate-800/50 no-print">
+    <div class="px-8 border-t border-slate-200 dark:border-slate-800/50 no-print transition-colors duration-300">
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="entryTabs" role="tablist">
             <li class="me-2" role="presentation">
-                <button class="inline-flex items-center p-4 border-b-2 border-teal-500 text-teal-400 rounded-t-lg active" 
+                <button class="inline-flex items-center p-4 border-b-2 border-teal-500 text-teal-600 dark:text-teal-400 rounded-t-lg active" 
                         id="iku-tab" data-bs-toggle="tab" data-bs-target="#iku-content" type="button" role="tab">
                     <i class="fa-solid fa-chart-line me-2"></i>Capaian IKU
                 </button>
             </li>
             <li class="me-2" role="presentation">
-                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 hover:text-teal-400 hover:border-teal-400 rounded-t-lg transition-all" 
+                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-600 dark:text-slate-500 hover:text-teal-600 dark:hover:text-teal-400 hover:border-teal-400 rounded-t-lg transition-all" 
                         id="nko-tab" data-bs-toggle="tab" data-bs-target="#nko-content" type="button" role="tab">
                     <i class="fa-solid fa-chart-pie me-2"></i>NKO
                 </button>
             </li>
             <li class="me-2" role="presentation">
-                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 rounded-t-lg opacity-50 cursor-not-allowed" disabled>
+                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-400 dark:text-slate-500 rounded-t-lg opacity-50 cursor-not-allowed" disabled>
                     <i class="fa-solid fa-file-contract me-2"></i>Perjanjian Kinerja
                 </button>
             </li>
             <li class="me-2" role="presentation">
-                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 hover:text-teal-400 hover:border-teal-400 rounded-t-lg transition-all" 
+                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-600 dark:text-slate-500 hover:text-teal-600 dark:hover:text-teal-400 hover:border-teal-400 rounded-t-lg transition-all" 
                         id="capaian-output-tab" data-bs-toggle="tab" data-bs-target="#capaian-output-content" type="button" role="tab">
                     <i class="fa-solid fa-chart-line me-2"></i>Capaian Output
                 </button>
             </li>
             <li class="me-2" role="presentation">
-                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 hover:text-teal-400 hover:border-teal-400 rounded-t-lg transition-all" 
+                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-600 dark:text-slate-500 hover:text-teal-600 dark:hover:text-teal-400 hover:border-teal-400 rounded-t-lg transition-all" 
                         id="anggaran-tab" data-bs-toggle="tab" data-bs-target="#anggaran-content" type="button" role="tab">
                     <i class="fa-solid fa-coins me-2"></i>Anggaran
                 </button>
             </li>
             <li class="me-2" role="presentation">
-                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-500 rounded-t-lg opacity-50 cursor-not-allowed" disabled>
+                <button class="inline-flex items-center p-4 border-b-2 border-transparent text-slate-400 dark:text-slate-500 rounded-t-lg opacity-50 cursor-not-allowed" disabled>
                     <i class="fa-solid fa-database me-2"></i>Master Database
                 </button>
             </li>

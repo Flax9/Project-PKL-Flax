@@ -357,6 +357,8 @@ class Entry extends BaseController
             'name' => $name,
         ];
 
+
+        #password_hash($password, PASSWORD_DEFAULT) menggunakan Bcrypt;
         if (!empty($password)) {
             $data['password'] = password_hash($password, PASSWORD_DEFAULT);
         }

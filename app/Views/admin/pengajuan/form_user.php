@@ -42,7 +42,7 @@
         <?php endif; ?>
 
         <!-- CARD 1: FILTER PENCARIAN -->
-        <div class="bg-slate-900/50 border border-slate-800 rounded-3xl p-8">
+        <div class="bg-white/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm dark:shadow-none transition-colors duration-300">
             <h3 class="text-teal-500 font-bold uppercase tracking-wider text-sm mb-6 flex items-center gap-2">
                 <i class="fa-solid fa-filter"></i> Filter Data (Sumber: capaian_iku)
             </h3>
@@ -51,7 +51,7 @@
                 <!-- TAHUN -->
                 <div class="space-y-2">
                     <label class="block text-xs font-bold text-slate-500 uppercase">Tahun</label>
-                    <select id="tahun" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all">
+                    <select id="tahun" class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
                         <option value="">Pilih Tahun</option>
                         <option value="2025">2025</option>
                         <option value="2026">2026</option>
@@ -61,7 +61,7 @@
                 <!-- BULAN -->
                 <div class="space-y-2">
                     <label class="block text-xs font-bold text-slate-500 uppercase">Bulan</label>
-                    <select id="bulan" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all">
+                    <select id="bulan" class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
                         <option value="">Pilih Bulan</option>
                         <?php 
                         $bulanArr = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -74,7 +74,7 @@
                 <!-- FUNGSI -->
                 <div class="space-y-2 md:col-span-2">
                 <label class="block text-xs font-bold text-slate-500 uppercase">Fungsi / Substansi</label>
-                    <select id="fungsi" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all">
+                    <select id="fungsi" class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
                         <option value="">Pilih Fungsi</option>
                         <?php if(isset($list_fungsi)): foreach($list_fungsi as $f): ?>
                             <option value="<?= $f->Fungsi ?>"><?= $f->Fungsi ?></option>
@@ -85,7 +85,7 @@
                 <!-- NO IKU -->
                 <div class="space-y-2">
                     <label class="block text-xs font-bold text-slate-500 uppercase">No. IKU</label>
-                    <select id="no_iku" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all" disabled>
+                    <select id="no_iku" class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors" disabled>
                         <option value="">Pilih Tahun Dulu</option>
                     </select>
                 </div>
@@ -94,7 +94,7 @@
                 <div class="space-y-2 md:col-span-3">
                     <label class="block text-xs font-bold text-slate-500 uppercase">Nama Indikator</label>
                     <input type="text" id="nama_indikator" readonly 
-                           class="w-full bg-slate-900/50 border border-slate-800 text-slate-400 rounded-xl px-4 py-3 text-sm focus:outline-none cursor-not-allowed placeholder-slate-700"
+                           class="w-full bg-slate-100 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-800 text-slate-500 dark:text-slate-400 rounded-xl px-4 py-3 text-sm focus:outline-none cursor-not-allowed placeholder-slate-400 dark:placeholder-slate-700 transition-colors"
                            placeholder="Otomatis terisi...">
                 </div>
             </div>
@@ -108,136 +108,136 @@
         </div>
 
         <!-- CARD 2: HASIL DATA DARI DB (TAHAP 2) -->
-        <div id="resultCard" class="hidden bg-slate-900/50 border border-slate-800 rounded-3xl p-8 relative overflow-hidden">
+        <div id="resultCard" class="hidden bg-white/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm dark:shadow-none transition-colors duration-300 relative overflow-hidden">
             <!-- Background Decoration -->
             <div class="absolute top-0 right-0 w-64 h-64 bg-teal-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             
-            <div class="relative z-10 mb-6 border-b border-slate-800 pb-4">
+            <div class="relative z-10 mb-6 border-b border-slate-200 dark:border-slate-800 transition-colors pb-4">
                  <h3 class="text-teal-500 font-bold uppercase tracking-wider text-sm flex items-center gap-2">
                     <i class="fa-solid fa-list-check"></i> Tahap 2: Konfirmasi Data Database (15 Kolom)
                 </h3>
-                <p class="text-xs text-slate-500 mt-1">Pilih data spesifik dari dropdown berikut ini untuk memastikan integritas data.</p>
+                <p class="text-xs text-slate-500 mt-1 transition-colors">Pilih data spesifik dari dropdown berikut ini untuk memastikan integritas data.</p>
             </div>
 
             <!-- GRID DATA (15 DROPDOWNS) -->
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4 relative z-10">
                 
                 <!-- 1. Tahun -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Tahun</label>
-                    <select id="db_tahun" name="db_tahun" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_tahun" name="db_tahun" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 2. Bulan -->
-                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                 <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Bulan</label>
-                    <select id="db_bulan" name="db_bulan" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_bulan" name="db_bulan" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 3. Fungsi -->
-                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 md:col-span-2">
+                 <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors md:col-span-2">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Fungsi</label>
-                    <select id="db_fungsi" name="db_fungsi" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_fungsi" name="db_fungsi" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 4. No. IKU -->
-                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                 <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">No. IKU</label>
-                    <select id="db_no_iku" name="db_no_iku" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_no_iku" name="db_no_iku" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 5. Nama Indikator (Full Width) -->
-                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 md:col-span-5">
+                 <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors md:col-span-5">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Nama Indikator</label>
-                     <select id="db_nama_indikator" name="db_nama_indikator" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                     <select id="db_nama_indikator" name="db_nama_indikator" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
                 
                 <!-- 6. No Indikator -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">No. Indikator</label>
-                    <select id="db_no_indikator" name="db_no_indikator" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_no_indikator" name="db_no_indikator" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 7. No Bulan -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">No. Bulan</label>
-                    <select id="db_no_bulan" name="db_no_bulan" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_no_bulan" name="db_no_bulan" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 8. Target -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-teal-900/30">
+                <div class="bg-white dark:bg-slate-950 p-3 rounded-xl border border-teal-200 dark:border-teal-900/30 transition-colors">
                     <label class="block text-[10px] text-teal-500 font-bold uppercase mb-1">Target</label>
-                     <select id="db_target" name="db_target" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-teal-400 font-mono font-bold text-xs focus:ring-1 focus:ring-teal-500">
+                     <select id="db_target" name="db_target" class="w-full bg-teal-50 dark:bg-slate-900 border border-teal-300 dark:border-slate-700 rounded px-2 py-1 text-teal-600 dark:text-teal-400 font-mono font-bold text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 9. Realisasi -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-amber-900/30">
+                <div class="bg-amber-50 dark:bg-slate-950 p-3 rounded-xl border border-amber-200 dark:border-amber-900/30 transition-colors">
                     <label class="block text-[10px] text-amber-500 font-bold uppercase mb-1">Realisasi</label>
-                     <select id="db_realisasi" name="db_realisasi" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-amber-400 font-mono font-bold text-xs focus:ring-1 focus:ring-teal-500">
+                     <select id="db_realisasi" name="db_realisasi" class="w-full bg-amber-50 dark:bg-slate-900 border border-amber-300 dark:border-slate-700 rounded px-2 py-1 text-amber-600 dark:text-amber-400 font-mono font-bold text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 10. Capaian Bulan -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">% Capaian Bulan</label>
-                    <select id="db_perf_bulan" name="db_perf_bulan" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_perf_bulan" name="db_perf_bulan" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 11. Kategori Bulan -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Kategori Bulan</label>
-                    <select id="db_kat_bulan" name="db_kat_bulan" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_kat_bulan" name="db_kat_bulan" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 12. Capaian Tahun -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">% Capaian Tahun</label>
-                    <select id="db_perf_tahun" name="db_perf_tahun" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_perf_tahun" name="db_perf_tahun" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 13. Kategori Tahun -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Kategori Tahun</label>
-                    <select id="db_kat_tahun" name="db_kat_tahun" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_kat_tahun" name="db_kat_tahun" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 14. Capaian Normalisasi -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Capaian Norm</label>
-                    <select id="db_cap_norm" name="db_cap_norm" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_cap_norm" name="db_cap_norm" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
 
                 <!-- 15. Cap Norm Angka -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Cap. Norm Angka</label>
-                    <select id="db_cap_norm_angka" name="db_cap_norm_angka" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-teal-500">
+                    <select id="db_cap_norm_angka" name="db_cap_norm_angka" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-teal-500 transition-colors">
                         <option value="">-</option>
                     </select>
                 </div>
@@ -260,114 +260,114 @@
                  <h3 class="text-amber-500 font-bold uppercase tracking-wider text-sm flex items-center gap-2">
                     <i class="fa-solid fa-pencil"></i> Tahap 3: Input Perubahan Nilai Data
                 </h3>
-                <p class="text-xs text-slate-500 mt-1">Silakan ubah nilai pada kolom-kolom di bawah ini sesuai perbaikan yang diinginkan (Otomatis terisi data lama).</p>
+                <p class="text-xs text-slate-500 mt-1 transition-colors">Silakan ubah nilai pada kolom-kolom di bawah ini sesuai perbaikan yang diinginkan (Otomatis terisi data lama).</p>
             </div>
 
             <!-- GRID DATA EDITABLE (15 INPUTS) -->
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4 relative z-10">
                 
                 <!-- 1. Tahun -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Tahun</label>
-                    <input type="number" id="new_tahun" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="number" id="new_tahun" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 2. Bulan -->
-                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                 <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Bulan</label>
-                    <input type="text" id="new_bulan" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_bulan" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 3. Fungsi -->
-                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 md:col-span-2">
+                 <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors md:col-span-2">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Fungsi</label>
-                    <input type="text" id="new_fungsi" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_fungsi" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 4. No. IKU -->
-                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                 <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">No. IKU</label>
-                    <input type="text" id="new_no_iku" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_no_iku" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 5. Nama Indikator -->
-                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 md:col-span-5">
+                 <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors md:col-span-5">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Nama Indikator</label>
-                     <input type="text" id="new_nama_indikator" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                     <input type="text" id="new_nama_indikator" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
                 
                 <!-- 6. No Indikator -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">No. Indikator</label>
-                    <input type="text" id="new_no_indikator" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_no_indikator" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 7. No Bulan -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">No. Bulan</label>
-                    <input type="text" id="new_no_bulan" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_no_bulan" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 8. Target (Highlighted) -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-amber-500/50 shadow shadow-amber-500/10">
+                <div class="bg-amber-50 dark:bg-slate-950 p-3 rounded-xl border border-amber-300 dark:border-amber-500/50 shadow shadow-amber-500/10 transition-colors">
                     <label class="block text-[10px] text-amber-500 font-bold uppercase mb-1">Target</label>
-                     <input type="text" id="new_target" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-amber-400 font-mono font-bold text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                     <input type="text" id="new_target" class="w-full bg-white dark:bg-slate-900 border border-amber-300 dark:border-slate-700 rounded px-2 py-1 text-amber-600 dark:text-amber-400 font-mono font-bold text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 9. Realisasi (Highlighted) -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-amber-500/50 shadow shadow-amber-500/10">
+                <div class="bg-amber-50 dark:bg-slate-950 p-3 rounded-xl border border-amber-300 dark:border-amber-500/50 shadow shadow-amber-500/10 transition-colors">
                     <label class="block text-[10px] text-amber-500 font-bold uppercase mb-1">Realisasi</label>
-                     <input type="text" id="new_realisasi" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-amber-400 font-mono font-bold text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                     <input type="text" id="new_realisasi" class="w-full bg-white dark:bg-slate-900 border border-amber-300 dark:border-slate-700 rounded px-2 py-1 text-amber-600 dark:text-amber-400 font-mono font-bold text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 10. Capaian Bulan -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">% Capaian Bulan</label>
-                    <input type="text" id="new_perf_bulan" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_perf_bulan" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 11. Kategori Bulan -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Kategori Bulan</label>
-                    <input type="text" id="new_kat_bulan" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_kat_bulan" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 12. Capaian Tahun -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">% Capaian Tahun</label>
-                    <input type="text" id="new_perf_tahun" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_perf_tahun" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 13. Kategori Tahun -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Kategori Tahun</label>
-                    <input type="text" id="new_kat_tahun" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_kat_tahun" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 14. Capaian Normalisasi -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Capaian Norm</label>
-                    <input type="text" id="new_cap_norm" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_cap_norm" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
 
                 <!-- 15. Cap Norm Angka -->
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
                     <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Cap. Norm Angka</label>
-                    <input type="text" id="new_cap_norm_angka" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none">
+                    <input type="text" id="new_cap_norm_angka" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-300 text-xs focus:ring-1 focus:ring-amber-500 outline-none transition-colors">
                 </div>
             </div>
         </div>
         
         <!-- CARD 4: FORM PENGAJUAN REVISI (TAHAP 4) -->
-        <div id="revisionCard" class="hidden bg-slate-900/50 border border-slate-800 rounded-3xl p-8 relative overflow-hidden">
+        <div id="revisionCard" class="hidden bg-white/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm dark:shadow-none transition-colors duration-300 relative overflow-hidden">
              <!-- Background Decoration -->
              <div class="absolute top-0 right-0 w-64 h-64 bg-teal-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             
-            <div class="relative z-10 mb-6 border-b border-slate-800 pb-4">
+            <div class="relative z-10 mb-6 border-b border-slate-200 dark:border-slate-800 transition-colors pb-4">
                  <h3 class="text-teal-500 font-bold uppercase tracking-wider text-sm flex items-center gap-2">
                     <i class="fa-solid fa-paper-plane"></i> Tahap 4: Upload Bukti & Kirim
                 </h3>
-                <p class="text-xs text-slate-500 mt-1">Masukkan dokumen bukti dukung dan catatan tambahan.</p>
+                <p class="text-xs text-slate-500 mt-1 transition-colors">Masukkan dokumen bukti dukung dan catatan tambahan.</p>
             </div>
 
             <form action="<?= base_url('admin/pengajuan/store') ?>" method="POST" enctype="multipart/form-data" class="space-y-6 relative z-10">
@@ -401,7 +401,7 @@
                     <div class="space-y-2">
                         <label class="block text-xs font-bold text-slate-500 uppercase">Dokumen Pendukung / Bukti (PDF/IMG)</label>
                         <input type="file" name="file_nota_dinas" required
-                               class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500 transition-all">
+                               class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500 transition-colors">
                         <p class="text-[10px] text-slate-600">Max size: 5MB. Format: PDF, DOC, JPG, PNG.</p>
                     </div>
 
@@ -419,7 +419,7 @@
                     <div class="space-y-2 md:col-span-2">
                         <label class="block text-xs font-bold text-slate-500 uppercase">Rincian / Catatan Perubahan</label>
                         <textarea name="keterangan" rows="4" required placeholder="Jelaskan bagian mana yang perlu direvisi dan nilai yang seharusnya..."
-                                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"></textarea>
+                                  class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-colors"></textarea>
                     </div>
                 </div>
 

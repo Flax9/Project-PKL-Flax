@@ -1,22 +1,22 @@
 <!-- TAB ANGGARAN -->
-<h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-2 flex items-center gap-2 transition-colors">
     <span class="bg-teal-500/10 text-teal-400 p-2 rounded-lg">
         <i class="fa-solid fa-coins"></i>
     </span>
     Input Data Anggaran
 </h2>
-<p class="text-slate-400 text-sm mb-6">
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-6 transition-colors">
     Masukkan data Anggaran secara manual atau import dari Excel.
     <span class="text-teal-500/80 text-xs block mt-1"><i class="fa-solid fa-circle-info me-1"></i> Catatan: Jika kolom 'Tahun' tidak ada di Excel, data akan otomatis dicatat sebagai Tahun <?= date('Y') ?>.</span>
 </p>
 
 <!-- FORM INPUT MANUAL -->
-<form id="formAnggaranEntry" class="bg-slate-900/50 rounded-xl p-6 border border-slate-700/50">
+<form id="formAnggaranEntry" class="bg-white/50 dark:bg-slate-900/50 rounded-xl p-6 border border-slate-200 dark:border-slate-700/50 transition-colors duration-300">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <!-- TAHUN -->
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Tahun</label>
-            <select id="thn_anggaran" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold focus:outline-none focus:border-teal-500">
+            <select id="thn_anggaran" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white font-bold focus:outline-none focus:border-teal-500 transition-colors">
                 <?php for($y = date('Y'); $y >= 2020; $y--): ?>
                     <option value="<?= $y ?>"><?= $y ?></option>
                 <?php endfor; ?>
@@ -26,7 +26,7 @@
         <!-- BULAN -->
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Bulan</label>
-            <select id="bln_anggaran" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold focus:outline-none focus:border-teal-500">
+            <select id="bln_anggaran" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white font-bold focus:outline-none focus:border-teal-500 transition-colors">
                 <?php 
                 $months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
                 foreach($months as $m): 
@@ -39,7 +39,7 @@
         <!-- MASTER RO DROPDOWN -->
         <div class="md:col-span-4">
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Pilih Master RO (Program/Kegiatan)</label>
-            <select id="select_master_ro" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500">
+            <select id="select_master_ro" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-teal-500 transition-colors">
                 <option value="">-- Pilih RO --</option>
             </select>
         </div>
@@ -47,55 +47,55 @@
         <!-- NO RO -->
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">No. RO</label>
-            <input type="number" id="no_ro" readonly class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-300 cursor-not-allowed focus:outline-none" placeholder="Auto">
+            <input type="number" id="no_ro" readonly class="w-full bg-slate-100 border border-slate-300 dark:bg-slate-800 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-500 dark:text-slate-300 cursor-not-allowed focus:outline-none transition-colors" placeholder="Auto">
         </div>
 
         <!-- RO -->
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">RO</label>
-            <input type="text" id="ro_text" readonly class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-300 cursor-not-allowed focus:outline-none" placeholder="Auto">
+            <input type="text" id="ro_text" readonly class="w-full bg-slate-100 border border-slate-300 dark:bg-slate-800 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-500 dark:text-slate-300 cursor-not-allowed focus:outline-none transition-colors" placeholder="Auto">
         </div>
 
         <!-- PROGRAM -->
         <div class="md:col-span-2">
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Program / Kegiatan</label>
-            <input type="text" id="program" readonly class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-300 cursor-not-allowed focus:outline-none" placeholder="Auto">
+            <input type="text" id="program" readonly class="w-full bg-slate-100 border border-slate-300 dark:bg-slate-800 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-500 dark:text-slate-300 cursor-not-allowed focus:outline-none transition-colors" placeholder="Auto">
         </div>
 
         <!-- PAGU -->
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Pagu</label>
-            <input type="number" step="0.01" id="pagu" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500" placeholder="0.00">
+            <input type="number" step="0.01" id="pagu" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-teal-500 transition-colors" placeholder="0.00">
         </div>
 
         <!-- REALISASI -->
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Realisasi</label>
-            <input type="number" step="0.01" id="realisasi" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500" placeholder="0.00">
+            <input type="number" step="0.01" id="realisasi" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-teal-500 transition-colors" placeholder="0.00">
         </div>
         
         <!-- TARGET TW -->
          <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">% Target TW</label>
-            <input type="number" step="0.01" id="target_tw" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500" placeholder="0.00">
+            <input type="number" step="0.01" id="target_tw" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-teal-500 transition-colors" placeholder="0.00">
         </div>
 
         <!-- CAPAIAN REALISASI -->
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Capaian Realisasi</label>
-            <input type="number" step="0.01" id="capaian_realisasi" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500" placeholder="0.00">
+            <input type="number" step="0.01" id="capaian_realisasi" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-teal-500 transition-colors" placeholder="0.00">
         </div>
         
         <!-- CAPAIAN THD TARGET -->
         <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Cap. Thd Target TW</label>
-            <input type="number" step="0.01" id="capaian_target_tw" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-teal-500" placeholder="0.00">
+            <input type="number" step="0.01" id="capaian_target_tw" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-teal-500 transition-colors" placeholder="0.00">
         </div>
 
          <!-- KATEGORI TW -->
          <div>
             <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2">Kategori TW</label>
-            <select id="kategori_tw" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold focus:outline-none focus:border-teal-500">
+            <select id="kategori_tw" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white font-bold focus:outline-none focus:border-teal-500 transition-colors">
                 <option value="">-- Pilih TW --</option>
                 <option value="TW 1">TW 1</option>
                 <option value="TW 2">TW 2</option>
@@ -131,15 +131,15 @@
 <!-- STAGING TABLE -->
 <div class="mt-8">
     <div class="flex items-center justify-between mb-4 px-2">
-        <h3 class="text-sm font-bold text-white uppercase tracking-widest">
+        <h3 class="text-sm font-bold text-slate-800 dark:text-white uppercase tracking-widest transition-colors">
             <i class="fa-solid fa-coins text-teal-400 me-2"></i>Antrian Data Anggaran
         </h3>
         <span id="counterAnggaran" class="text-[10px] bg-slate-700 text-slate-300 px-3 py-1 rounded-full uppercase font-bold">0 Baris</span>
     </div>
 
-    <div class="overflow-x-auto border border-slate-700 rounded-2xl">
+    <div class="overflow-x-auto border border-slate-300 dark:border-slate-700 rounded-2xl transition-colors">
         <table class="w-full text-left text-xs" id="tableAnggaranStaging">
-            <thead class="bg-slate-800 text-slate-400 border-b border-slate-700 uppercase font-semibold">
+            <thead class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-b border-slate-300 dark:border-slate-700 uppercase font-semibold transition-colors">
                 <tr>
                     <th class="px-4 py-3 whitespace-nowrap">Tahun</th>
                     <th class="px-4 py-3 whitespace-nowrap">Bulan</th>
@@ -155,7 +155,7 @@
                     <th class="px-4 py-3 text-center">Aksi</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-slate-700 text-white">
+            <tbody class="divide-y divide-slate-300 dark:divide-slate-700 text-slate-800 dark:text-white transition-colors">
                 <tr id="emptyAnggaranRow">
                     <td colspan="12" class="px-6 py-8 text-center text-slate-500 italic">Antrian masih kosong.</td>
                 </tr>

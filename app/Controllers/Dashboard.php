@@ -19,8 +19,9 @@ class Dashboard extends BaseController
         // =================================================================
         // 1. LOGIKA FILTER (SINKRONISASI VIEW & DATA)
         // =================================================================
+        $reqTahun = $this->request->getGet('tahun');
         $filter = [
-            'tahun'      => $this->request->getGet('tahun'),
+            'tahun'      => ($reqTahun === null) ? date('Y') : $reqTahun,
             'bulan'      => $this->request->getGet('bulan'),
             'indikator'  => $this->request->getGet('nama_indikator'),
             'fungsi'     => $this->request->getGet('fungsi'),
@@ -74,13 +75,15 @@ class Dashboard extends BaseController
             'activeMenu' => 'dashboard', 
             'title'      => 'Indikator Kinerja Utama | BBPOM Surabaya',
             
-            // Flag pengecekan filter bulan untuk placeholder NKO
-            'bulanDipilih' => !empty($filter['bulan']),
+            // Flag pengecekan filter untuk placeholder
+            'bulanDipilih'  => !empty($filter['bulan']),
+            'fungsiDipilih' => !empty($filter['fungsi']),
             
             'summary' => (object)[
                 'avg_bulan' => $summary->avg_bulan ?? 0, 
                 'avg_tahun' => $summary->avg_tahun ?? 0,
-                'nko'       => $nkoQuery->total_nko ?? 0 
+                'nko'       => $nkoQuery->total_nko ?? 0,
+                'realisasi' => $this->ikuModel->getTotalRealisasi($filter)
             ],
             
             'total_iku' => $this->ikuModel->getTotalIku($tahunQueryNko),
@@ -99,5 +102,45 @@ class Dashboard extends BaseController
         ];
 
         return view('dashboard/index', $data);
+    }
+
+    public function database()
+    {
+        $reqTahun = $this->request->getGet('tahun');
+        $filter = [
+            'tahun'      => ($reqTahun === null) ? date('Y') : $reqTahun,
+            'bulan'      => $this->request->getGet('bulan'),
+            'indikator'  => $this->request->getGet('nama_indikator'),
+            'fungsi'     => $this->request->getGet('fungsi'),
+        ];
+
+        // QUERY DATABASE VIA MODEL
+        $barData = $this->ikuModel->getBarData($filter);
+        
+        $anggaranModel = new \App\Models\AnggaranModel();
+        $anggaranData = $anggaranModel->getChartProgram($filter);
+
+        // QUERY DROPDOWN (MENGHILANGKAN OPSI BLANK)
+        $filterBase = ['tahun' => $filter['tahun']]; 
+
+        $filterIndikator = $this->ikuModel->getFilterOptions('`Nama Indikator`', $filterBase);
+        $filterBulan     = $this->ikuModel->getFilterOptions('`No. Bulan`, `Bulan`', $filterBase);
+        $filterTahun     = $this->ikuModel->getFilterOptions('Tahun');
+        $filterFungsi    = $this->ikuModel->getFilterOptions('Fungsi', $filterBase);
+
+        $data = [
+            'activeMenu' => 'dashboard', 
+            'title'      => 'Database IKU Realtime | BBPOM Surabaya',
+            
+            'list_iku'        => $barData,
+            'list_anggaran'   => $anggaranData,
+            
+            'filterIndikator' => $filterIndikator,
+            'filter_bulan'    => $filterBulan,
+            'filter_tahun'    => $filterTahun,
+            'filter_fungsi'   => $filterFungsi,
+        ];
+
+        return view('dashboard/database', $data);
     }
 }

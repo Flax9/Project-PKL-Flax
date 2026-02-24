@@ -74,18 +74,29 @@ Berikut adalah struktur folder utama aplikasi:
 │   │   ├── Admin
 │   │   │   ├── Entry.php
 │   │   │   └── Pengajuan.php
-│   │   └── ...
+│   │   ├── Anggaran.php
+│   │   ├── BaseController.php
+│   │   ├── CapaianOutput.php
+│   │   ├── Dashboard.php
+│   │   └── Home.php
+│   ├── Database
+│   │   └── Migrations
 │   ├── Models
 │   │   ├── Entry
 │   │   │   ├── AnggaranEntryModel.php
 │   │   │   ├── CapaianOutputEntryModel.php
 │   │   │   ├── IkuEntryModel.php
 │   │   │   └── NkoEntryModel.php
-│   │   └── ...
+│   │   ├── AnggaranModel.php
+│   │   ├── CapaianOutputModel.php
+│   │   ├── IkuModel.php
+│   │   └── PengajuanModel.php
 │   └── Views
 │       ├── admin
+│       ├── anggaran
+│       ├── capaian_output
 │       ├── dashboard
-│       └── ...
+│       └── layout
 ├── public
 │   └── assets
 │       ├── css

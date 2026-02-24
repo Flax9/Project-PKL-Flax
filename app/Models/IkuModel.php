@@ -77,6 +77,29 @@ class IkuModel extends Model {
     }
 
     /**
+     * Get aggregate Realisasi (Sum of AVG Realisasi per IKU)
+     * Matches the Bar Chart calculation methodology
+     */
+    public function getTotalRealisasi($filter = [])
+    {
+        $builder = $this->select('
+            `No. IKU` as no, 
+            AVG(Realisasi) as realisasi
+        ', false);
+
+        $this->applyFilters($builder, $filter);
+
+        $averages = $builder->groupBy('`No. IKU`', false)->findAll();
+        
+        $total = 0;
+        foreach($averages as $row) {
+            $total += (float)$row['realisasi'];
+        }
+        
+        return $total;
+    }
+
+    /**
      * Get total unique IKU up to given year
      */
     public function getTotalIku($tahun)
@@ -171,6 +194,7 @@ class IkuModel extends Model {
     public function getTopFiveList($filter = [])
     {
         $builder = $this->select('
+            `Bulan`,
             `Nama Indikator` as nama, 
             `Performa % Capaian Tahun` as nilai
         ', false);

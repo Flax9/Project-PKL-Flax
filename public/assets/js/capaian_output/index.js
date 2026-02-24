@@ -30,16 +30,21 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         plotOptions: { bar: { horizontal: false, columnWidth: '60%', borderRadius: 2 } },
         colors: ['#1e3a8a', '#f59e0b'],
-        dataLabels: { enabled: true, style: { fontSize: '10px', colors: ['#fff'] }, formatter: (val) => Math.round(val) + '%' },
+        dataLabels: {
+            enabled: true,
+            style: { fontSize: '10px', colors: ['#ffffff'] },
+            formatter: (val) => Math.round(val) + '%',
+            dropShadow: { enabled: true, top: 1, left: 1, blur: 2, color: '#000000', opacity: 0.6 }
+        },
         xaxis: {
             categories: rawData.map(item => 'RO ' + item.no),
             min: 1, max: 8,
-            labels: { style: { colors: '#94a3b8', fontSize: '11px' } },
+            labels: { style: { colors: '#64748b', fontSize: '11px' } },
             tickPlacement: 'on'
         },
-        yaxis: { max: 100, labels: { formatter: (val) => val + "%", style: { colors: '#94a3b8' } } },
+        yaxis: { max: 100, labels: { formatter: (val) => val + "%", style: { colors: '#64748b' } } },
         legend: {
-            show: true, position: 'bottom', labels: { colors: '#f8fafc' },
+            show: true, position: 'bottom', labels: { colors: '#64748b' },
             markers: { width: 12, height: 12, shape: 'circle', radius: 12, offsetX: -5 }
         }
     };
@@ -50,10 +55,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // 4. CONFIG: HORIZONTAL RANKING
     const horizontalOptions = {
         chart: { type: 'bar', height: 300, background: 'transparent', toolbar: { show: false } },
-        plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 4, dataLabels: { position: 'right' } } },
-        dataLabels: { enabled: true, formatter: (val) => val + "%", offsetX: 10, style: { fontSize: '11px', colors: ['#fff'] } },
+        plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 4, dataLabels: { position: 'top' } } },
+        dataLabels: {
+            enabled: true,
+            formatter: (val) => val + "%",
+            offsetX: -18,
+            style: { fontSize: '11px', colors: ['#ffffff'] }
+        },
         xaxis: { labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } },
-        yaxis: { labels: { style: { colors: '#94a3b8' } } },
+        yaxis: { labels: { style: { colors: '#64748b' } } },
         grid: { show: false },
         tooltip: { theme: 'dark' }
     };
@@ -83,9 +93,9 @@ document.addEventListener('DOMContentLoaded', function () {
         colors: ['#ef4444'],
         fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.7, opacityTo: 0.2, stops: [0, 90, 100] } },
         stroke: { curve: 'smooth', width: 3 },
-        xaxis: { categories: trendRaw.map(item => item.Bulan), labels: { style: { colors: '#94a3b8' } } },
-        yaxis: { labels: { style: { colors: '#94a3b8' }, formatter: (val) => val.toLocaleString('id-ID') } },
-        grid: { borderColor: '#334155', strokeDashArray: 4 },
+        xaxis: { categories: trendRaw.map(item => item.Bulan), labels: { style: { colors: '#64748b' } } },
+        yaxis: { labels: { style: { colors: '#64748b' }, formatter: (val) => val.toLocaleString('id-ID') } },
+        grid: { borderColor: 'rgba(100, 116, 139, 0.2)', strokeDashArray: 4 },
         tooltip: { theme: 'dark' }
     };
     if (document.querySelector("#chartTrendRealisasi")) {
@@ -103,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         stroke: {
             show: true,
             width: 2,
-            colors: ['#0f172a'] // Memberi jarak antar slice seperti template
+            colors: ['transparent'] // Memberi jarak antar slice seperti template
         },
         plotOptions: {
             pie: {
@@ -114,21 +124,21 @@ document.addEventListener('DOMContentLoaded', function () {
                         name: {
                             show: true,
                             fontSize: '14px',
-                            color: '#94a3b8',
+                            color: '#64748b',
                             offsetY: -10
                         },
                         value: {
                             show: true,
                             fontSize: '22px',
                             fontWeight: 'bold',
-                            color: '#ffffff',
+                            color: '#64748b',
                             offsetY: 10,
                             formatter: (val) => val // Menampilkan angka riil
                         },
                         total: {
                             show: true,
                             label: 'Total',
-                            color: '#94a3b8',
+                            color: '#64748b',
                             formatter: (w) => w.globals.seriesTotals.reduce((a, b) => a + b, 0)
                         }
                     }
@@ -148,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
             position: 'bottom',
             horizontalAlign: 'center',
             fontSize: '12px',
-            labels: { colors: '#94a3b8' },
+            labels: { colors: '#64748b' },
             markers: {
                 width: 12,
                 height: 12,

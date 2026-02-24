@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
     
     <link rel="stylesheet" href="<?= base_url('assets/css/dashboard/base.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/dashboard/charts.css') ?>">
@@ -17,7 +20,7 @@
     <?= $this->renderSection('styles') ?>
 
 </head>
-<body class="bg-slate-950 text-slate-300 flex h-screen overflow-hidden relative">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-300 transition-colors duration-300 flex h-screen overflow-hidden relative">
     
         
     <?= $this->include('dashboard/partials/sidebar') ?>
@@ -36,7 +39,7 @@
             <div class="md:hidden flex items-center justify-between p-4 bg-slate-900 border-b border-slate-800">
                 <div class="flex items-center gap-3">
                     <img src="<?= base_url('assets/img/logo_bpom_1.png') ?>" alt="Logo" class="h-8 w-auto object-contain">
-                    <span class="font-bold text-white text-sm tracking-widest">E-KINERJA</span>
+                    <span class="font-bold text-white text-sm tracking-widest">INSIGHT</span>
                 </div>
                 <button id="sidebarToggle" class="p-2 text-slate-400 hover:text-white transition-colors focus:outline-none">
                     <i class="fa-solid fa-bars text-xl"></i>
@@ -52,6 +55,9 @@
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Script Tema -->
+    <script src="<?= base_url('assets/js/theme.js') ?>"></script>
 
     <script>
         $(document).ready(function() {

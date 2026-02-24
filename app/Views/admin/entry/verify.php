@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verifikasi Admin | BBPOM Surabaya</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-900 font-sans antialiased relative overflow-hidden">
+<body class="bg-slate-50 dark:bg-slate-900 font-sans antialiased relative overflow-hidden transition-colors duration-300">
 
     <!-- Ambient Background -->
     <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-teal-500/10 blur-[150px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none z-0"></div>
@@ -16,15 +19,15 @@
     <div class="min-h-screen flex items-center justify-center px-4 relative z-10">
         <div class="max-w-md w-full">
             
-            <div class="bg-slate-800 rounded-3xl shadow-2xl border border-slate-700 overflow-hidden">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl dark:shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
                 <div class="p-8 text-center">
                     
                     <div class="mb-6">
                         <img src="<?= base_url('assets/img/logo_bpom_1.png') ?>" alt="Logo BBPOM" class="h-24 mx-auto drop-shadow-2xl">
                     </div>
 
-                    <h3 class="text-2xl font-bold text-white mb-2">Akses Terbatas</h3>
-                    <p class="text-slate-400 text-sm mb-8 leading-relaxed">
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2 transition-colors">Akses Terbatas</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-8 leading-relaxed transition-colors">
                         Halaman <strong>Data Entry</strong> memerlukan otorisasi tambahan. Silakan masukkan kode admin untuk melanjutkan.
                     </p>
 
@@ -44,7 +47,7 @@
                             </span>
                             <input type="text" 
                                 name="username" 
-                                class="w-full bg-slate-900 border border-slate-700 rounded-2xl pl-12 pr-4 py-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 focus:outline-none transition-all"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl pl-12 pr-4 py-4 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 focus:outline-none transition-all"
                                 placeholder="Username" 
                                 required autofocus>
                         </div>
@@ -55,7 +58,7 @@
                             </span>
                             <input type="password" 
                                 name="password" 
-                                class="w-full bg-slate-900 border border-slate-700 rounded-2xl pl-12 pr-4 py-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 focus:outline-none transition-all"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl pl-12 pr-4 py-4 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 focus:outline-none transition-all"
                                 placeholder="Password" 
                                 required>
                         </div>
@@ -67,7 +70,7 @@
 
                 </div>
 
-                <div class="bg-slate-800/50 p-4 border-t border-slate-700/50 text-center">
+                <div class="bg-slate-100 dark:bg-slate-800/50 p-4 border-t border-slate-200 dark:border-slate-700/50 text-center transition-colors duration-300">
                     <a href="<?= base_url('dashboard') ?>" class="text-xs text-slate-500 hover:text-teal-400 transition-colors">
                         <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Dashboard Utama
                     </a>
@@ -81,5 +84,6 @@
         </div>
     </div>
 
+    <script src="<?= base_url('assets/js/theme.js') ?>"></script>
 </body>
 </html>

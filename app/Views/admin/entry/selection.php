@@ -8,21 +8,13 @@
     
     <div class="grid md:grid-cols-2 gap-8 max-w-5xl w-full mt-8">
         
-
-        <a href="<?= base_url('admin/entry/rutin') ?>" class="group bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-teal-500/50 hover:bg-slate-800/50 transition-all shadow-2xl">
-            <div class="w-16 h-16 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-calendar-plus text-teal-400 text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-bold text-white mb-3">Input Realisasi Rutin</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Gunakan untuk menginput capaian IKU bulanan yang belum terisi sama sekali. Data akan langsung diperbarui ke dashboard utama.</p>
-        </a>
-
-        <a href="<?= base_url('admin/pengajuan') ?>" class="group bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-teal-500/50 hover:bg-slate-800/50 transition-all shadow-2xl">
+        
+        <a href="<?= base_url('admin/pengajuan') ?>" class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-3xl hover:border-teal-500/50 dark:hover:border-teal-500/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-300 shadow-xl dark:shadow-2xl">
             <div class="w-16 h-16 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-right-left text-teal-400 text-2xl"></i>
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Perubahan Data</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">Menu pengelolaan perubahan data. Termasuk pengajuan perubahan (User) dan validasi perubahan (Perencana).</p>
+            <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 transition-colors">Perubahan Data</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed transition-colors">Menu pengelolaan perubahan data. Termasuk pengajuan perubahan (User) dan validasi perubahan (Perencana).</p>
         </a>
     </div>
 </div>

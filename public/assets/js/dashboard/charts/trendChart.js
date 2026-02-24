@@ -1,6 +1,6 @@
-window.initTrendChart = function(canvasId, data) {
+window.initTrendChart = function (canvasId, data) {
     const ctx = document.getElementById(canvasId).getContext('2d');
-    
+
     new Chart(ctx, {
         type: 'line',
         data: {
@@ -25,12 +25,22 @@ window.initTrendChart = function(canvasId, data) {
                 }
             ]
         },
-        options: { 
-            responsive: true, 
+        options: {
+            responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: '#64748b' } }
+            },
             scales: {
-                y: { beginAtZero: true, ticks: { color: '#94a3b8' } },
-                x: { ticks: { color: '#94a3b8' } }
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: '#64748b' },
+                    grid: { color: 'rgba(100, 116, 139, 0.2)' }
+                },
+                x: {
+                    ticks: { color: '#64748b' },
+                    grid: { color: 'rgba(100, 116, 139, 0.2)' }
+                }
             }
         }
     });
