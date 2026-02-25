@@ -12,6 +12,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class' };
+        // Apply theme early to prevent flash of incorrect theme
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
     </script>
     
     <link rel="stylesheet" href="<?= base_url('assets/css/dashboard/base.css') ?>">

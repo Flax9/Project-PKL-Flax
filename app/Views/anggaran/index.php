@@ -66,18 +66,65 @@
             </div>
         </div>
 
-       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
-    
-            <div class="col-span-full bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-amber-500/30 transition-all cursor-default">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <!-- TW 1 Card -->
+            <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-amber-500/30 transition-all cursor-default">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider transition-colors">Target per Triwulan</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider transition-colors">Target TW 1</p>
                         <h3 class="text-xl font-bold text-amber-400 mt-2">
-                            <?= number_format($summary->avg_target_tw ?? 0, 2, ',', '.') ?>%
+                            <?= number_format($summary->avg_target_tw_1 ?? 0, 2, ',', '.') ?>%
                         </h3>
-                        <p class="text-[10px] text-slate-500 mt-1 italic">Capaian Target Triwulan</p>
+                        <p class="text-[10px] text-slate-500 mt-1 italic">Capaian Target Triwulan 1</p>
                     </div>
-                    
+                    <div class="p-3 bg-amber-500/10 rounded-xl text-amber-400 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-bullseye text-lg"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TW 2 Card -->
+            <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-amber-500/30 transition-all cursor-default">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider transition-colors">Target TW 2</p>
+                        <h3 class="text-xl font-bold text-amber-400 mt-2">
+                            <?= number_format($summary->avg_target_tw_2 ?? 0, 2, ',', '.') ?>%
+                        </h3>
+                        <p class="text-[10px] text-slate-500 mt-1 italic">Capaian Target Triwulan 2</p>
+                    </div>
+                    <div class="p-3 bg-amber-500/10 rounded-xl text-amber-400 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-bullseye text-lg"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TW 3 Card -->
+            <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-amber-500/30 transition-all cursor-default">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider transition-colors">Target TW 3</p>
+                        <h3 class="text-xl font-bold text-amber-400 mt-2">
+                            <?= number_format($summary->avg_target_tw_3 ?? 0, 2, ',', '.') ?>%
+                        </h3>
+                        <p class="text-[10px] text-slate-500 mt-1 italic">Capaian Target Triwulan 3</p>
+                    </div>
+                    <div class="p-3 bg-amber-500/10 rounded-xl text-amber-400 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-bullseye text-lg"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TW 4 Card -->
+            <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-amber-500/30 transition-all cursor-default">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider transition-colors">Target TW 4</p>
+                        <h3 class="text-xl font-bold text-amber-400 mt-2">
+                            <?= number_format($summary->avg_target_tw_4 ?? 0, 2, ',', '.') ?>%
+                        </h3>
+                        <p class="text-[10px] text-slate-500 mt-1 italic">Capaian Target Triwulan 4</p>
+                    </div>
                     <div class="p-3 bg-amber-500/10 rounded-xl text-amber-400 group-hover:bg-amber-500 group-hover:text-white transition-colors">
                         <i class="fa-solid fa-bullseye text-lg"></i>
                     </div>

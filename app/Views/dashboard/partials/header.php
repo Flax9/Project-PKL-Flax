@@ -4,6 +4,7 @@
             <h2 class="text-2xl font-bold text-slate-800 dark:text-white transition-colors duration-300">
                 <?php 
                 if($activeMenu == 'dashboard') echo 'Ringkasan Kinerja IKU';
+                    elseif($activeMenu == 'database') echo 'Database Iku Realtime';
                     elseif($activeMenu == 'anggaran') echo 'Manajemen Anggaran';
                     elseif($activeMenu == 'capaian_output') echo 'Monitor Capaian Output';
                     elseif($activeMenu == 'data_entry') echo 'Data Management System';
@@ -13,16 +14,34 @@
             </h2>
             <p class="text-sm text-slate-600 dark:text-slate-500 transition-colors duration-300">
                 <?php 
-                    if($activeMenu == 'data_entry') echo 'Silakan pilih kategori data yang ingin diinput atau diperbarui.';
-                    elseif($activeMenu == 'profile') echo 'Perbarui informasi akun dan preferensi Anda.';
-                    else echo 'Update terakhir: ' . date('d M Y');
+                    if($activeMenu == 'data_entry') {
+                        echo 'Silakan pilih kategori data yang ingin diinput atau diperbarui.';
+                    } elseif($activeMenu == 'profile') {
+                        echo 'Perbarui informasi akun dan preferensi Anda.';
+                    } else {
+                        // Dynamically retrieve the latest update timestamp from the active tables
+                        $db = \Config\Database::connect();
+                        $q = $db->query("SELECT MAX(updated_at) as last_update FROM (
+                            SELECT updated_at FROM capaian_iku
+                            UNION ALL
+                            SELECT updated_at FROM transaksi_anggaran_iku
+                            UNION ALL
+                            SELECT updated_at FROM master_anggaran_iku
+                        ) as all_updates");
+                        $row = $q->getRow();
+                        $lastUpdate = ($row && $row->last_update) 
+                            ? date('d M Y \P\u\k\u\l H:i', strtotime($row->last_update)) 
+                            : date('d M Y');
+                        
+                        echo 'Update database terakhir: ' . $lastUpdate;
+                    }
                 ?>
             </p>
         </div>
         
         <?php if($activeMenu != 'data_entry' && $activeMenu != 'profile'): ?>
-        <div class="flex flex-wrap gap-3 no-print items-center">
-            <?php if($activeMenu == 'dashboard'): ?>
+        <div class="flex flex-wrap gap-3 no-print items-center mt-2 md:mt-0">
+            <?php if($activeMenu == 'dashboard' || $activeMenu == 'database'): ?>
                 <select id='filterNamaIndikator' onchange="applyFilter()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-xs rounded-lg p-2.5 w-48 cursor-pointer focus:ring-1 focus:ring-teal-500 outline-none transition-colors shadow-sm">
                     <option value="" class="bg-white dark:bg-slate-900">Nama Indikator</option>
                     <?php if(isset($filterIndikator)): ?>
@@ -160,6 +179,15 @@
     </div>
     <?php endif; ?>
 </header>
+
+<?php if(isset($showBackButton) && $showBackButton): ?>
+<div class="px-4 md:px-8 py-6">
+    <a href="<?= $backUrl ?? '#' ?>" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 text-sm transition-colors w-fit">
+        <i class="fa-solid fa-arrow-left"></i> <?= $backLabel ?? 'Kembali' ?>
+    </a>
+</div>
+<?php endif; ?>
+
 
 
 <script>

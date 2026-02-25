@@ -114,11 +114,9 @@ class Dashboard extends BaseController
             'fungsi'     => $this->request->getGet('fungsi'),
         ];
 
-        // QUERY DATABASE VIA MODEL
-        $barData = $this->ikuModel->getBarData($filter);
-        
-        $anggaranModel = new \App\Models\AnggaranModel();
-        $anggaranData = $anggaranModel->getChartProgram($filter);
+        // QUERY DATABASE VIA MODEL BARU (GABUNGAN MASTER & TRANSAKSI IKU)
+        $masterIkuModel = new \App\Models\MasterAnggaranIkuModel();
+        $combinedData = $masterIkuModel->getCombinedData($filter);
 
         // QUERY DROPDOWN (MENGHILANGKAN OPSI BLANK)
         $filterBase = ['tahun' => $filter['tahun']]; 
@@ -129,16 +127,19 @@ class Dashboard extends BaseController
         $filterFungsi    = $this->ikuModel->getFilterOptions('Fungsi', $filterBase);
 
         $data = [
-            'activeMenu' => 'dashboard', 
-            'title'      => 'Database IKU Realtime | BBPOM Surabaya',
+            'activeMenu' => 'database', 
+            'title'      => 'Database IKU & Anggaran | BBPOM Surabaya',
             
-            'list_iku'        => $barData,
-            'list_anggaran'   => $anggaranData,
+            'list_combined'   => $combinedData,
             
             'filterIndikator' => $filterIndikator,
             'filter_bulan'    => $filterBulan,
             'filter_tahun'    => $filterTahun,
             'filter_fungsi'   => $filterFungsi,
+
+            'showBackButton'  => true,
+            'backUrl'         => base_url('dashboard'),
+            'backLabel'       => 'Kembali ke Dashboard',
         ];
 
         return view('dashboard/database', $data);

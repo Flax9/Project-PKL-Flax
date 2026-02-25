@@ -46,8 +46,11 @@ class AnggaranModel extends Model
                     WHEN SUM(`PAGU`) > 0 THEN (SUM(`REALISASI`) / SUM(`PAGU`) * 100) 
                     ELSE 0 
                 END as persentase_serapan,
-                -- TAMBAHKAN BARIS INI UNTUK TARGET TW
-                ROUND(AVG(NULLIF(`CAPAIAN_TARGET_TW`, 0)), 2) as avg_target_tw
+                -- MENGHITUNG TARGET TW PER KATEGORI TW (TW 1 hingga TW 4)
+                ROUND(AVG(CASE WHEN `Kategori TW` = 'TW 1' THEN NULLIF(`CAPAIAN_TARGET_TW`, 0) END), 2) as avg_target_tw_1,
+                ROUND(AVG(CASE WHEN `Kategori TW` = 'TW 2' THEN NULLIF(`CAPAIAN_TARGET_TW`, 0) END), 2) as avg_target_tw_2,
+                ROUND(AVG(CASE WHEN `Kategori TW` = 'TW 3' THEN NULLIF(`CAPAIAN_TARGET_TW`, 0) END), 2) as avg_target_tw_3,
+                ROUND(AVG(CASE WHEN `Kategori TW` = 'TW 4' THEN NULLIF(`CAPAIAN_TARGET_TW`, 0) END), 2) as avg_target_tw_4
             ");
         
         $this->applyFilters($builder, $filter);
