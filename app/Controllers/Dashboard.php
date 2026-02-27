@@ -78,6 +78,7 @@ class Dashboard extends BaseController
             // Flag pengecekan filter untuk placeholder
             'bulanDipilih'  => !empty($filter['bulan']),
             'fungsiDipilih' => !empty($filter['fungsi']),
+            'indikatorDipilih' => !empty($filter['indikator']),
             
             'summary' => (object)[
                 'avg_bulan' => $summary->avg_bulan ?? 0, 

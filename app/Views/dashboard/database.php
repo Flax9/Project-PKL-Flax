@@ -29,11 +29,10 @@
 
                 <!-- Table Body Section -->
                 <div class="p-6 bg-white dark:bg-slate-800/50 flex-1">
-                    <div class="rounded-xl border border-slate-200 dark:border-slate-700/50 overflow-hidden w-full h-full max-h-[700px] overflow-y-auto">
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left whitespace-nowrap">
-                                <thead class="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-50 dark:bg-slate-900/50 transition-colors sticky top-0 z-10">
-                                    <tr>
+                    <div class="rounded-xl border border-slate-200 dark:border-slate-700/50 w-full h-full max-h-[700px] overflow-auto">
+                        <table class="w-full text-sm text-left whitespace-nowrap">
+                            <thead class="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-100 dark:bg-slate-900 transition-colors sticky top-0 z-20 shadow-md">
+                                <tr>
                                         <th class="px-6 py-4 font-bold tracking-wider text-center w-16">No.</th>
                                         <th class="px-6 py-4 font-bold tracking-wider text-center w-32">ID</th>
                                         <th class="px-6 py-4 font-bold tracking-wider">Indikator Kinerja</th>
@@ -113,7 +112,6 @@
                                     <?php endif; ?>
                                 </tbody>
                             </table>
-                        </div>
                     </div>
                 </div>
                 

@@ -4,9 +4,13 @@
         <div class="flex justify-between items-start relative z-10">
             <div>
                 <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider">Indeks Capaian Bulan</p>
-                <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-2">
-                    <?= number_format($summary->avg_bulan, 2, ',', '.') ?><span class="text-sm text-teal-400 ml-1">%</span>
-                </h3>
+                <?php if ($bulanDipilih && $indikatorDipilih): ?>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-2">
+                        <?= number_format($summary->avg_bulan, 2, ',', '.') ?><span class="text-sm text-teal-400 ml-1">%</span>
+                    </h3>
+                <?php else: ?>
+                    <p class="text-sm text-slate-500 mt-3 italic">Silahkan memilih nama indikator dan bulan terlebih dahulu</p>
+                <?php endif; ?>
             </div>
             <div class="p-3 bg-teal-500/10 rounded-xl text-teal-400 group-hover:bg-teal-500 group-hover:text-white transition-colors">
                 <i class="fa-solid fa-chart-pie text-lg"></i>
@@ -18,8 +22,12 @@
         <div class="flex justify-between items-start relative z-10">
             <div>
                 <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider">Indeks Capaian Tahun</p>
-                <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-2"><?= number_format($summary->avg_tahun, 2, ',', '.') ?><span class="text-sm text-purple-400 ml-1">%</span></h3>
-                <p class="text-[10px] text-slate-500 mt-1 italic">Akumulasi Tahunan</p>
+                <?php if ($bulanDipilih && $indikatorDipilih): ?>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-2"><?= number_format($summary->avg_tahun, 2, ',', '.') ?><span class="text-sm text-purple-400 ml-1">%</span></h3>
+                    <p class="text-[10px] text-slate-500 mt-1 italic">Akumulasi Tahunan</p>
+                <?php else: ?>
+                    <p class="text-sm text-slate-500 mt-3 italic">Silahkan memilih nama indikator dan bulan terlebih dahulu</p>
+                <?php endif; ?>
             </div>
             <div class="p-3 bg-purple-500/10 rounded-xl text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
                 <i class="fa-solid fa-calendar-check text-lg"></i>
@@ -31,12 +39,12 @@
         <div class="flex justify-between items-start relative z-10">
             <div>
                 <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider">Nilai Kinerja Organisasi (NKO)</p>
-                <?php if ($bulanDipilih): ?>
+                <?php if ($bulanDipilih && $indikatorDipilih): ?>
                     <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-2">
                         <?= number_format($summary->nko, 2, ',', '.') ?>
                     </h3>
                 <?php else: ?>
-                    <p class="text-sm text-slate-500 mt-3 italic">Silahkan memilih bulan terlebih dahulu</p>
+                    <p class="text-sm text-slate-500 mt-3 italic">Silahkan memilih nama indikator dan bulan terlebih dahulu</p>
                 <?php endif; ?>
             </div>
             <div class="p-3 bg-blue-500/10 rounded-xl text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
@@ -50,12 +58,12 @@
         <div class="flex justify-between items-start relative z-10">
             <div>
                 <p class="text-slate-500 dark:text-slate-400 text-[10px] font-medium uppercase tracking-wider">Total Realisasi</p>
-                <?php if ($bulanDipilih && $fungsiDipilih): ?>
+                <?php if ($bulanDipilih && $indikatorDipilih): ?>
                     <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-2">
                         <?= number_format($summary->realisasi, 2, ',', '.') ?>
                     </h3>
                 <?php else: ?>
-                    <p class="text-sm text-slate-500 mt-3 italic">Silahkan memilih bulan dan fungsi terlebih dahulu</p>
+                    <p class="text-sm text-slate-500 mt-3 italic">Silahkan memilih nama indikator dan bulan terlebih dahulu</p>
                 <?php endif; ?>
             </div>
             <div class="p-3 bg-emerald-500/10 rounded-xl text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
