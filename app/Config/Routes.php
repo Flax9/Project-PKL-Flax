@@ -115,6 +115,10 @@ $routes->group('admin', function($routes) {
     $routes->post('pengajuan/upload_roren/(:num)', 'Admin\Pengajuan::upload_roren/$1');
     $routes->post('pengajuan/upload_eperformance/(:num)', 'Admin\Pengajuan::upload_eperformance/$1');
 
+    // Notification Routes
+    $routes->get('notifications/unread', 'Admin\NotificationController::get_unread');
+    $routes->get('notifications/read/(:num)', 'Admin\NotificationController::mark_read/$1');
+
     // Profile Route
     $routes->get('profile', 'Admin\Entry::profile');
     $routes->post('entry/upload-photo', 'Admin\Entry::upload_photo');

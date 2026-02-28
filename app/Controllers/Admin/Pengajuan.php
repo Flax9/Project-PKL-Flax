@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\PengajuanModel;
 use App\Models\IkuModel;
+use App\Models\NotificationModel;
 use App\Libraries\TelegramService;
 
 class Pengajuan extends BaseController
@@ -331,6 +332,16 @@ class Pengajuan extends BaseController
                     
                     $telegram->sendMessage($adminId, $msg);
                 }
+                
+                // Tambahkan Notification ke "perencana" (user_id = 2)
+                $notifModel = new NotificationModel();
+                $notifModel->insert([
+                    'user_id' => 2, // Asumsi 2 adalah akun perencana
+                    'title'   => 'Pengajuan Perubahan Baru',
+                    'message' => 'Pengajuan perubahan data IKU ' . $data['no_iku'] . ' oleh ' . (session()->get('username') ?? 'User'),
+                    'link'    => base_url('admin/pengajuan/detail/' . $db->insertID()),
+                    'is_read' => 0
+                ]);
                 // ---------------------------
 
                 return redirect()->to('admin/pengajuan/submission')->with('message', 'Pengajuan Perubahan berhasil dikirim! Menunggu verifikasi.');

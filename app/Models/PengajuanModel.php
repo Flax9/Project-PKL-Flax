@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Models\NotificationModel;
 
 class PengajuanModel extends Model
 {
@@ -251,7 +252,24 @@ class PengajuanModel extends Model
                 'updated_at'=> date('Y-m-d H:i:s')
             ];
 
-            return $this->update($id, $dataToUpdate);
+            $success = $this->update($id, $dataToUpdate);
+            
+            if ($success) {
+                // Beri notifikasi ke user (pemilik pengajuan)
+                $requestData = $this->find($id);
+                if ($requestData) {
+                    $notifModel = new NotificationModel();
+                    $notifModel->insert([
+                        'user_id' => $requestData['user_id'],
+                        'title'   => 'Status Pengajuan Diperbarui',
+                        'message' => 'Status pengajuan IKU Anda (#' . $id . ') menjadi: ' . strtoupper($newStatus),
+                        'link'    => base_url('admin/pengajuan/submission'),
+                        'is_read' => 0
+                    ]);
+                }
+            }
+
+            return $success;
         }
         return false;
     }

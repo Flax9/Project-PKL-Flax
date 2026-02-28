@@ -82,24 +82,171 @@
     </div>
 
     <div class="p-4 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        <a href="<?= base_url('admin/profile') ?>" class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300 group">
-        <?php if (session()->get('photo')): ?>
-            <img src="<?= base_url('uploads/profile/' . session()->get('photo')) ?>" class="w-8 h-8 rounded-full object-cover border border-slate-300 dark:border-slate-600 shadow-sm group-hover:border-teal-500/50 group-hover:shadow-teal-500/20 transition-all">
-        <?php else: ?>
-            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-teal-600 dark:text-teal-400 border border-slate-300 dark:border-slate-600 shadow-sm group-hover:border-teal-500/50 group-hover:shadow-teal-500/20 transition-all">
-                <i class="fa-solid fa-user-tie text-xs"></i>
+        <div class="flex items-center w-full min-w-0">
+            <a href="<?= base_url('admin/profile') ?>" class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300 group flex-1 overflow-hidden" style="min-width: 0;">
+            <?php if (session()->get('photo')): ?>
+                <img src="<?= base_url('uploads/profile/' . session()->get('photo')) ?>" class="w-8 h-8 rounded-full object-cover border border-slate-300 dark:border-slate-600 shadow-sm group-hover:border-teal-500/50 group-hover:shadow-teal-500/20 transition-all shrink-0">
+            <?php else: ?>
+                <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-teal-600 dark:text-teal-400 border border-slate-300 dark:border-slate-600 shadow-sm group-hover:border-teal-500/50 group-hover:shadow-teal-500/20 transition-all shrink-0">
+                    <i class="fa-solid fa-user-tie text-xs"></i>
+                </div>
+            <?php endif; ?>
+                <div class="overflow-hidden text-left flex-1 min-w-0">
+                    <?php if (session()->get('isLoggedIn')): ?>
+                        <p class="text-xs text-slate-800 dark:text-white font-medium truncate group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors"><?= esc(session()->get('name') ?? session()->get('username')) ?></p>
+                        <p class="text-[9px] text-slate-500 uppercase tracking-widest truncate"><?= esc(session()->get('role')) ?></p>
+                    <?php else: ?>
+                        <p class="text-xs text-slate-800 dark:text-white font-medium truncate group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">Admin BBPOM</p>
+                        <p class="text-[9px] text-slate-500 uppercase tracking-widest truncate">Dashboard View</p>
+                    <?php endif; ?>
+                </div>
+            </a>
+
+            <!-- Notification Bell Component -->
+            <?php if (session()->get('isLoggedIn')): ?>
+            <div class="relative flex-none ml-1">
+                <button type="button" id="notif-btn" class="relative p-2 text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400 focus:outline-none transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-bell"></i>
+                    <!-- Notif Badge -->
+                    <span id="notif-badge" class="absolute top-1 right-1 flex items-center justify-center w-4 h-4 text-[9px] font-bold text-white bg-red-500 rounded-full border border-white dark:border-slate-800 hidden">
+                        0
+                    </span>
+                </button>
+
+                <!-- Dropdown -->
+                <div id="notif-dropdown" class="absolute bottom-full mb-2 left-0 w-72 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 hidden z-50 overflow-hidden transform scale-95 opacity-0 transition-all duration-200 origin-bottom-left">
+                    <div class="p-3 border-b border-slate-100 dark:border-slate-700/50 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
+                        <h3 class="text-xs font-semibold text-slate-800 dark:text-white">Notifikasi</h3>
+                    </div>
+                    <div id="notif-list" class="max-h-64 overflow-y-auto w-full">
+                        <div class="p-4 text-center text-xs text-slate-500 dark:text-slate-400">
+                            Memuat...
+                        </div>
+                    </div>
+                </div>
             </div>
-        <?php endif; ?>
-            <div class="overflow-hidden text-left flex-1">
-                <?php if (session()->get('isLoggedIn')): ?>
-                    <p class="text-xs text-slate-800 dark:text-white font-medium truncate group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors"><?= esc(session()->get('name') ?? session()->get('username')) ?></p>
-                    <p class="text-[9px] text-slate-500 uppercase tracking-widest"><?= esc(session()->get('role')) ?></p>
-                <?php else: ?>
-                    <p class="text-xs text-slate-800 dark:text-white font-medium truncate group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">Admin BBPOM</p>
-                    <p class="text-[9px] text-slate-500 uppercase tracking-widest">Dashboard View</p>
-                <?php endif; ?>
-            </div>
-            <i class="fa-solid fa-chevron-right text-[10px] text-slate-400 dark:text-slate-600 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-all translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"></i>
-        </a>
+            <?php endif; ?>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const notifBtn = document.getElementById('notif-btn');
+                const notifDropdown = document.getElementById('notif-dropdown');
+                const notifBadge = document.getElementById('notif-badge');
+                const notifList = document.getElementById('notif-list');
+
+                if (notifBtn) {
+                    // Fetch notifications initially and then every 30 seconds
+                    fetchNotifications();
+                    setInterval(fetchNotifications, 30000);
+
+                    // Toggle Dropdown
+                    notifBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        // Toggle classes for animation
+                        if (notifDropdown.classList.contains('hidden')) {
+                            notifDropdown.classList.remove('hidden');
+                            setTimeout(() => {
+                                notifDropdown.classList.remove('scale-95', 'opacity-0');
+                                notifDropdown.classList.add('scale-100', 'opacity-100');
+                            }, 10);
+                        } else {
+                            closeNotifDropdown();
+                        }
+                    });
+
+                    // Close window on outside click
+                    document.addEventListener('click', function(e) {
+                        if (!notifBtn.contains(e.target) && !notifDropdown.contains(e.target)) {
+                            closeNotifDropdown();
+                        }
+                    });
+
+                    function closeNotifDropdown() {
+                        notifDropdown.classList.remove('scale-100', 'opacity-100');
+                        notifDropdown.classList.add('scale-95', 'opacity-0');
+                        setTimeout(() => {
+                            notifDropdown.classList.add('hidden');
+                        }, 200); // Matches transition duration
+                    }
+
+                    function fetchNotifications() {
+                        fetch('<?= base_url('admin/notifications/unread') ?>', {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                // Update Badge
+                                if (data.unread_count > 0) {
+                                    notifBadge.textContent = data.unread_count > 9 ? '9+' : data.unread_count;
+                                    notifBadge.classList.remove('hidden');
+                                } else {
+                                    notifBadge.classList.add('hidden');
+                                }
+
+                                // Update List
+                                if (data.notifications.length > 0) {
+                                    let html = '';
+                                    data.notifications.forEach(notif => {
+                                        const isUnread = notif.is_read == 0;
+                                        const date = new Date(notif.created_at).toLocaleDateString('id-ID', {
+                                            day: 'numeric', month: 'short', hour: '2-digit', minute:'2-digit'
+                                        });
+                                        
+                                        html += `
+                                            <a href="<?= base_url('admin/notifications/read/') ?>${notif.id}" class="block p-3 border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors ${isUnread ? 'bg-teal-50/30 dark:bg-teal-900/10' : ''}">
+                                                <div class="flex items-start gap-3">
+                                                    <div class="flex-shrink-0 mt-0.5">
+                                                        <div class="w-2 h-2 mt-1 rounded-full ${isUnread ? 'bg-teal-500' : 'bg-transparent'}"></div>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="text-xs font-semibold text-slate-800 dark:text-white truncate ${isUnread ? '' : 'text-slate-600 dark:text-slate-300'}">
+                                                            ${notif.title}
+                                                        </p>
+                                                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2 leading-snug">
+                                                            ${notif.message}
+                                                        </p>
+                                                        <p class="text-[9px] text-slate-400 dark:text-slate-500 mt-1">
+                                                            ${date}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        `;
+                                    });
+                                    notifList.innerHTML = html;
+                                } else {
+                                    notifList.innerHTML = `
+                                        <div class="p-6 text-center flex flex-col items-center justify-center gap-2">
+                                            <i class="fa-regular fa-bell-slash text-slate-300 dark:text-slate-600 text-2xl"></i>
+                                            <p class="text-[10px] text-slate-500 dark:text-slate-400">Tidak ada notifikasi terkini</p>
+                                        </div>
+                                    `;
+                                }
+                            } else {
+                                notifList.innerHTML = `
+                                    <div class="p-6 text-center flex flex-col items-center justify-center gap-2">
+                                        <i class="fa-regular fa-circle-xmark text-red-300 dark:text-red-900/50 text-2xl"></i>
+                                        <p class="text-[10px] text-red-500 dark:text-red-400">${data.message || 'Gagal memuat notifikasi'}</p>
+                                    </div>
+                                `;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching notifications:', error);
+                            notifList.innerHTML = `
+                                <div class="p-6 text-center flex flex-col items-center justify-center gap-2">
+                                    <i class="fa-regular fa-circle-xmark text-red-300 dark:text-red-900/50 text-2xl"></i>
+                                    <p class="text-[10px] text-red-500 dark:text-red-400">Gagal terhubung ke server</p>
+                                </div>
+                            `;
+                        });
+                    }
+                }
+            });
+        </script>
     </div>
 </aside>

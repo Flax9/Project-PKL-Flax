@@ -56,6 +56,7 @@ class Entry extends BaseController
         if ($isValid) {
             session()->set([
                 'isLoggedIn' => true,
+                'id'         => $user->id,
                 'username'   => $user->username,
                 'name'       => $user->name,
                 'role'       => $user->role,
