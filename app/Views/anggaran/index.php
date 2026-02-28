@@ -141,6 +141,9 @@
                         <i class="fa-solid fa-chart-bar text-teal-400"></i>
                         Pagu vs Realisasi per Program
                     </h4>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 italic print:hidden ml-6 mb-2">
+                        <i class="fa-solid fa-circle-info mr-1"></i> Grafik dapat digeser menggunakan gesture mouse trackpad, tekan lalu geser (drag & drop), maupun di-scroll.
+                    </p>
                     <div class="flex gap-4 mt-2">
                         <div class="flex items-center gap-2">
                             <span class="w-3 h-3 rounded-full bg-blue-500 border-2 border-white/20"></span>
@@ -158,10 +161,15 @@
             </div>
 
             <div class="bg-white/80 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 p-6 rounded-2xl shadow-md dark:shadow-lg transition-colors duration-300">
-                <h4 class="text-slate-800 dark:text-white font-semibold mb-6 flex items-center gap-2 transition-colors">
-                    <i class="fa-solid fa-chart-line text-blue-400"></i>
-                    Tren Penyerapan Bulanan (<?= $tahun_label ?>)
-                </h4>
+                <div class="mb-6">
+                    <h4 class="text-slate-800 dark:text-white font-semibold flex items-center gap-2 transition-colors">
+                        <i class="fa-solid fa-chart-line text-blue-400"></i>
+                        Tren Penyerapan Bulanan (<?= $tahun_label ?>)
+                    </h4>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 italic print:hidden ml-6">
+                        <i class="fa-solid fa-circle-info mr-1"></i> Grafik dapat digeser menggunakan gesture mouse trackpad, tekan lalu geser (drag & drop), maupun di-scroll.
+                    </p>
+                </div>
                 <div id="chartTrend" class="w-full h-[380px]"></div>
             </div>
         </div>

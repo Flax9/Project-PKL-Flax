@@ -108,7 +108,12 @@
     </div>
 
     <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg transition-colors duration-300">
-        <h3 class="text-slate-800 dark:text-white font-semibold mb-4 transition-colors">Trend Realisasi Program/Kegiatan</h3>
+        <div class="mb-6">
+            <h3 class="text-slate-800 dark:text-white font-semibold transition-colors">Trend Realisasi Program/Kegiatan</h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 italic print:hidden">
+                <i class="fa-solid fa-circle-info mr-1"></i> Grafik dapat digeser menggunakan gesture mouse trackpad, tekan lalu geser (drag & drop), maupun di-scroll.
+            </p>
+        </div>
         <div id="chartTrendRealisasi" class="w-full h-[350px]"></div>
     </div>
 
