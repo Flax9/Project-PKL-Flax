@@ -56,7 +56,7 @@ class Dashboard extends BaseController
         $rankTinggi = $this->ikuModel->getRankingData($filter, 'DESC', 5);
 
         // F. LIST TOP 5 (Tabel samping kanan)
-        $topFiveList = $this->ikuModel->getTopFiveList($filter);
+        $topFiveList = $this->ikuModel->getTopFiveList(['tahun' => $filter['tahun']]);
 
         // =================================================================
         // 3. QUERY DROPDOWN (MENGHILANGKAN OPSI BLANK)

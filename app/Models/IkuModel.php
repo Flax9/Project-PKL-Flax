@@ -63,14 +63,14 @@ class IkuModel extends Model {
      */
     public function getNkoAverage($filter = [])
     {
-        $builder = $this->db->table($this->config->tables['nko']);
-        $builder->select('ROUND(AVG(`NKO`), 2) as total_nko');
+        $builder = $this->db->table('view_nko_dinamis');
+        $builder->select('ROUND(AVG(`nko_hasil`), 2) as total_nko');
         
         if (!empty($filter['tahun'])) {
             $builder->where('Tahun', $filter['tahun']);
         }
         if (!empty($filter['bulan'])) {
-            $builder->where('Bulan', $filter['bulan']);
+            $builder->where('nama_bulan', $filter['bulan']);
         }
 
         return $builder->get()->getRow();
