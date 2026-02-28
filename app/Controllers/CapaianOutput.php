@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\capaianuutputmodel;
+use App\Models\capaianoutputmodel;
 
 class CapaianOutput extends BaseController
 {
