@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-<div class="flex-1 overflow-y-auto p-4 md:p-8 z-10 flex flex-col gap-6">
+<div id="pdf-export-target" class="flex-1 overflow-y-auto p-4 md:p-8 z-10 flex flex-col gap-6">
 
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
         <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg backdrop-blur-sm group hover:border-teal-500/30 transition-all cursor-default">
@@ -72,8 +72,11 @@
 
     <div class="grid grid-cols-1 gap-6">
         <div class="bg-white/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-md dark:shadow-lg transition-colors duration-300">
-            <div class="flex justify-between items-center mb-6">
+            <div class="mb-6">
                 <h3 class="text-slate-800 dark:text-white font-semibold transition-colors">Tren Realisasi Output Bulanan</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 italic print:hidden">
+                    <i class="fa-solid fa-circle-info mr-1"></i> Grafik dapat digeser menggunakan gesture mouse trackpad, tekan lalu geser (drag & drop), maupun di-scroll.
+                </p>
             </div>
             <div id="chartOutputBulanan" class="w-full h-[380px]"></div>
         </div>

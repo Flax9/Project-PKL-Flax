@@ -20,12 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         chart: {
             type: 'bar', height: 380, stacked: true, stackType: '100%', background: 'transparent',
             toolbar: {
-                show: true,
-                tools: {
-                    download: false, selection: false, zoom: false, zoomin: false, zoomout: false, pan: true,
-                    reset: '<i class="fa-solid fa-rotate-right" style="font-size: 16px; color: #94a3b8;"></i>'
-                },
-                autoSelected: 'pan'
+                show: false
             }
         },
         plotOptions: { bar: { horizontal: false, columnWidth: '60%', borderRadius: 2 } },

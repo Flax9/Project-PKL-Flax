@@ -180,6 +180,20 @@
     <?php endif; ?>
 </header>
 
+<!-- PDF Export Loading Overlay -->
+<div id="pdf-loading-overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[100] hidden flex-col items-center justify-center transition-opacity duration-300 opacity-0">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-4 border border-slate-200 dark:border-slate-700">
+        <i class="fa-solid fa-spinner fa-spin text-4xl text-teal-500"></i>
+        <div class="text-center">
+            <h3 class="text-slate-800 dark:text-white font-bold text-lg">Mengekspor PDF...</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Harap tunggu, sedang merender grafik.</p>
+        </div>
+    </div>
+</div>
+
+<!-- html2pdf.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <?php if(isset($showBackButton) && $showBackButton): ?>
 <div class="px-4 md:px-8 py-6">
     <a href="<?= $backUrl ?? '#' ?>" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 text-sm transition-colors w-fit">
@@ -192,17 +206,77 @@
 
 <script>
 function handleExportPDF() {
-    // 1. Paksa browser melakukan resize internal
-    window.dispatchEvent(new Event('resize'));
+    // Tentukan nama file secara dinamis berdasarkan halaman aktif
+    let activeMenu = '<?= $activeMenu ?>';
+    let fileName = 'Export_Data.pdf'; // Default fallback
+    
+    switch (activeMenu) {
+        case 'dashboard':
+            fileName = 'Rangkuman_Capaian_IKU.pdf';
+            break;
+        case 'database':
+            fileName = 'Database_IKU_Realtime.pdf';
+            break;
+        case 'anggaran':
+            fileName = 'Rangkuman_Manajemen_Anggaran.pdf';
+            break;
+        case 'capaian_output':
+            fileName = 'Rangkuman_Capaian_Output.pdf';
+            break;
+        default:
+            fileName = 'Export_' + activeMenu + '.pdf';
+    }
 
-    // 2. Berikan waktu ekstra bagi mesin render grafik untuk menstabilkan posisi
+    // 1. Tampilkan Overlay Loading
+    const overlay = document.getElementById('pdf-loading-overlay');
+    overlay.classList.remove('hidden');
+    // Beri sedikit jeda agar display:block teraplikasi sebelum merubah opacity untuk efek fade
     setTimeout(() => {
-        // Jika menggunakan ApexCharts, ini akan memaksa render ulang ke ukuran container cetak
-        if (typeof ApexCharts !== 'undefined') {
-            window.dispatchEvent(new Event('resize'));
-        }
-        window.print();
-    }, 800); // Waktu tunggu ditambah menjadi 800ms agar lebih aman
+        overlay.classList.remove('opacity-0');
+        overlay.classList.add('opacity-100');
+    }, 10);
+
+    // 2. Berikan waktu untuk membiarkan UI Loading tampil optimal sebelum thread JS terkunci oleh rendering PDF
+    setTimeout(() => {
+        // Tentukan Area yang akan di-ekspor
+        const element = document.getElementById('pdf-export-target') || document.querySelector('.main-content') || document.querySelector('.flex-1.overflow-y-auto');
+        
+        // Tambahkan class khusus untuk styling ekspor PDF
+        element.classList.add('pdf-exporting');
+
+        // Sembunyikan elemen sementara sebelum dirender (scrollbars dll)
+        const originalOverflow = element.style.overflow;
+        element.style.overflow = 'visible';
+
+        // Konfigurasi html2pdf
+        const opt = {
+            margin:       [0.5, 0.5, 0.5, 0.5],
+            filename:     fileName,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, logging: false },
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Mulai Proses Generate PDF
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Sukses: Kembalikan State
+            element.classList.remove('pdf-exporting');
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0');
+            element.style.overflow = originalOverflow;
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+        }).catch(err => {
+            // Error Handling
+            console.error("PDF Export Error: ", err);
+            alert("Terjadi kesalahan saat mengekspor PDF.");
+            element.classList.remove('pdf-exporting');
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0');
+            element.style.overflow = originalOverflow;
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+        });
+        
+    }, 800); // Tunggu sebentar
 }
 </script>
 
@@ -237,70 +311,67 @@ function applyFilter() {
 </script>
 
 <style>
-@media print {
-    /* 1. Paksa Dokumen menjadi Aliran Statis dari Atas ke Bawah */
-    html, body {
-        height: auto !important;
-        overflow: visible !important;
-        position: static !important;
-        background: white !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+/* PDF Export Styles (Applied only when exporting via JS) */
+.pdf-exporting {
+    height: auto !important;
+    overflow: visible !important;
+    position: static !important;
+    background: white !important;
+    margin: 0 !important;
+    padding: 20px !important;
+}
 
-    /* 2. Sembunyikan Navigasi secara Agresif */
-    .sidebar, #sidebar, .navbar, .no-print, .filter-section, .btn-refresh, .btn-export-pdf {
-        display: none !important;
-        visibility: hidden !important;
-    }
+.pdf-exporting .sidebar, .pdf-exporting #sidebar, .pdf-exporting .navbar, .pdf-exporting .no-print, .pdf-exporting .filter-section, .pdf-exporting .btn-refresh, .pdf-exporting .btn-export-pdf {
+    display: none !important;
+    visibility: hidden !important;
+}
 
-    /* 3. Reset Kontainer Utama agar Tidak Ada Ruang Kosong Sidebar */
-    .main-content, main, .content-wrapper, #content {
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 100% !important;
-        position: static !important;
-        display: block !important;
-        left: 0 !important;
-    }
+.pdf-exporting .main-content, .pdf-exporting main, .pdf-exporting .content-wrapper, .pdf-exporting #content {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    position: static !important;
+    display: block !important;
+    left: 0 !important;
+}
 
-    /* 4. FIX: Kunci Kartu dan Grafik agar Tidak Meluap Keluar */
-    .glass-card, .bg-slate-800\/50, .card, .chart-card {
-        break-inside: avoid !important;
-        page-break-inside: avoid !important;
-        background: white !important;
-        color: black !important;
-        border: 1px solid #ddd !important;
-        margin-bottom: 30px !important;
-        display: block !important;
-        position: relative !important;
-        width: 100% !important;
-        overflow: hidden !important; /* Paksa konten tetap di dalam kartu */
-    }
+.pdf-exporting .glass-card, .pdf-exporting .bg-slate-800\/50, .pdf-exporting .card, .pdf-exporting .chart-card, .pdf-exporting .bg-white\/80 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    background: white !important;
+    color: black !important;
+    border: 1px solid #ddd !important;
+    margin-bottom: 30px !important;
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    overflow: hidden !important; 
+    box-shadow: none !important;
+}
 
-    /* 5. FIX: Paksa Grafik ApexCharts agar Sesuai Lebar Kartu */
-    .chart-container, .apexcharts-canvas, svg, canvas {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 350px !important; /* Tinggi dikurangi sedikit agar lebih stabil */
-        display: block !important;
-        position: relative !important;
-    }
+.pdf-exporting .chart-container, .pdf-exporting .apexcharts-canvas, .pdf-exporting svg, .pdf-exporting canvas {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 350px !important;
+    display: block !important;
+    position: relative !important;
+}
 
-    /* 6. Pastikan Tabel memenuhi Lebar Halaman */
-    table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-    }
+.pdf-exporting table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
 
-    /* 7. Warna Teks Hitam */
-    h1, h2, h3, h4, p, span, td, th, .text-white, .text-slate-400 {
-        color: black !important;
-    }
+.pdf-exporting h1, .pdf-exporting h2, .pdf-exporting h3, .pdf-exporting h4, .pdf-exporting p, .pdf-exporting span, .pdf-exporting td, .pdf-exporting th, .pdf-exporting .text-white, .pdf-exporting .text-slate-400, .pdf-exporting .text-teal-400, .pdf-exporting .text-orange-400, .pdf-exporting .text-purple-400, .pdf-exporting .text-blue-400 {
+    color: black !important;
+}
 
-    @page {
-        size: A4 portrait;
-        margin: 1cm;
-    }
+.pdf-exporting .grid {
+    display: block !important;
+}
+
+.pdf-exporting .grid > div {
+    margin-bottom: 2rem !important;
+    page-break-inside: avoid !important;
 }
 </style>
