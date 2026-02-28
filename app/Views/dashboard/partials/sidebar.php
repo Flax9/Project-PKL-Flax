@@ -103,7 +103,6 @@
             </a>
 
             <!-- Notification Bell Component -->
-            <?php if (session()->get('isLoggedIn')): ?>
             <div class="relative flex-none ml-1">
                 <button type="button" id="notif-btn" class="relative p-2 text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400 focus:outline-none transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
                     <i class="fa-solid fa-bell"></i>
@@ -119,13 +118,20 @@
                         <h3 class="text-xs font-semibold text-slate-800 dark:text-white">Notifikasi</h3>
                     </div>
                     <div id="notif-list" class="max-h-64 overflow-y-auto w-full">
+                        <?php if (session()->get('isLoggedIn')): ?>
                         <div class="p-4 text-center text-xs text-slate-500 dark:text-slate-400">
                             Memuat...
                         </div>
+                        <?php else: ?>
+                        <div class="p-6 text-center text-xs text-slate-500 dark:text-slate-400 flex flex-col items-center justify-center">
+                            <i class="fa-solid fa-lock text-3xl mb-3 text-slate-300 dark:text-slate-600"></i>
+                            <span class="block font-semibold mb-1">Akses Terkunci</span>
+                            <span>Silakan login terlebih dahulu untuk melihat notifikasi Anda.</span>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
-            <?php endif; ?>
         </div>
 
         <script>
@@ -136,9 +142,11 @@
                 const notifList = document.getElementById('notif-list');
 
                 if (notifBtn) {
+                    <?php if (session()->get('isLoggedIn')): ?>
                     // Fetch notifications initially and then every 30 seconds
                     fetchNotifications();
                     setInterval(fetchNotifications, 30000);
+                    <?php endif; ?>
 
                     // Toggle Dropdown
                     notifBtn.addEventListener('click', function(e) {
