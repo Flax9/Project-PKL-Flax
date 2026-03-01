@@ -14,6 +14,12 @@
                     Antrian Validasi Perubahan Data
                 </h3>
                 <p class="text-slate-500 dark:text-slate-400 mt-1 transition-colors">Daftar pengajuan perubahan data yang menunggu tindak lanjut dari Perencana.</p>
+                
+                <!-- Telegram Bot Notification Info Badge -->
+                <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 text-sky-600 dark:text-sky-400 text-xs font-semibold transition-colors shadow-sm">
+                    <i class="fa-brands fa-telegram text-sky-500 text-sm"></i>
+                    Setiap pengajuan baru akan otomatis mengirimkan notifikasi ke bot Telegram Admin
+                </div>
             </div>
             
             <!-- FILTERS -->

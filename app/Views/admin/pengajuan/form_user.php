@@ -6,6 +6,12 @@
 <div id="formScrollContainer" class="flex-1 overflow-y-auto p-6 md:p-8 pb-32">
     <div class="max-w-6xl mx-auto space-y-6">
 
+        <!-- Telegram Bot Notification Info Badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 text-sky-600 dark:text-sky-400 text-xs font-semibold transition-colors shadow-sm w-max mb-2">
+            <i class="fa-brands fa-telegram text-sky-500 text-sm"></i>
+            Setiap pengajuan baru akan otomatis mengirimkan notifikasi ke bot Telegram Admin
+        </div>
+
         <!-- ALERTS -->
         <?php if(session()->getFlashdata('message')): ?>
             <div class="bg-teal-500/10 border border-teal-500/50 text-teal-400 p-4 rounded-xl flex items-center gap-3 animate-fade-in-down">
