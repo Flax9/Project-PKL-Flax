@@ -301,27 +301,39 @@ class PengajuanModel extends Model
 
         $builder = $db->table($this->config->tables['capaian_iku']);
         
-        // Set Values
-        $builder->set('Target', $request['target'])
-                ->set('Realisasi', $request['realisasi'])
-                ->set('Performa % Capaian Bulan', $request['perf_bulan'])
-                ->set('Kategori Capaian Bulan', $request['kat_bulan'])
-                ->set('Performa % Capaian Tahun', $request['perf_tahun'])
-                ->set('Kategori Capaian Tahun', $request['kat_tahun'])
-                ->set('Capaian Normalisasi', $request['cap_norm'])
-                ->set('Capaian normalisasi Angka', $request['cap_norm_angka']);
-        
-        // Clauses
-        $builder->where('Tahun', $snapshot['tahun'])
-                ->where('Bulan', $snapshot['bulan'])
-                ->where('Fungsi', $snapshot['fungsi'])
-                ->where("(`Target` IS NOT NULL AND `Target` != '-' AND `Target` != '')", null, false)
-                ->groupStart()
-                    ->where('`No. IKU`', $ikuRaw)
-                    ->orWhere('`No. IKU`', $ikuWithPrefix)
-                ->groupEnd();
+        // 2. Perform Raw SQL Update to bypass CI4 Query Builder bugs with complex column names
+        $sql = "UPDATE `" . $this->config->tables['capaian_iku'] . "` SET 
+                `Target` = ?, 
+                `Realisasi` = ?, 
+                `Performa % Capaian Bulan` = ?, 
+                `Kategori Capaian Bulan` = ?, 
+                `Performa % Capaian Tahun` = ?, 
+                `Kategori Capaian Tahun` = ?, 
+                `Capaian Normalisasi` = ?, 
+                `Capaian normalisasi Angka` = ? 
+                WHERE `Tahun` = ? 
+                AND `Bulan` = ? 
+                AND `Fungsi` = ? 
+                AND (`Target` IS NOT NULL AND `Target` != '-' AND `Target` != '') 
+                AND (`No. IKU` = ? OR `No. IKU` = ?)";
 
-        return $builder->update();
+        $binds = [
+            $request['target'],
+            $request['realisasi'],
+            $request['perf_bulan'],
+            $request['kat_bulan'],
+            $request['perf_tahun'],
+            $request['kat_tahun'],
+            $request['cap_norm'],
+            $request['cap_norm_angka'],
+            $snapshot['tahun'],
+            $snapshot['bulan'],
+            $snapshot['fungsi'],
+            $ikuRaw,
+            $ikuWithPrefix
+        ];
+
+        return $db->query($sql, $binds);
     }
 
     /**
