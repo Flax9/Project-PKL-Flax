@@ -16,8 +16,19 @@
                 <p class="text-slate-500 dark:text-slate-400 mt-1 transition-colors">Daftar pengajuan perubahan data yang menunggu tindak lanjut dari Perencana.</p>
             </div>
             
-            <!-- FILTER (Optional) -->
-            <div class="flex gap-3">
+            <!-- FILTERS -->
+            <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
+                <!-- IKU Visual Filter (Frontend) -->
+                <div class="relative w-full md:w-64">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="fa-solid fa-search text-slate-400"></i>
+                    </div>
+                    <input type="text" id="ikuSearchFilter" 
+                           class="bg-white/80 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-300 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full pl-10 p-2.5 transition-colors placeholder-slate-400" 
+                           placeholder="Cari IKU atau Indikator...">
+                </div>
+                
+                <!-- Status Filter (Backend) -->
                 <select id="statusFilter" onchange="window.location.href='?status='+this.value" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-300 text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block p-2.5 transition-colors">
                     <option value="all" <?= ($activeStatus == 'all') ? 'selected' : '' ?>>Semua Status</option>
                     <option value="diajukan" <?= ($activeStatus == 'diajukan') ? 'selected' : '' ?>>Menunggu Disposisi</option>
@@ -121,4 +132,44 @@
     </div>
 </div>
 
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('ikuSearchFilter');
+        const tableRows = document.querySelectorAll('tbody tr.group'); // Only content rows
+
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function(e) {
+                const term = e.target.value.toLowerCase();
+                let visibleCount = 0;
+
+                tableRows.forEach(row => {
+                    // The 3rd column (index 2) contains the IKU & Indikator names
+                    const ikuCell = row.cells[2];
+                    if (ikuCell) {
+                        const cellText = ikuCell.textContent.toLowerCase();
+                        if (cellText.includes(term)) {
+                            row.style.display = '';
+                            visibleCount++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // Update pagination text dynamically if term exists
+                const pText = document.querySelector('.px-6.py-4.border-t span');
+                if (pText) {
+                    if (term !== '') {
+                        pText.textContent = `Pencarian: Ditemukan ${visibleCount} dari <?= count($requests) ?> data`;
+                    } else {
+                        pText.textContent = `Menampilkan <?= count($requests) ?> data`;
+                    }
+                }
+            });
+        }
+    });
+</script>
 <?= $this->endSection() ?>
