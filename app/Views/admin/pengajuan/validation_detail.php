@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 <?= $this->include('admin/pengajuan/partials/header', ['backUrl' => base_url('admin/pengajuan/validation'), 'backLabel' => 'Kembali ke Antrian Validasi']) ?>
 
-<div class="flex-1 overflow-y-auto p-6 md:p-8">
+<div class="flex-1 overflow-y-auto p-6 md:p-8 pb-32">
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         <!-- LEFT PANEL: USER REQUEST INFO (READ ONLY) -->
