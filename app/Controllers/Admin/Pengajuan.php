@@ -22,9 +22,7 @@ class Pengajuan extends BaseController
     // 1. GATEWAY PAGE (Menu Selection)
     public function index()
     {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('admin/entry/verify');
-        }
+
 
         $data = [
             'activeMenu' => 'perubahan_data',
@@ -90,9 +88,7 @@ class Pengajuan extends BaseController
     // 2. FORM PENGAJUAN (User View)
     public function submission()
     {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('admin/entry/verify');
-        }
+
 
         $db = \Config\Database::connect();
 

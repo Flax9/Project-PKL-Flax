@@ -81,17 +81,12 @@ class Entry extends BaseController
 
     public function index()
     {
-        if (!session()->getFlashdata('access_granted')) {
-            return redirect()->to('admin/entry/verify');
-        }
         return redirect()->to('admin/entry/selection');
     }
 
     public function selection()
     {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('admin/entry/verify');
-        }
+
 
         $data = [
             'activeMenu' => 'data_entry',
@@ -105,9 +100,7 @@ class Entry extends BaseController
 
     public function rutin()
     {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('admin/entry/verify');
-        }
+
         
         $data = [
             'activeMenu'  => 'data_entry',
@@ -132,9 +125,7 @@ class Entry extends BaseController
 
     public function profile()
     {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('admin/entry/verify');
-        }
+
 
         // Fetch fresh user data from DB to ensure updates (photo, name, email) are visible
         $db = \Config\Database::connect();
