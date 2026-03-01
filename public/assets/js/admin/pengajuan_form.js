@@ -108,9 +108,15 @@ $(document).ready(function () {
                     populateDbSelect('#db_cap_norm', opts.cap_norm);
                     populateDbSelect('#db_cap_norm_angka', opts.cap_norm_angka);
 
-                    $('html, body').animate({
-                        scrollTop: $("#resultCard").offset().top - 100
-                    }, 500);
+                    setTimeout(() => {
+                        const container = $('#formScrollContainer');
+                        const target = $('#resultCard');
+                        if (container.length && target.length) {
+                            container.animate({
+                                scrollTop: container.scrollTop() + target.position().top - 20
+                            }, 500);
+                        }
+                    }, 50);
 
                 } else {
                     $('#resultCard').addClass('hidden');
@@ -187,9 +193,15 @@ $(document).ready(function () {
                     $('#new_cap_norm').val($('#db_cap_norm').val());
                     $('#new_cap_norm_angka').val($('#db_cap_norm_angka').val());
 
-                    $('html, body').animate({
-                        scrollTop: $("#newValueCard").offset().top - 100
-                    }, 500);
+                    setTimeout(() => {
+                        const container = $('#formScrollContainer');
+                        const target = $('#newValueCard');
+                        if (container.length && target.length) {
+                            container.animate({
+                                scrollTop: container.scrollTop() + target.position().top - 20
+                            }, 500);
+                        }
+                    }, 50);
 
                 } else {
                     const debugMsg = res.debug_query ? '\nQuery Debug: ' + res.debug_query : '';

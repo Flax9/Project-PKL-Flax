@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 <?= $this->include('admin/pengajuan/partials/header') ?>
 
-<div class="flex-1 overflow-y-auto p-6 md:p-8 pb-32">
+<div id="formScrollContainer" class="flex-1 overflow-y-auto p-6 md:p-8 pb-32">
     <div class="max-w-6xl mx-auto space-y-6">
 
         <!-- ALERTS -->
@@ -445,5 +445,5 @@
         csrfHash: '<?= csrf_hash() ?>'
     };
 </script>
-<script src="<?= base_url('assets/js/admin/pengajuan_form.js') ?>"></script>
+<script src="<?= base_url('assets/js/admin/pengajuan_form.js') ?>?v=1.2"></script>
 <?= $this->endSection() ?>
