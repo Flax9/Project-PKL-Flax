@@ -1,6 +1,39 @@
-# Panduan Instalasi & Konfigurasi E-Kinera BBPOM
+# E-Kinerja BBPOM - Web Monitoring System
 
-Berikut adalah langkah-langkah untuk menjalankan aplikasi ini di lingkungan lokal (XAMPP).
+Aplikasi Web Monitoring E-Kinerja BBPOM adalah platform terpadu yang digunakan untuk mengelola, memantau, dan memverifikasi capaian kinerja organisasi yang meliputi IKU (Indikator Kinerja Utama), NKO (Nilai Kinerja Organisasi), Anggaran, dan Capaian Output.
+
+## 🌟 Fitur Utama Aplikasi
+
+### 1. Dashboard Monitoring Interaktif
+- Visualisasi raihan target kinerja, anggaran, dan capaian realisasi (Output) ke dalam diagram, scorecard, dan grafik interaktif.
+- Pemfilteran data secara dinamis berdasarkan periode waktu filter (Bulan/Triwulan) atau nama indikator spesifik.
+
+### 2. Modul Entri & Manajemen Data (Admin)
+- **Smart Data Entry:** Penambahan atau modifikasi data (IKU, NKO, Anggaran, Capaian Output) dengan fitur *auto-fill* berbasis AJAX (misal: input Nomor IKU otomatis mengisi Nama Indikator yang sesuai).
+- **Import Massal Excel/CSV:** Dukungan *import* data berjumlah banyak menggunakan antarmuka modern yang memvalidasi data lewat *staging-area* sebelum masuk ke penyimpanan permanen (*batch insert*).
+- **Modifikasi Data Rutin:** Penyesuaian revisi data operasional harian yang terkendali.
+
+### 3. Sistem Pengajuan Perubahan Data (Approval Workflow)
+- Proses dan alur pengajuan resmi jika entitas sub-konteks memerlukan penyesuaian/revisi terhadap data yang telah dilaporkan di bulan sebelumnya.
+- Validasi multi-level (Pemeriksaan & Validasi oleh tim Perencana).
+- Fasilitas unggah dokumen wajib sebagai otentikasi perubahan (Draft/Bahan Roren, Disposisi, bukti E-Performance).
+
+### 4. Keamanan Cerdas & Kontrol Akses
+- **Gateway Authenticator:** Pengamanan ketat menggunakan `AuthFilter` yang melindungi rute sensitif/admin, memitigasi kemungkinan *Broken Access Control* atau IDOR.
+- **Email OTP Service:** Integrasi layanan validasi keamanan *One-Time Password* (OTP) yang dikirimkan melewati email untuk verifikasi ekstra atau update krusial profil.
+
+### 5. Notifikasi Terpusat & Integrasi
+- **In-App Notification:** Notifikasi penanda status *real-time* kepada user atas status persetujuan pengajuan (apakah disetujui, diproses, atau ditolak).
+- **Bot Telegram Terintegrasi (Webhook):** Kapabilitas untuk menerima notifikasi sistem instan memotong latensi respons via Telegram App.
+
+### 6. Pengaturan Profil
+- Kelola profil pengguna dengan fitur update data diri lengkap dengan fasilitas penggantian foto profil.
+
+---
+
+## ⚙️ Panduan Instalasi & Konfigurasi
+
+Berikut adalah langkah-langkah untuk menjalankan aplikasi ini di lingkungan lokal (XAMPP/Laragon).
 
 ## 1. Konfigurasi PHP (XAMPP)
 
