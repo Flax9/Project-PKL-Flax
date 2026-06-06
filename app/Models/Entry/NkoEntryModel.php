@@ -125,33 +125,27 @@ class NkoEntryModel extends Model
         $db->transBegin();
 
         try {
-            // Persiapkan data untuk batch insert
-            $newEntries = [];
+            $sql = "INSERT INTO {$this->table} (`Tahun`, `Bulan`, `Total Capaian`, `Total IKU`, `NKO`) VALUES (?, ?, ?, ?, ?)";
+
             foreach ($data as $row) {
                 // DELETE old data based on unique key (Tahun + Bulan)
-                // Note: Deleting inside loop is still necessary if we want to clear specific months
                 $builder->where('Tahun', $row['tahun'])
                         ->where('Bulan', $row['bulan'])
                         ->delete();
 
-                // Prepare new entry
-                $newEntries[] = [
-                    'Tahun'         => $row['tahun'],
-                    'Bulan'         => $row['bulan'],
-                    'Total Capaian' => $row['total_capaian'],
-                    'Total IKU'     => $row['total_iku'],
-                    'NKO'           => $row['nko']
-                ];
-            }
-
-            // Perform Batch Insert if we have data
-            if (!empty($newEntries)) {
-                $builder->insertBatch($newEntries);
+                $db->query($sql, [
+                    $row['tahun'],
+                    $row['bulan'],
+                    $row['total_capaian'] === '' ? 0 : $row['total_capaian'],
+                    $row['total_iku'] === '' ? 0 : $row['total_iku'],
+                    $row['nko'] === '' ? 0 : $row['nko']
+                ]);
             }
 
             if ($db->transStatus() === false) {
+                $dbError = $db->error();
                 $db->transRollback();
-                return ['status' => 'error', 'message' => 'Transaction failed'];
+                return ['status' => 'error', 'message' => 'DB Error: ' . ($dbError['message'] ?? 'Unknown error')];
             }
             
             $db->transCommit();

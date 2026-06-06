@@ -105,7 +105,6 @@
             type="number"  
             name="target" 
             max="999"
-            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-teal-500 transition-colors">
 
         </div>
@@ -116,7 +115,6 @@
             type="number"  
             name="realisasi" 
             max="999"
-            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-teal-500 transition-colors">
 
         </div>
@@ -127,7 +125,6 @@
             type="number" 
             name="perf_bulan"
             max="999" 
-            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             id="perf_bulan" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-teal-500 transition-colors">
 
         </div>
@@ -148,7 +145,6 @@
             step="0.01" type="number" 
             name="perf_tahun" 
             max="999" 
-            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             id="perf_tahun" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-teal-500 transition-colors">
 
         </div>
@@ -169,7 +165,6 @@
             step="0.01"
             type="number"  
             max="999" 
-            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             name="capaian_normalisasi_persen" 
             id="capaian_normalisasi_persen" class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white font-bold focus:outline-none focus:border-teal-500 transition-colors">
         </div>
@@ -179,7 +174,6 @@
             type="number" 
             step="0.01"
             max="999" 
-            oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"
             name="capaian_normalisasi_angka" 
             id="capaian_normalisasi_angka" 
             class="w-full bg-slate-50 border border-slate-300 dark:bg-slate-900 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white font-bold focus:outline-none focus:border-teal-500 transition-colors">

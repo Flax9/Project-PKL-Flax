@@ -40,7 +40,7 @@ class Pengajuan extends BaseController
     public function validation()
     {
         // Enforce Role Check (Optional redundancy)
-        if (session()->get('role') !== 'perencana') {
+        if (!in_array(session()->get('role'), ['perencana', 'admin'])) {
             return redirect()->to('admin/pengajuan'); // Or show 403
         }
 
@@ -373,7 +373,7 @@ class Pengajuan extends BaseController
         // However, we can check if the file was updated in DB or simply run sync validly.
         // Better approach: Sync only if role is valid (checked in _handle_upload)
         
-        if (session()->get('role') === 'perencana') {
+        if (in_array(session()->get('role'), ['perencana', 'admin'])) {
             $request = $this->pengajuanModel->find($id);
             
             if ($request && $request['status'] == 'selesai') {
@@ -383,7 +383,7 @@ class Pengajuan extends BaseController
 
         // If the upload was successful and status is 'selesai', we now fetch the original data
         // and display it for comparison.
-        if (session()->get('role') === 'perencana' && $request && $request['status'] == 'selesai') {
+        if (in_array(session()->get('role'), ['perencana', 'admin']) && $request && $request['status'] == 'selesai') {
             // Fetch SNAPSHOT Data for consistent view
             $original = $this->pengajuanModel->getSnapshot($id);
             
@@ -405,7 +405,7 @@ class Pengajuan extends BaseController
     // Helper for file uploads
     private function _handle_upload($id, $fieldInput, $targetDir, $newStatus, $successMsg)
     {
-        if (session()->get('role') !== 'perencana') {
+        if (!in_array(session()->get('role'), ['perencana', 'admin'])) {
             return redirect()->to('admin/pengajuan');
         }
 

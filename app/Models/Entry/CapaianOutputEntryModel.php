@@ -137,18 +137,22 @@ class CapaianOutputEntryModel extends Model
         $db->transBegin();
         
         try {
-            $newEntries = [];
-            $processedKeys = []; // Track Deleted Keys to avoid deleting newly inserted rows in the same batch
+            $processedKeys = [];
+            
+            $sql = "INSERT INTO {$this->table} (
+                `Tahun`, `Bulan`, `No. Bulan`, `Rincian Output`, `No. RO`, `Keterangan RO`,
+                `Fungsi`, `Target % Bulan`, `Realisasi`, `% Realisasi`, `Realisasi Kumulatif`,
+                `salah % Realisasi Kumulatif`, `Capaian`, `Kategori`, `Target tahun`,
+                `Kategori Belanja`, `Realisasi Kumulatif %`
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             foreach ($data as $row) {
-                // Determine Key for Deletion (Tahun + Bulan + No. RO)
                 $tahun = $row['tahun'] ?? date('Y');
                 $bulan = $row['bulan'] ?? '';
                 $noRo  = $row['no_ro'] ?? 0;
                 
                 $uniqueKey = "{$tahun}_{$bulan}_{$noRo}";
 
-                // Delete ONLY if not yet deleted in this batch
                 if (!isset($processedKeys[$uniqueKey])) {
                     $builder->where('Tahun', $tahun)
                             ->where('Bulan', $bulan)
@@ -157,38 +161,34 @@ class CapaianOutputEntryModel extends Model
                     $processedKeys[$uniqueKey] = true;
                 }
 
-                // Data Prep
                 $deskripsi = $row['rincian_output'] ?? ''; 
                 $ket_ro    = $row['keterangan_ro'] ?? '';
 
-                $newEntries[] = [
-                    'Tahun'                         => $tahun,
-                    'Bulan'                         => $bulan,
-                    'No. Bulan'                     => $row['no_bulan'] ?? 0,
-                    'Rincian Output'                => $deskripsi,
-                    'No. RO'                        => $noRo,
-                    'Keterangan RO'                 => $ket_ro,
-                    'Fungsi'                        => $row['fungsi'] ?? '',
-                    'Target % Bulan'                => $row['target_persen_bulan'] ?? 0,
-                    'Realisasi'                     => $row['realisasi'] ?? 0,
-                    '% Realisasi'                   => $row['persen_realisasi'] ?? 0,
-                    'Realisasi Kumulatif'           => $row['realisasi_kumulatif'] ?? 0,
-                    'salah % Realisasi Kumulatif'   => $row['salah_persen_realisasi_kumulatif'] ?? 0,
-                    'Capaian'                       => $row['capaian'] ?? 0,
-                    'Kategori'                      => $row['kategori'] ?? '',
-                    'Target tahun'                  => $row['target_tahun'] ?? 0,
-                    'Kategori Belanja'              => $row['kategori_belanja'] ?? '',
-                    'Realisasi Kumulatif %'         => $row['realisasi_kumulatif_persen'] ?? 0
-                ];
-            }
-            
-            if (!empty($newEntries)) {
-                $builder->insertBatch($newEntries);
+                $db->query($sql, [
+                    $tahun,
+                    $bulan,
+                    $row['no_bulan'] === '' ? 0 : ($row['no_bulan'] ?? 0),
+                    $deskripsi,
+                    $noRo,
+                    $ket_ro,
+                    $row['fungsi'] ?? '',
+                    $row['target_persen_bulan'] === '' ? 0 : ($row['target_persen_bulan'] ?? 0),
+                    $row['realisasi'] === '' ? 0 : ($row['realisasi'] ?? 0),
+                    $row['persen_realisasi'] === '' ? 0 : ($row['persen_realisasi'] ?? 0),
+                    $row['realisasi_kumulatif'] === '' ? 0 : ($row['realisasi_kumulatif'] ?? 0),
+                    $row['salah_persen_realisasi_kumulatif'] === '' ? 0 : ($row['salah_persen_realisasi_kumulatif'] ?? 0),
+                    $row['capaian'] === '' ? 0 : ($row['capaian'] ?? 0),
+                    $row['kategori'] ?? '',
+                    $row['target_tahun'] === '' ? 0 : ($row['target_tahun'] ?? 0),
+                    $row['kategori_belanja'] ?? '',
+                    $row['realisasi_kumulatif_persen'] === '' ? 0 : ($row['realisasi_kumulatif_persen'] ?? 0)
+                ]);
             }
             
             if ($db->transStatus() === false) {
+                $dbError = $db->error();
                 $db->transRollback();
-                return ['status' => 'error', 'message' => 'Transaction failed'];
+                return ['status' => 'error', 'message' => 'DB Error: ' . ($dbError['message'] ?? 'Unknown error')];
             }
 
             $db->transCommit();

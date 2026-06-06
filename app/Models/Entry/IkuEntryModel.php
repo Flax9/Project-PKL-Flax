@@ -146,9 +146,9 @@ class IkuEntryModel extends Model
                 `Bulan`,
                 `Target`,
                 `Realisasi`,
-                `Performa % Capaian Bulan`,
+                `Performa %Capaian Bulan`,
                 `Kategori Capaian Bulan`,
-                `Performa % Capaian Tahun`,
+                `Performa %Capaian Tahun`,
                 `Kategori Capaian Tahun`,
                 `Capaian Normalisasi`,
                 `Capaian normalisasi Angka`,
@@ -174,8 +174,8 @@ class IkuEntryModel extends Model
                     $row['kat_bulan'],
                     $row['perf_tahun'],
                     $row['kat_tahun'],
-                    $row['capaian_normalisasi_persen'],
-                    $row['capaian_normalisasi_angka'],
+                    $row['capaian_normalisasi_persen'] === '' ? 0 : $row['capaian_normalisasi_persen'],
+                    $row['capaian_normalisasi_angka'] === '' ? 0 : $row['capaian_normalisasi_angka'],
                     $row['tahun'],
                 ]);
             }

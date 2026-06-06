@@ -152,18 +152,21 @@ class AnggaranEntryModel extends Model
         $db->transBegin();
         
         try {
-            $newEntries = [];
             $processedKeys = [];
+            
+            $sql = "INSERT INTO {$this->table} (
+                `No. RO`, `RO`, `PROGRAM/KEGIATAN`, `PAGU`, `REALISASI`, 
+                `Capaian Realisasi`, `Target TW`, `CAPAIAN_TARGET_TW`, 
+                `Kategori TW`, `Bulan`, `Tahun`
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             foreach ($data as $row) {
-                // Key: Tahun + Bulan + No. RO
                 $tahun = $row['tahun'];
                 $bulan = $row['bulan'];
                 $noRo  = $row['no_ro'];
                 
                 $uniqueKey = "{$tahun}_{$bulan}_{$noRo}";
 
-                // Delete Logic: Delete ONLY if not yet deleted in this batch
                 if (!isset($processedKeys[$uniqueKey])) {
                     $builder->where('Tahun', $tahun)
                             ->where('Bulan', $bulan)
@@ -172,30 +175,25 @@ class AnggaranEntryModel extends Model
                     $processedKeys[$uniqueKey] = true;
                 }
                 
-                // Prepare for batch insert
-                $newEntries[] = [
-                    'No. RO'            => $row['no_ro'],
-                    'RO'                => $row['ro'],
-                    'PROGRAM/KEGIATAN'  => $row['program'],
-                    'PAGU'              => $row['pagu'],
-                    'REALISASI'         => $row['realisasi'],
-                    'Capaian Realisasi' => $row['capaian_realisasi'],
-                    'Target TW'         => $row['target_tw'],
-                    'CAPAIAN_TARGET_TW' => $row['capaian_target_tw'],
-                    'Kategori TW'       => $row['kategori_tw'],
-                    'Bulan'             => $row['bulan'],
-                    'Tahun'             => $row['tahun']
-                ];
-            }
-
-            // Perform Batch Insert
-            if (!empty($newEntries)) {
-                $builder->insertBatch($newEntries);
+                $db->query($sql, [
+                    $row['no_ro'],
+                    $row['ro'],
+                    $row['program'],
+                    $row['pagu'] === '' ? 0 : $row['pagu'],
+                    $row['realisasi'] === '' ? 0 : $row['realisasi'],
+                    $row['capaian_realisasi'] === '' ? 0 : $row['capaian_realisasi'],
+                    $row['target_tw'] === '' ? 0 : $row['target_tw'],
+                    $row['capaian_target_tw'] === '' ? 0 : $row['capaian_target_tw'],
+                    $row['kategori_tw'],
+                    $row['bulan'],
+                    $row['tahun']
+                ]);
             }
 
             if ($db->transStatus() === false) {
+                $dbError = $db->error();
                 $db->transRollback();
-                return ['status' => 'error', 'message' => 'Transaction failed'];
+                return ['status' => 'error', 'message' => 'DB Error: ' . ($dbError['message'] ?? 'Unknown error')];
             }
 
             $db->transCommit();

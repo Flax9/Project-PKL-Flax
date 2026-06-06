@@ -324,8 +324,7 @@ class Entry extends BaseController
                     'Bucket'     => env('AWS_BUCKET', 'pkl-flax-uploads'),
                     'Key'        => $s3Key,
                     'SourceFile' => $img->getTempName(),
-                    'ContentType'=> $img->getMimeType(),
-                    'ACL'        => 'public-read'
+                    'ContentType'=> $img->getMimeType()
                 ]);
 
                 $photoUrl = $result['ObjectURL'];

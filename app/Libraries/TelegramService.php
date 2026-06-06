@@ -18,53 +18,36 @@ class TelegramService
         $this->apiUrl = "https://api.telegram.org/bot{$this->token}/";
     }
 
-    /**
-     * Mengirim pesan ke Chat ID tertentu.
-     * 
-     * @param string|int $chatId
-     * @param string $text
-     * @param string $parseMode (HTML atau Markdown)
-     * @return array|bool
-     */
     public function sendMessage($chatId, $text, $parseMode = 'HTML')
     {
-        if (empty($this->token)) {
-            log_message('error', 'Telegram Service: Token tidak ditemukan di .env');
+        $topicArn = env('AWS_SNS_TOPIC_ARN');
+        if (empty($topicArn)) {
+            log_message('error', 'Telegram Service: AWS_SNS_TOPIC_ARN tidak ditemukan di .env');
             return false;
         }
 
-        $url = $this->apiUrl . "sendMessage";
-        $data = [
-            'chat_id' => $chatId,
-            'text'    => $text,
-            'parse_mode' => $parseMode
-        ];
+        try {
+            $snsClient = new \Aws\Sns\SnsClient([
+                'version' => 'latest',
+                'region'  => env('AWS_REGION', 'us-east-1')
+            ]);
 
-        return $this->sendRequest($url, $data);
-    }
+            $payload = [
+                'chat_id' => $chatId,
+                'message' => $text,
+                'parse_mode' => $parseMode
+            ];
 
-    /**
-     * Helper untuk mengirim request CURL ke Telegram
-     */
-    protected function sendRequest($url, $data)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Matikan jika ada masalah SSL di localhost
+            $result = $snsClient->publish([
+                'Message'  => json_encode($payload),
+                'TopicArn' => $topicArn,
+            ]);
 
-        $response = curl_exec($ch);
-        $error = curl_error($ch);
-        curl_close($ch);
-
-        if ($error) {
-            log_message('error', 'Telegram Service CURL Error: ' . $error);
+            return $result ? ['ok' => true] : false;
+        } catch (\Aws\Exception\AwsException $e) {
+            log_message('error', 'SNS Publish Error: ' . $e->getMessage());
             return false;
         }
-
-        return json_decode($response, true);
     }
 
     /**

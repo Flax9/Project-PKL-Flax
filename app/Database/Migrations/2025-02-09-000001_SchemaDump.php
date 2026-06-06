@@ -66,36 +66,10 @@ class SchemaDump extends Migration
         ]);
         $this->forge->createTable('capaian_output', true);
 
-        // 4. Table: database_iku_2025
-        $this->forge->addField([
-            'No.IKU' => ['type' => 'SMALLINT', 'constraint' => 6, 'null' => true],
-            'Nama Indikator' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-            'Kertas Kerja iku' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-            'Manual IKU' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-            'Fungsi' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-        ]);
-        $this->forge->createTable('database_iku_2025', true);
-
-        // 5. Table: database_iku_2026
-        $this->forge->addField([
-            'No.IKU' => ['type' => 'SMALLINT', 'constraint' => 6, 'null' => true],
-            'Nama Indikator' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-            'Kertas Kerja iku' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-            'Manual IKU' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-            'Fungsi' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-        ]);
-        $this->forge->createTable('database_iku_2026', true);
-
-        // 6. Table: database_ro
-        $this->forge->addField([
-            'No. RO' => ['type' => 'SMALLINT', 'constraint' => 6, 'null' => true],
-            'RO' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-            'Rincian Output' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-            'Manual RO' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-            'Kertas Kerja ro' => ['type' => 'TEXT', 'null' => true, 'collation' => 'utf8mb4_general_ci'],
-        ]);
-        $this->forge->createTable('database_ro', true);
-
+        // 4. Table: database_iku_2025 (Skipped due to dot in column names)
+        // 5. Table: database_iku_2026 (Skipped due to dot in column names)
+        // 6. Table: database_ro (Skipped)
+        
         // 7. Table: master_anggaran
         $this->forge->addField([
             'no_ro' => ['type' => 'INT', 'constraint' => 11, 'null' => true],
@@ -104,20 +78,7 @@ class SchemaDump extends Migration
         ]);
         $this->forge->createTable('master_anggaran', true);
         
-        // 8. Table: master_database
-        $this->forge->addField([
-             'IKU' => ['type' => 'TEXT', 'null' => true],
-             'No.IKU' => ['type' => 'BIGINT', 'constraint' => 20, 'null' => true],
-             'Nama Indikator' => ['type' => 'TEXT', 'null' => true],
-             'Kertas Kerja iku' => ['type' => 'TEXT', 'null' => true],
-             'Manual IKU' => ['type' => 'TEXT', 'null' => true],
-             'RO' => ['type' => 'TEXT', 'null' => true],
-             'No. RO' => ['type' => 'DOUBLE', 'null' => true],
-             'Rincian Output' => ['type' => 'TEXT', 'null' => true],
-             'Manual RO' => ['type' => 'TEXT', 'null' => true], 
-             'Kertas Kerja ro' => ['type' => 'TEXT', 'null' => true],
-        ]);
-        $this->forge->createTable('master_database', true);
+        // 8. Table: master_database (Skipped due to dot in column names)
         
         // 9. Table: nko
         $this->forge->addField([
@@ -232,11 +193,8 @@ class SchemaDump extends Migration
         $this->forge->dropTable('pengajuan_perubahan', true);
         $this->forge->dropTable('password_resets', true);
         $this->forge->dropTable('nko', true);
-        $this->forge->dropTable('master_database', true);
         $this->forge->dropTable('master_anggaran', true);
-        $this->forge->dropTable('database_ro', true);
-        $this->forge->dropTable('database_iku_2026', true);
-        $this->forge->dropTable('database_iku_2025', true);
+        // Skipped drops for tables that were not created
         $this->forge->dropTable('capaian_output', true);
         $this->forge->dropTable('capaian_iku', true);
         $this->forge->dropTable('anggaran', true);

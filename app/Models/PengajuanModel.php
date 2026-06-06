@@ -234,10 +234,27 @@ class PengajuanModel extends Model
         
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
-            if (!is_dir(FCPATH . $targetDir)) {
-                mkdir(FCPATH . $targetDir, 0777, true);
+            $s3Key = $targetDir . '/' . $newName;
+
+            // Upload ke S3
+            try {
+                $s3Client = new \Aws\S3\S3Client([
+                    'version' => 'latest',
+                    'region'  => env('AWS_REGION', 'us-east-1')
+                ]);
+                $s3Client->putObject([
+                    'Bucket'     => env('AWS_BUCKET', 'pkl-flax-uploads'),
+                    'Key'        => $s3Key,
+                    'SourceFile' => $file->getTempName(),
+                    'ContentType'=> $file->getMimeType()
+                ]);
+            } catch (\Aws\Exception\AwsException $e) {
+                log_message('error', 'S3 Upload Error: ' . $e->getMessage());
+                return false;
             }
-            $file->move(FCPATH . $targetDir, $newName);
+            
+            // Variabel newName tetap ada untuk kompatibilitas code di bawahnya
+            // (Kita menyimpan S3 Key di DB)
             
             // Map timestamps based on field
             $timeField = 'tgl_upload_nota'; 
