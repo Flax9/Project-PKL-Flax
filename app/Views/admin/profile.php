@@ -24,12 +24,10 @@
                             
                             <div id="profilePhotoContainer" class="w-full h-full rounded-full bg-slate-100 dark:bg-slate-800 border-4 border-white dark:border-slate-700 transition-colors group-hover/photo:border-teal-400/50 transition-all duration-300 overflow-hidden flex items-center justify-center relative z-10 shadow-2xl">
                                 <?php 
-                                    $photoUrl = filter_var($user['photo'], FILTER_VALIDATE_URL) 
-                                        ? $user['photo'] 
-                                        : ( ($user['photo'] && $user['photo'] !== 'default.jpg') 
-                                            ? base_url('uploads/profile/' . $user['photo']) 
-                                            : 'https://ui-avatars.com/api/?name=' . urlencode($user['name'] ?? $user['username']) . '&background=0D8ABC&color=fff&size=200' 
-                                          );
+                                    helper('s3');
+                                    $s3Url = get_s3_url($user['photo']);
+                                    $photoUrl = $s3Url 
+                                        ?: 'https://ui-avatars.com/api/?name=' . urlencode($user['name'] ?? $user['username']) . '&background=0D8ABC&color=fff&size=200';
                                 ?>
                                     <img src="<?= $photoUrl ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover/photo:scale-110">
                             </div>

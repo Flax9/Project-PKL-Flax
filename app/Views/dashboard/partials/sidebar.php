@@ -85,13 +85,11 @@
         <div class="flex items-center w-full min-w-0">
             <a href="<?= base_url('admin/profile') ?>" class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300 group flex-1 overflow-hidden" style="min-width: 0;">
             <?php 
+                helper('s3');
                 $sessionPhoto = session()->get('photo');
-                $photoUrl = filter_var($sessionPhoto, FILTER_VALIDATE_URL) 
-                    ? $sessionPhoto 
-                    : ( ($sessionPhoto && $sessionPhoto !== 'default.jpg') 
-                        ? base_url('uploads/profile/' . $sessionPhoto) 
-                        : 'https://ui-avatars.com/api/?name=' . urlencode(session()->get('name') ?? session()->get('username') ?? 'Admin') . '&background=0D8ABC&color=fff&size=200' 
-                      );
+                $s3Url = get_s3_url($sessionPhoto);
+                $photoUrl = $s3Url 
+                    ?: 'https://ui-avatars.com/api/?name=' . urlencode(session()->get('name') ?? session()->get('username') ?? 'Admin') . '&background=0D8ABC&color=fff&size=200';
             ?>
                 <img src="<?= $photoUrl ?>" class="sidebar-profile-photo w-8 h-8 rounded-full object-cover border border-slate-300 dark:border-slate-600 shadow-sm group-hover:border-teal-500/50 group-hover:shadow-teal-500/20 transition-all shrink-0">
                 <div class="overflow-hidden text-left flex-1 min-w-0">
