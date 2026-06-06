@@ -309,31 +309,46 @@ class Entry extends BaseController
 
         $img = $this->request->getFile('photo');
 
-        if (! $img->hasMoved()) {
+        if ($img->isValid() && ! $img->hasMoved()) {
             $username = session()->get('username');
             $newName = $username . '_' . time() . '.' . $img->getExtension();
-            
-            // Ensure directory exists
-            if (!is_dir(FCPATH . 'uploads/profile')) {
-                mkdir(FCPATH . 'uploads/profile', 0777, true);
+            $s3Key = 'profile_photos/' . $newName;
+
+            try {
+                $s3Client = new \Aws\S3\S3Client([
+                    'version' => 'latest',
+                    'region'  => env('AWS_REGION', 'us-east-1')
+                ]);
+
+                $result = $s3Client->putObject([
+                    'Bucket'     => env('AWS_BUCKET', 'pkl-flax-uploads'),
+                    'Key'        => $s3Key,
+                    'SourceFile' => $img->getTempName(),
+                    'ContentType'=> $img->getMimeType(),
+                    'ACL'        => 'public-read'
+                ]);
+
+                $photoUrl = $result['ObjectURL'];
+
+                // Update DB
+                $db = \Config\Database::connect();
+                $db->table('users')->where('username', $username)->update(['photo' => $photoUrl]);
+
+                // Update Session
+                session()->set('photo', $photoUrl);
+
+                return $this->response->setJSON([
+                    'status' => 'success',
+                    'photo'  => $photoUrl
+                ]);
+
+            } catch (\Aws\Exception\AwsException $e) {
+                log_message('error', 'S3 Upload Error: ' . $e->getMessage());
+                return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal mengunggah ke S3']);
             }
-
-            $img->move(FCPATH . 'uploads/profile', $newName);
-
-            // Update DB
-            $db = \Config\Database::connect();
-            $db->table('users')->where('username', $username)->update(['photo' => $newName]);
-
-            // Update Session
-            session()->set('photo', $newName);
-
-            return $this->response->setJSON([
-                'status' => 'success',
-                'photo' => base_url('uploads/profile/' . $newName)
-            ]);
         }
 
-        return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal memindahkan file']);
+        return $this->response->setJSON(['status' => 'error', 'message' => 'File tidak valid']);
     }
 
     public function update_profile()

@@ -191,7 +191,7 @@
                     <!-- STEP 2: DISPOSISI -->
                     <?php 
                         $step2Done = !empty($request['file_disposisi']);
-                        $step2Active = ($request['status'] == 'diajukan'); // Active if user just submitted
+                        $step2Active = (strtolower($request['status']) == 'diajukan'); // Active if user just submitted
                     ?>
                     <div class="relative pl-8">
                         <!-- Dot -->

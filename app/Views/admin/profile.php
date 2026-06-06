@@ -23,11 +23,15 @@
                             <div class="absolute inset-0 bg-teal-500 rounded-full blur opacity-20 group-hover/photo:opacity-40 transition-opacity duration-500"></div>
                             
                             <div id="profilePhotoContainer" class="w-full h-full rounded-full bg-slate-100 dark:bg-slate-800 border-4 border-white dark:border-slate-700 transition-colors group-hover/photo:border-teal-400/50 transition-all duration-300 overflow-hidden flex items-center justify-center relative z-10 shadow-2xl">
-                                <?php if(!empty($user['photo'])): ?>
-                                    <img src="<?= base_url('uploads/profile/' . $user['photo']) ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover/photo:scale-110">
-                                <?php else: ?>
-                                    <i class="fa-solid fa-user text-5xl text-slate-600"></i>
-                                <?php endif; ?>
+                                <?php 
+                                    $photoUrl = filter_var($user['photo'], FILTER_VALIDATE_URL) 
+                                        ? $user['photo'] 
+                                        : ( ($user['photo'] && $user['photo'] !== 'default.jpg') 
+                                            ? base_url('uploads/profile/' . $user['photo']) 
+                                            : 'https://ui-avatars.com/api/?name=' . urlencode($user['name'] ?? $user['username']) . '&background=0D8ABC&color=fff&size=200' 
+                                          );
+                                ?>
+                                    <img src="<?= $photoUrl ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover/photo:scale-110">
                             </div>
 
                             <!-- Overlay Update Icon -->
